@@ -1,0 +1,85 @@
+{
+  "kind": "build_request",
+  "title": "Fix build-breaking errors and runtime issues across backend and frontend",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-41",
+      "text": "Fix all build-breaking errors in the backend canister (Motoko) so the canister compiles and deploys successfully, including completing any truncated/incomplete function signatures and ensuring all referenced public methods exist (e.g., Stripe checkout APIs and any sleep estimator persistence APIs used by the frontend).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "correct all the error and problems"
+        ]
+      },
+      "acceptanceCriteria": [
+        "`dfx build` succeeds for the backend with no Motoko compiler errors.",
+        "All public backend methods referenced by the frontend generated bindings (e.g., `createCheckoutSession`, sleep estimator run save/list/count functions) exist and have matching Candid-compatible types.",
+        "Backend deployment succeeds and the app can call the affected APIs without `Method not found` errors."
+      ]
+    },
+    {
+      "id": "REQ-42",
+      "text": "Fix frontend TypeScript/runtime errors related to profile creation/editing so users can create and update their profile without crashes, and validation errors appear on the correct fields.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "correct all the error and problems"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Profile setup modal: required-field validation correctly assigns errors to the correct keys (e.g., name/display name errors do not populate the age error slot).",
+        "Profile setup modal: submitted profile values conform to the backend `ExtendedMentalHealthProfile` shape (including correct optional handling for `age` and correct numeric conversions).",
+        "Profile settings screen: saving changes does not crash when age is blank or invalid; the UI shows a clear validation message instead of throwing.",
+        "`npm run build` (or equivalent) succeeds with no TypeScript errors."
+      ]
+    },
+    {
+      "id": "REQ-43",
+      "text": "Audit and fix frontend ↔ backend type mismatches and API wiring issues introduced by the recent profile/personalization changes (age, gender, profession, future goals) and ensure all screens that depend on the profile load and behave correctly after login.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "correct all the error and problems"
+        ]
+      },
+      "acceptanceCriteria": [
+        "After Internet Identity login, if no profile exists, the profile setup modal opens and successful submission closes it and loads the dashboard normally.",
+        "After a profile exists, the Settings/Profile screen loads existing values and saves updates that persist on refresh/re-login.",
+        "No console errors for Candid/IDL decoding related to `ExtendedMentalHealthProfile`, `LifeGoal`, `Gender`, or `Profession` during fetch/save flows."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single-actor Motoko canister with all logic in `backend/main.mo`; only add `backend/migration.mo` changes if state migration is required by schema changes.",
+    "Do not edit frontend files under `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, or anything in `frontend/src/components/ui`; compose these components instead.",
+    "Use English for any user-facing text."
+  ],
+  "nonGoals": [
+    "Do not add new product features or redesign existing flows beyond what is required to fix errors and broken behavior.",
+    "Do not add external databases, third-party auth providers, or non-supported backend technologies."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-fix-frontend-typescript-runtime-errors-related-to-profile-creation-editing-so-users-can-create-and-update-their-profile-without-crashes-and-validation-errors-appear-on-the-correct-fields",
+      "featureTitle": "Fix frontend TypeScript/runtime errors related to profile creation/editing so users can create and update their profile without crashes, and validation errors appear on the correct fields.",
+      "files": [
+        "frontend/src/components/ProfileSetupModal.tsx",
+        "frontend/src/components/ProfileTab.tsx",
+        "frontend/src/utils/personalization.ts"
+      ],
+      "components": [
+        "authorization@3.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-42"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-audit-and-fix-frontend-backend-type-mismatches-and-api-wiring-issues-introduced-by-the-recent-profile-personalization-changes-age-gender-profession-future-goals-and-ensure-all-screens-that-depend-on-the-profile-load-and-behave-correctly-after-login",
+      "featureTitle": "Audit and fix frontend ↔ backend type mismatches and API wiring issues introduced by the recent profile/personalization changes (age, gender, profession, future goals) and ensure all screens that depend on the profile load and behave correctly after login.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/ProfileSetupModal.tsx",
+        "frontend/src/components/ProfileTab.tsx",
+        "frontend/src/utils/personalization.ts"
+      ],
+      "components": [
+        "authorization@3.0.0",
+        "stripe@3.0.0",
+        "http-outcalls@3.0.0",
+        "blob-storage@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-43"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

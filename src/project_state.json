@@ -1,0 +1,479 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 17,
+  "summary": "AI-driven cognitive performance & burnout prevention platform grounded in clinical science, with structured multi-modal therapy architecture, profiling assessments, daily tracking, journaling/interventions, analytics, crisis safety, document scanning/analysis guidance, and a sleep intelligence module that may evolve from deterministic heuristics into a hybrid heuristic+ML pipeline using only behavioral phone metadata (optional sensors/wearables) with strict non-diagnostic, privacy-first constraints; includes personalization via user profile/onboarding questions (e.g., age, gender, profession, future goals) and a more futuristic aesthetic including an interactive 3D brain model.",
+  "architectural_notes": [
+    "Recommended no-code stack: FlutterFlow (frontend) + Supabase (auth/database) + OpenAI API (AI layer); optional Python microservice later for advanced prediction/analytics.",
+    "Core tables in Supabase: Users, Assessments, DailyLogs, JournalEntries, CognitiveDistortions, Interventions, Predictions, CrisisFlags, NeurocogResults (with clear FK relationships).",
+    "Security baseline: Supabase Row-Level Security, encrypted fields, avoid logging raw journal content, separate crisis-flag handling.",
+    "AI outputs should be structured (JSON-only) for storage and analytics; include prompts for distortion detection, risk scoring, Socratic questioning, weekly summaries.",
+    "Adopt a layered therapeutic pathway (Stabilization → Symptom reduction → Behavioral restructuring → Psychological flexibility → Long-term growth) and map/plug therapy modules (CBT/ACT/DBT/MBCT/MCT/CFT/SFBT/performance/burnout) into this structure to avoid a \"random toolbox\" experience.",
+    "Clinical safety boundary: include skills/protocol modules (e.g., trauma-informed stabilization, DBT skills) but explicitly avoid unsupervised deep trauma processing (e.g., EMDR-level), personality disorder therapy, and high-risk suicide intervention frameworks beyond deterministic crisis safety guidance; keep appropriate disclaimers and escalation logic.",
+    "Add a condition-selection/entry workflow (typed + curated list) that routes to a structured JSON-only guidance generator with strict non-diagnostic/safety rules; validate condition names against an approved taxonomy and trigger crisis/specialty escalation paths for high-risk conditions.",
+    "Consider monetization layer: subscription/membership reminders and ads integration; ensure compliance with platform policies and avoid showing ads in crisis/safety flows.",
+    "Sleep estimation outputs should be deterministic/heuristic, based only on behavioral metadata (no medical diagnosis), returned in structured format with probabilistic wording and an automatic limitation disclaimer.",
+    "Sleep module direction may expand to a hybrid architecture: heuristic baseline sleep-window detection + supervised ML refinement (e.g., LightGBM/XGBoost; optional TCN/LSTM) trained using wearable/Apple Health labels, producing structured sleep metrics, risk probabilities, and short behavioral recommendations with non-diagnostic probabilistic language."
+  ],
+  "known_issues": [],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-add-a-consent-data-transparency-flow-that-is-shown-to-authenticated-users-before-they-can-use-any-mental-health-features-including-1-non-therapy-disclaimer-2-what-data-is-stored-on-chain-3-what-is-analyzed-locally-4-crisis-emergency-guidance-disclaimer-and-5-an-explicit-user-acceptance-action-that-is-persisted-and-can-be-revoked-from-settings",
+      "title": "Add a consent + data transparency flow that is shown to authenticated users before they can use any mental health features, including: (1) non-therapy disclaimer, (2) what data is stored on-chain, (3) what is analyzed locally, (4) crisis/emergency guidance disclaimer, and (5) an explicit user acceptance action that is persisted and can be revoked from Settings.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-time-zone-detection-on-the-frontend-and-store-the-user-s-iana-time-zone-e-g-america-new-york-in-the-backend-user-profile-settings-to-support-daily-logs-and-weekly-analytics-rollups",
+      "title": "Implement time zone detection on the frontend and store the user’s IANA time zone (e.g., \"America/New_York\") in the backend user profile/settings to support daily logs and weekly analytics rollups.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-placeholder-partial-profile-model-with-an-expanded-mental-health-focused-user-profile-settings-model-including-at-minimum-display-name-time-zone-consent-status-and-an-optional-anonymous-mode-flag-where-anonymous-mode-disables-storing-journal-text-on-chain-and-stores-only-derived-metrics",
+      "title": "Replace the current placeholder/partial profile model with an expanded mental-health-focused user profile/settings model, including at minimum: display name, time zone, consent status, and an optional anonymous mode flag (where anonymous mode disables storing journal text on-chain and stores only derived metrics).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-psychological-profiling-engine-onboarding-assessments-phq-9-gad-7-burnout-inventory-big-five-mini-scale-sleep-quality-scale-coping-style-classifier-stress-trigger-categories-as-structured-questionnaires-compute-scores-client-side-or-backend-side-deterministically-and-persist-assessment-results-with-timestamps-also-compute-and-store-the-required-outputs-mental-health-baseline-score-burnout-risk-score-personality-adaptation-profile-and-stress-reactivity-type",
+      "title": "Implement the Psychological Profiling Engine onboarding assessments (PHQ-9, GAD-7, burnout inventory, Big Five mini scale, sleep quality scale, coping style classifier, stress trigger categories) as structured questionnaires, compute scores client-side or backend-side deterministically, and persist assessment results with timestamps; also compute and store the required outputs: Mental Health Baseline Score, Burnout Risk Score, Personality Adaptation Profile, and Stress Reactivity Type.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-mood-behavior-tracking-with-persisted-daily-logs-containing-mood-1-10-emotion-tags-sleep-hours-energy-level-cognitive-clarity-score-stress-rating-and-productivity-rating-provide-ui-to-create-edit-a-daily-entry-and-a-history-list-view-that-pulls-from-backend-storage",
+      "title": "Implement Mood & Behavior Tracking with persisted daily logs containing: mood (1–10), emotion tags, sleep hours, energy level, cognitive clarity score, stress rating, and productivity rating; provide UI to create/edit a daily entry and a history list view that pulls from backend storage.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-weekly-analytics-dashboard-for-mental-health-that-computes-and-displays-from-persisted-daily-logs-and-assessments-stress-load-score-burnout-index-emotional-stability-score-cognitive-fatigue-score-sleep-mood-correlation-mood-volatility-index-and-a-simple-deterministic-7-day-risk-forecast-derived-from-recent-trends-no-external-ai-calls",
+      "title": "Add a Weekly Analytics Dashboard for mental health that computes and displays (from persisted daily logs and assessments): Stress Load Score, Burnout Index, Emotional Stability Score, Cognitive Fatigue Score, Sleep–Mood correlation, Mood Volatility Index, and a simple deterministic 7-day risk forecast derived from recent trends (no external AI calls).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-ai-guided-journaling-as-an-on-device-non-llm-analysis-pipeline-allow-free-text-journaling-then-generate-structured-outputs-including-cognitive-distortion-tags-emotional-intensity-1-10-negative-belief-loop-flags-catastrophizing-flags-and-a-set-of-socratic-questioning-prompts-also-implement-a-thought-restructuring-workflow-with-evidence-for-against-reframe-generation-template-based-belief-strength-1-10-tracking-over-time-and-persist-journal-entries-and-derived-analysis-in-the-backend-respecting-anonymous-mode",
+      "title": "Implement AI-guided journaling as an on-device (non-LLM) analysis pipeline: allow free-text journaling, then generate structured outputs including cognitive distortion tags, emotional intensity (1–10), negative belief loop flags, catastrophizing flags, and a set of Socratic questioning prompts; also implement a thought restructuring workflow with evidence-for/against, reframe generation (template-based), belief strength (1–10) tracking over time, and persist journal entries and derived analysis in the backend (respecting anonymous mode).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-cbt-intervention-suite-with-persisted-intervention-artifacts-and-progress-metrics-including-thought-record-worksheet-behavioral-activation-planner-exposure-ladder-builder-cognitive-distortion-education-and-trigger-thought-emotion-mapping-track-progress-metrics-such-as-distortion-frequency-reduction-belief-shift-tracking-and-avoidance-behavior-score",
+      "title": "Add a CBT Intervention Suite with persisted intervention artifacts and progress metrics, including: Thought record worksheet, Behavioral activation planner, Exposure ladder builder, Cognitive distortion education, and Trigger → Thought → Emotion mapping; track progress metrics such as distortion frequency reduction, belief shift tracking, and avoidance behavior score.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-acute-intervention-mode-with-quick-tools-2-minute-breathing-stabilizer-panic-attack-protocol-anger-cooldown-timer-meeting-anxiety-primer-and-sleep-reset-protocol-designed-for-low-cognitive-load-and-minimal-steps-include-an-always-visible-need-urgent-help-entry-point-that-routes-to-crisis-safety",
+      "title": "Implement Acute Intervention Mode with quick tools: 2-minute breathing stabilizer, panic attack protocol, anger cooldown timer, meeting anxiety primer, and sleep reset protocol, designed for low cognitive load and minimal steps; include an always-visible “Need urgent help?” entry point that routes to Crisis Safety.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-crisis-safety-system-including-suicide-risk-screener-country-based-crisis-hotlines-list-safety-plan-builder-trusted-contact-opt-in-stored-in-backend-and-deterministic-triage-escalation-logic-that-surfaces-emergency-guidance-and-disables-ai-like-journaling-prompts-when-high-risk-signals-are-present",
+      "title": "Implement a Crisis Safety System including: suicide risk screener, country-based crisis hotlines list, safety plan builder, trusted contact (opt-in) stored in backend, and deterministic triage escalation logic that surfaces emergency guidance and disables “AI-like” journaling prompts when high-risk signals are present.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-ui-information-architecture-to-reflect-a-mental-performance-preventive-mental-health-app-rename-adjust-tabs-and-user-facing-copy-so-mental-health-features-are-first-class-onboarding-assessments-daily-tracking-journal-cbt-weekly-analytics-crisis-while-keeping-existing-non-mental-health-tabs-available-but-de-emphasized",
+      "title": "Update the UI information architecture to reflect a mental performance & preventive mental health app: rename/adjust tabs and user-facing copy so mental health features are first-class (Onboarding assessments, Daily Tracking, Journal/CBT, Weekly Analytics, Crisis), while keeping existing non-mental-health tabs available but de-emphasized.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-cohesive-calming-visual-theme-appropriate-for-a-mental-performance-app-avoid-blue-purple-dominant-branding-including-updated-tailwind-oklch-color-variables-gradients-and-component-accents-ensure-the-theme-is-applied-consistently-across-login-dashboard-mental-health-journal-cbt-analytics-and-crisis-screens",
+      "title": "Apply a cohesive, calming visual theme appropriate for a mental performance app (avoid blue/purple-dominant branding), including updated Tailwind/OKLCH color variables, gradients, and component accents; ensure the theme is applied consistently across Login, Dashboard, Mental Health, Journal/CBT, Analytics, and Crisis screens.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-structured-therapy-pathway-information-architecture-that-organizes-mental-health-tools-into-layered-care-stages-stabilization-symptom-reduction-behavioral-restructuring-psychological-flexibility-long-term-growth-and-maps-existing-features-assessments-daily-tracking-journal-cbt-weekly-analytics-acute-crisis-into-the-appropriate-layers",
+      "title": "Add a structured “Therapy Pathway” information architecture that organizes mental health tools into layered care stages (Stabilization → Symptom Reduction → Behavioral Restructuring → Psychological Flexibility → Long‑Term Growth) and maps existing features (Assessments, Daily Tracking, Journal/CBT, Weekly Analytics, Acute/Crisis) into the appropriate layers.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-therapy-modules-from-the-provided-clinical-stack-as-interactive-self-guided-modules-under-the-therapy-pathway-covering-at-minimum-act-values-clarification-defusion-committed-action-dbt-skills-distress-tolerance-emotion-regulation-interpersonal-effectiveness-crisis-survival-skills-mbct-style-mindfulness-body-scan-breath-anchoring-urge-surfing-nonjudgmental-awareness-cognitive-decentering-and-differentiation-modules-mct-rumination-worry-tools-cft-self-compassion-inner-critic-reframes-sfbt-miracle-scaling-strength-tools",
+      "title": "Implement therapy modules from the provided clinical stack as interactive, self-guided modules under the Therapy Pathway, covering at minimum: ACT (values clarification, defusion, committed action), DBT skills (distress tolerance, emotion regulation, interpersonal effectiveness, crisis survival skills), MBCT-style mindfulness (body scan, breath anchoring, urge surfing, nonjudgmental awareness, cognitive decentering), and differentiation modules (MCT rumination/worry tools, CFT self-compassion/inner critic reframes, SFBT miracle/scaling/strength tools).",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-high-performance-elite-layer-programs-as-optional-modules-performance-psychology-mental-rehearsal-confidence-priming-stress-inoculation-cognitive-load-management-attention-control-and-a-structured-burnout-recovery-protocol-assessment-recovery-planning-workload-restructuring-meaning-realignment-integrated-into-the-therapy-pathway-with-measurable-check-ins",
+      "title": "Add “High-Performance / Elite Layer” programs as optional modules: Performance Psychology (mental rehearsal, confidence priming, stress inoculation, cognitive load management, attention control) and a structured Burnout Recovery Protocol (assessment → recovery planning → workload restructuring → meaning realignment), integrated into the Therapy Pathway with measurable check-ins.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-therapy-module-progress-and-artifacts-on-chain-using-the-backend-canister-so-users-can-resume-modules-across-sessions-where-appropriate-reuse-the-existing-intervention-storage-patterns-add-new-backend-types-apis-only-if-needed-to-store-structured-module-artifacts-beyond-the-current-intervention-shape",
+      "title": "Persist therapy module progress and artifacts on-chain using the backend canister, so users can resume modules across sessions. Where appropriate, reuse the existing intervention storage patterns; add new backend types/APIs only if needed to store structured module artifacts beyond the current Intervention shape.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-optional-specialized-modules-as-lightweight-stabilization-support-tools-not-deep-trauma-processing-trauma-informed-grounding-window-of-tolerance-education-cbt-i-elements-stimulus-control-sleep-efficiency-scoring-guidance-and-habit-reversal-impulse-control-trigger-awareness-mapping-replacement-planning",
+      "title": "Add optional “Specialized Modules” as lightweight stabilization/support tools (not deep trauma processing): trauma-informed grounding + window-of-tolerance education, CBT-I elements (stimulus control, sleep efficiency scoring guidance), and habit reversal/impulse control (trigger-awareness mapping + replacement planning).",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-condition-guidance-entry-point-where-the-user-can-either-a-select-a-reported-mental-health-condition-from-a-curated-list-or-b-type-a-condition-name-and-then-view-structured-non-diagnostic-guidance-tailored-to-that-reported-condition",
+      "title": "Add a new “Condition Guidance” entry point where the user can either (a) select a reported mental health condition from a curated list or (b) type a condition name, and then view structured, non-diagnostic guidance tailored to that reported condition.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-deterministic-non-llm-guidance-generator-that-for-each-supported-condition-returns-a-structured-result-containing-condition-summary-educational-evidence-based-therapy-approaches-suggested-in-app-starting-modules-tools-daily-regulation-practices-nutrition-considerations-general-non-prescriptive-professional-care-red-flags-and-a-clear-disclaimer-that-the-app-does-not-diagnose-or-replace-professional-care",
+      "title": "Implement a deterministic (non-LLM) guidance generator that, for each supported condition, returns a structured result containing: condition summary (educational), evidence-based therapy approaches, suggested in-app starting modules/tools, daily regulation practices, nutrition considerations (general, non-prescriptive), professional-care red flags, and a clear disclaimer that the app does not diagnose or replace professional care.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-safety-gating-for-condition-based-guidance-if-the-reported-condition-or-typed-text-indicates-high-risk-topics-e-g-suicidal-ideation-psychosis-mania-bipolar-mania-severe-eating-disorder-substance-withdrawal-the-ui-must-prioritize-crisis-safety-messaging-and-direct-the-user-to-crisis-resources-instead-of-providing-self-guided-therapy-guidance",
+      "title": "Add safety gating for condition-based guidance: if the reported condition or typed text indicates high-risk topics (e.g., suicidal ideation, psychosis, mania/bipolar mania, severe eating disorder, substance withdrawal), the UI must prioritize crisis/safety messaging and direct the user to crisis resources instead of providing self-guided therapy guidance.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-new-condition-guidance-feature-respects-the-existing-mental-health-consent-gate-it-must-only-be-accessible-to-authenticated-users-who-have-given-consent-otherwise-it-should-follow-the-same-consent-required-behavior-as-other-mental-health-tools",
+      "title": "Ensure the new Condition Guidance feature respects the existing mental-health consent gate: it must only be accessible to authenticated users who have given consent; otherwise, it should follow the same consent-required behavior as other mental health tools.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-reusable-client-side-google-adsense-banner-component-for-the-web-app-that-can-be-safely-embedded-inside-react-screens-no-backend-dependency-the-component-must-support-passing-an-ad-slot-id-and-must-render-a-clear-fallback-placeholder-when-adsense-is-not-configured-or-cannot-load",
+      "title": "Add a reusable, client-side Google AdSense banner component for the web app that can be safely embedded inside React screens (no backend dependency). The component must support passing an ad slot id and must render a clear fallback placeholder when AdSense is not configured or cannot load.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-wire-adsense-script-loading-into-the-app-html-entry-point-so-adsense-can-initialize-on-supported-pages-while-keeping-the-app-functional-when-the-script-is-blocked-ad-blockers-or-fails-to-load",
+      "title": "Wire AdSense script loading into the app HTML entry point so AdSense can initialize on supported pages, while keeping the app functional when the script is blocked (ad blockers) or fails to load.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-in-app-membership-reminder-ui-that-prompts-free-users-to-upgrade-the-reminder-must-appear-in-the-reminders-tab-and-must-include-a-a-short-message-b-a-primary-cta-that-takes-the-user-to-the-membership-tab-and-c-a-dismiss-action-that-hides-the-reminder-for-a-configurable-period-e-g-7-days-using-client-side-persistence",
+      "title": "Add an in-app “Membership Reminder” UI that prompts free users to upgrade. The reminder must appear in the Reminders tab and must include (a) a short message, (b) a primary CTA that takes the user to the Membership tab, and (c) a dismiss action that hides the reminder for a configurable period (e.g., 7 days) using client-side persistence.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-embed-the-adsense-banner-near-the-membership-reminder-experience-for-free-users-e-g-in-reminders-and-or-membership-screens-ensuring-it-is-visually-contained-and-consistent-with-the-existing-tailwind-theme",
+      "title": "Embed the AdSense banner near the Membership Reminder experience for free users (e.g., in Reminders and/or Membership screens), ensuring it is visually contained and consistent with the existing Tailwind theme.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-deterministic-non-diagnostic-sleep-cycle-estimation-engine-that-infers-sleep-onset-time-wake-up-time-total-sleep-duration-sleep-consistency-score-0-100-circadian-rhythm-stability-sleep-debt-chronotype-classification-night-disruption-frequency-and-risk-indicators-using-only-behavioral-metadata-inputs-e-g-last-first-activity-hourly-screen-app-usage-night-checks-inactivity-blocks-timezone",
+      "title": "Implement a deterministic, non-diagnostic Sleep Cycle Estimation Engine that infers sleep onset time, wake-up time, total sleep duration, sleep consistency score (0–100), circadian rhythm stability, sleep debt, chronotype classification, night disruption frequency, and risk indicators using only behavioral metadata inputs (e.g., last/first activity, hourly screen/app usage, night checks, inactivity blocks, timezone).",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-consent-gated-ui-inside-the-mental-health-area-that-lets-an-authenticated-user-input-or-paste-7-30-days-of-phone-usage-behavioral-logs-in-a-structured-format-run-the-sleep-cycle-estimation-engine-and-view-results",
+      "title": "Add a consent-gated UI inside the Mental Health area that lets an authenticated user input (or paste) 7–30 days of phone-usage behavioral logs in a structured format, run the Sleep Cycle Estimation Engine, and view results.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-optimization-suggestions-from-the-sleep-analysis-that-are-short-behavioral-evidence-based-and-actionable-following-the-provided-examples-and-rules-and-ensure-the-suggestions-are-derived-from-detected-patterns-e-g-late-onset-high-variability-night-checks",
+      "title": "Generate optimization suggestions from the sleep analysis that are short, behavioral, evidence-based, and actionable, following the provided examples and rules, and ensure the suggestions are derived from detected patterns (e.g., late onset, high variability, night checks).",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-if-the-input-contains-14-days-of-data-compute-and-display-the-optional-advanced-metrics-estimated-rem-cycle-timing-using-a-90-minute-cycle-model-an-ideal-bedtime-recommendation-based-on-a-user-specified-wake-target-and-a-simple-sleep-recovery-projection",
+      "title": "If the input contains 14+ days of data, compute and display the optional advanced metrics: estimated REM cycle timing using a 90-minute cycle model, an ideal bedtime recommendation based on a user-specified wake target, and a simple sleep recovery projection.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-sleep-intelligence-ml-blueprint-view-in-the-existing-sleep-estimator-area-that-presents-the-user-provided-production-grade-engine-specification-in-a-structured-readable-format-sections-for-inputs-heuristics-required-output-format-constraints-non-diagnostic-language-and-optional-14-day-advanced-metrics-all-user-facing-text-must-be-in-english",
+      "title": "Add a new “Sleep Intelligence (ML Blueprint)” view in the existing sleep estimator area that presents the user-provided production-grade engine specification in a structured, readable format (sections for: inputs, heuristics, required output format, constraints/non-diagnostic language, and optional 14+ day advanced metrics). All user-facing text must be in English.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-sleep-estimator-input-capabilities-to-support-an-additional-json-format-that-is-ml-pipeline-friendly-still-within-7-30-days-including-optional-hourly-aggregates-and-event-metadata-fields-referenced-by-the-user-e-g-hourly-screen-time-unlock-lock-counts-app-usage-intensity-per-hour-notification-interaction-timing-inactivity-blocks-while-keeping-the-current-structured-text-and-current-json-array-input-formats-working-unchanged",
+      "title": "Extend the sleep estimator input capabilities to support an additional JSON format that is ML/pipeline-friendly (still within 7–30 days) including optional hourly aggregates and event metadata fields referenced by the user (e.g., hourly screen time, unlock/lock counts, app usage intensity per hour, notification interaction timing, inactivity blocks), while keeping the current structured text and current JSON array input formats working unchanged.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-sleep-analysis-engine-to-incorporate-the-user-s-specified-heuristics-more-precisely-including-ignoring-brief-notification-checks-2-minutes-when-determining-sleep-onset-using-an-inactivity-threshold-of-45-60-minutes-configurable-constant-range-after-the-last-significant-interaction-and-detecting-wake-time-as-first-sustained-activity-3-minutes-or-2-unlock-events-within-10-minutes-when-such-unlock-metadata-is-provided-by-the-new-input-format",
+      "title": "Update the sleep analysis engine to incorporate the user’s specified heuristics more precisely, including: ignoring brief notification checks (<2 minutes) when determining sleep onset; using an inactivity threshold of 45–60 minutes (configurable constant range) after the last significant interaction; and detecting wake time as first sustained activity >3 minutes OR >2 unlock events within 10 minutes (when such unlock metadata is provided by the new input format).",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-export-for-ml-action-in-the-sleep-cycle-estimation-ui-that-downloads-a-json-file-containing-the-normalized-input-days-derived-nightly-features-e-g-last-significant-interaction-first-sustained-interaction-night-unlock-frequency-night-active-minutes-where-available-sleep-midpoint-onset-wake-variability-components-and-the-final-computed-outputs-the-export-must-be-local-only-no-external-network-calls",
+      "title": "Add an “Export for ML” action in the Sleep Cycle Estimation UI that downloads a JSON file containing the normalized input days, derived nightly features (e.g., last significant interaction, first sustained interaction, night unlock frequency, night active minutes where available, sleep midpoint, onset/wake variability components), and the final computed outputs. The export must be local-only (no external network calls).",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-sleep-estimator-runs-on-chain-for-authenticated-users-consent-gated-including-timestamp-daysanalyzed-the-computed-summary-metrics-risk-indicators-optimization-suggestions-and-advanced-metrics-when-present-also-store-the-normalized-daily-inputs-for-the-run-but-do-not-store-any-sensor-audio-content-metadata-only",
+      "title": "Persist sleep estimator runs on-chain for authenticated users (consent-gated), including: timestamp, daysAnalyzed, the computed summary metrics, risk indicators, optimization suggestions, and advanced metrics (when present). Also store the normalized daily inputs for the run, but do not store any sensor/audio content (metadata only).",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-privacy-and-safety-guardrails-for-sleep-intelligence-ensure-the-ui-clearly-states-no-medical-diagnosis-frames-outputs-probabilistically-and-always-displays-the-limitation-disclosure-at-the-end-of-reports-and-in-saved-history-views-add-a-short-data-stored-note-that-clarifies-only-behavioral-metadata-and-derived-metrics-are-stored-consistent-with-the-app-s-consent-data-transparency-approach",
+      "title": "Implement privacy and safety guardrails for Sleep Intelligence: ensure the UI clearly states no medical diagnosis, frames outputs probabilistically, and always displays the limitation disclosure at the end of reports and in saved-history views. Add a short “Data stored” note that clarifies only behavioral metadata and derived metrics are stored (consistent with the app’s consent/data transparency approach).",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-profile-creation-flow-ui-to-ask-for-age-gender-profession-and-future-goals-in-addition-to-display-name-and-persist-these-fields-when-creating-the-profile",
+      "title": "Update the profile creation flow UI to ask for age, gender, profession, and future goals in addition to display name, and persist these fields when creating the profile.",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-settings-profile-screen-to-display-and-allow-editing-of-age-gender-profession-and-future-goals-saving-changes-to-the-backend-profile",
+      "title": "Update the Settings/Profile screen to display and allow editing of age, gender, profession, and future goals, saving changes to the backend profile.",
+      "reqIds": [
+        "REQ-39"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-use-the-new-profile-fields-to-improve-mental-health-guidance-personalization-and-add-a-ui-prompt-when-the-personalization-fields-are-missing",
+      "title": "Use the new profile fields to improve mental-health guidance personalization, and add a UI prompt when the personalization fields are missing.",
+      "reqIds": [
+        "REQ-40"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-frontend-typescript-runtime-errors-related-to-profile-creation-editing-so-users-can-create-and-update-their-profile-without-crashes-and-validation-errors-appear-on-the-correct-fields",
+      "title": "Fix frontend TypeScript/runtime errors related to profile creation/editing so users can create and update their profile without crashes, and validation errors appear on the correct fields.",
+      "reqIds": [
+        "REQ-42"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-audit-and-fix-frontend-backend-type-mismatches-and-api-wiring-issues-introduced-by-the-recent-profile-personalization-changes-age-gender-profession-future-goals-and-ensure-all-screens-that-depend-on-the-profile-load-and-behave-correctly-after-login",
+      "title": "Audit and fix frontend ↔ backend type mismatches and API wiring issues introduced by the recent profile/personalization changes (age, gender, profession, future goals) and ensure all screens that depend on the profile load and behave correctly after login.",
+      "reqIds": [
+        "REQ-43"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Account & identity: email/OAuth login, optional anonymous mode, encrypted profile storage, timezone detection, consent/transparency screen",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Psychological profiling onboarding assessments (PHQ-9, GAD-7, burnout, Big Five mini, sleep quality, coping style, stress triggers) with baseline/risk outputs",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Mood & behavior tracking (daily inputs + optional passive signals) with trend graphs, correlations, and mood volatility index",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "AI-guided journaling: free text + AI detection of cognitive distortions/emotional intensity/negative loops, Socratic prompts, thought restructuring tools, reframe generator, belief strength tracking",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "CBT intervention suite + acute intervention mode (thought records, behavioral activation, exposure ladder, education; quick breathing/panic/anger/meeting anxiety/sleep reset tools) with progress metrics",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Weekly analytics dashboard: stress load, burnout index, emotional stability, cognitive fatigue, sleep-mood correlation, 7-day risk forecast",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Crisis safety system: suicide risk screener, country hotlines, safety plan builder, trusted contact opt-in, AI triage escalation logic",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Advanced layer: predictive mental health engine (time-series modeling for mood drop/burnout/stress spike/relapse risk)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Advanced layer: behavioral intelligence via optional passive analysis (typing variance, voice stress, location variability, social isolation patterns)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Advanced/optional modules: neurocognitive training suite, life architecture mapping, and enterprise B2B mode (anonymized team burnout analytics)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Add backend data models and APIs for assessments, daily logs, journal entries (with derived analysis), CBT interventions, safety plan, crisis flags, and weekly analytics snapshots; use the existing single-actor backend pattern with per-caller authorization checks consistent with getCallerUserProfile/saveCallerUserProfile.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Integrate a structured multi-modal therapy architecture: CBT backbone plus ACT, DBT skills, MBCT-style mindfulness, and differentiated modules (MCT rumination control, CFT, SFBT), plus performance psychology + burnout recovery protocol; add optional stabilization modules (trauma-informed grounding), CBT-I sleep elements, and habit reversal/impulse control, organized into layered care pathway (Stabilization → Symptom reduction → Behavioral restructuring → Psychological flexibility → Long-term growth)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Add a condition-based guidance entry point: user can type or select a reported mental health disorder/condition, then receive structured in-app guidance (evidence-based therapy options + daily practices + nutrition considerations + professional-care red flags) with strong non-diagnostic and safety boundaries",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Monetization: add in-app membership (subscription) reminder prompts and integrate AdSense/ads (where supported)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Add a document scanner feature to capture documents and provide structured reading/analysis + guidance workflow within the app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-26",
+      "summary": "Add a Sleep Cycle Estimation Engine that infers sleep onset/wake/duration/consistency/chronotype/sleep debt and risk indicators using only behavioral phone metadata (screen/app usage, inactivity blocks), with non-diagnostic probabilistic language and disclaimer",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-27",
+      "summary": "Improve UI to be more aesthetic and futuristic, including an interactive 3D brain model, and add deeper educational explanations about mental problems (precautions, causes, therapies, detection) with evidence-based/non-diagnostic boundaries",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-28",
+      "summary": "Sleep Intelligence Engine (hybrid heuristic + ML): define production-grade system prompt + structured input/output, feature engineering, training with wearable-labeled data, inference service/pipeline, optional sensors/wearables, privacy-first architecture (on-device preprocessing, encryption, optional federated learning), and premium tier metrics (REM estimation, circadian reports, recovery forecast, adaptive bedtime planner)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-29",
+      "summary": "Add onboarding/profile questions to capture age, gender, profession, and future goals (consent-gated) to personalize problem-solving and guidance outputs across modules",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-30",
+      "summary": "Extend the backend user profile model to store user age, gender, profession, and future goals, and expose them via the existing getCallerUserProfile/saveCallerUserProfile APIs.",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-31",
+      "summary": "Fix all build-breaking errors in the backend canister (Motoko) so the canister compiles and deploys successfully, including completing any truncated/incomplete function signatures and ensuring all referenced public methods exist (e.g., Stripe checkout APIs and any sleep estimator persistence APIs used by the frontend).",
+      "reqIds": [
+        "REQ-41"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "HealthOS AI",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

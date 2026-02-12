@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.75rem;
+        
+        /* Health-focused color palette - Light mode */
+        --background: 0.99 0 0;
+        --foreground: 0.15 0 0;
+        
+        --card: 1 0 0;
+        --card-foreground: 0.15 0 0;
+        
+        --popover: 1 0 0;
+        --popover-foreground: 0.15 0 0;
+        
+        /* Primary: Vibrant blue for health/medical theme */
+        --primary: 0.55 0.20 250;
+        --primary-foreground: 0.99 0 0;
+        
+        /* Secondary: Soft teal for wellness */
+        --secondary: 0.92 0.02 180;
+        --secondary-foreground: 0.20 0 0;
+        
+        /* Muted: Subtle gray-blue */
+        --muted: 0.96 0.01 240;
+        --muted-foreground: 0.50 0.02 240;
+        
+        /* Accent: Fresh green for vitality */
+        --accent: 0.90 0.03 150;
+        --accent-foreground: 0.20 0 0;
+        
+        /* Destructive: Warm red for alerts */
+        --destructive: 0.60 0.22 25;
+        --destructive-foreground: 0.99 0 0;
+        
+        /* Borders and inputs */
+        --border: 0.90 0.01 240;
+        --input: 0.90 0.01 240;
+        --ring: 0.55 0.20 250;
+        
+        /* Chart colors - health vitals themed */
+        --chart-1: 0.60 0.20 10;    /* Heart rate - red */
+        --chart-2: 0.55 0.18 250;   /* Blood pressure - blue */
+        --chart-3: 0.65 0.15 280;   /* Blood sugar - purple */
+        --chart-4: 0.70 0.18 140;   /* SpO2 - green */
+        --chart-5: 0.65 0.20 40;    /* Temperature - orange */
+        
+        /* Sidebar */
+        --sidebar: 0.98 0 0;
+        --sidebar-foreground: 0.15 0 0;
+        --sidebar-primary: 0.55 0.20 250;
+        --sidebar-primary-foreground: 0.99 0 0;
+        --sidebar-accent: 0.96 0.01 240;
+        --sidebar-accent-foreground: 0.20 0 0;
+        --sidebar-border: 0.90 0.01 240;
+        --sidebar-ring: 0.55 0.20 250;
+    }
+
+    .dark {
+        /* Health-focused color palette - Dark mode */
+        --background: 0.12 0 0;
+        --foreground: 0.98 0 0;
+        
+        --card: 0.18 0 0;
+        --card-foreground: 0.98 0 0;
+        
+        --popover: 0.15 0 0;
+        --popover-foreground: 0.98 0 0;
+        
+        /* Primary: Bright blue for dark mode */
+        --primary: 0.70 0.18 250;
+        --primary-foreground: 0.12 0 0;
+        
+        /* Secondary: Muted teal */
+        --secondary: 0.25 0.02 180;
+        --secondary-foreground: 0.98 0 0;
+        
+        /* Muted: Dark gray-blue */
+        --muted: 0.22 0.01 240;
+        --muted-foreground: 0.65 0.02 240;
+        
+        /* Accent: Vibrant green */
+        --accent: 0.30 0.03 150;
+        --accent-foreground: 0.98 0 0;
+        
+        /* Destructive: Bright red for dark mode */
+        --destructive: 0.65 0.20 25;
+        --destructive-foreground: 0.98 0 0;
+        
+        /* Borders and inputs */
+        --border: 0.25 0.01 240;
+        --input: 0.28 0.01 240;
+        --ring: 0.70 0.18 250;
+        
+        /* Chart colors - adjusted for dark mode */
+        --chart-1: 0.65 0.22 10;
+        --chart-2: 0.70 0.18 250;
+        --chart-3: 0.70 0.16 280;
+        --chart-4: 0.75 0.18 140;
+        --chart-5: 0.70 0.20 40;
+        
+        /* Sidebar */
+        --sidebar: 0.15 0 0;
+        --sidebar-foreground: 0.98 0 0;
+        --sidebar-primary: 0.70 0.18 250;
+        --sidebar-primary-foreground: 0.98 0 0;
+        --sidebar-accent: 0.22 0.01 240;
+        --sidebar-accent-foreground: 0.98 0 0;
+        --sidebar-border: 0.25 0.01 240;
+        --sidebar-ring: 0.70 0.18 250;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}

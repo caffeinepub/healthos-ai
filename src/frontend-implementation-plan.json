@@ -1,0 +1,65 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Fix frontend profile validation, type wiring, and post-login profile flows",
+  "requirements": [
+    {
+      "id": "REQ-42",
+      "summary": "Fix profile creation/editing TS/runtime errors, correct field-level validation mapping, and ensure profile payloads match `ExtendedMentalHealthProfile` (notably optional/blank age handling).",
+      "acceptanceCriteria": [
+        "Profile setup modal: required-field validation correctly assigns errors to the correct keys (e.g., name/display name errors do not populate the age error slot).",
+        "Profile setup modal: submitted profile values conform to the backend `ExtendedMentalHealthProfile` shape (including correct optional handling for `age` and correct numeric conversions).",
+        "Profile settings screen: saving changes does not crash when age is blank or invalid; the UI shows a clear validation message instead of throwing.",
+        "`npm run build` (or equivalent) succeeds with no TypeScript errors."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/personalization.ts",
+          "operation": "modify",
+          "description": "Refactor personalization validation to support context-specific rules (e.g., age required for first-time setup but optional for later edits) and add safe numeric parsing helpers so blank/invalid age never reaches `BigInt(...)` conversions."
+        },
+        {
+          "path": "frontend/src/components/ProfileSetupModal.tsx",
+          "operation": "modify",
+          "description": "Fix validation error keying (ensure display name errors populate `errors.displayName`, not `errors.age`), and build an `ExtendedMentalHealthProfile` payload that only sets `age` when a valid integer is provided (otherwise omit it) while keeping other fields Candid-compatible."
+        },
+        {
+          "path": "frontend/src/components/ProfileTab.tsx",
+          "operation": "modify",
+          "description": "Prevent crashes on save by validating/parsing age safely (allow blank age without throwing, and show a field-level error when invalid), and ensure the updated profile payload only includes a valid `age` value when provided."
+        }
+      ]
+    },
+    {
+      "id": "REQ-43",
+      "summary": "Align frontend ↔ backend profile types and save/load wiring for personalization fields (age, gender, profession, future goals) so profile-dependent screens behave correctly after login without Candid/IDL decoding errors.",
+      "acceptanceCriteria": [
+        "After Internet Identity login, if no profile exists, the profile setup modal opens and successful submission closes it and loads the dashboard normally.",
+        "After a profile exists, the Settings/Profile screen loads existing values and saves updates that persist on refresh/re-login.",
+        "No console errors for Candid/IDL decoding related to `ExtendedMentalHealthProfile`, `LifeGoal`, `Gender`, or `Profession` during fetch/save flows."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/utils/personalization.ts",
+          "operation": "modify",
+          "description": "Audit and fix any mismatched frontend representations for `ExtendedMentalHealthProfile` fields versus `frontend/src/backend.d.ts` (especially `gender`), updating converters/labels to use the backend-compatible type and removing/adjusting any incompatible imports or discriminated-union handling that would cause TS errors or runtime decode issues."
+        },
+        {
+          "path": "frontend/src/components/ProfileSetupModal.tsx",
+          "operation": "modify",
+          "description": "Update gender/profession/goal form-to-backend conversions to match the backend bindings exactly (per `frontend/src/backend.d.ts`) to avoid IDL decoding issues during save/fetch and ensure the modal closes cleanly after a successful save and query invalidation."
+        },
+        {
+          "path": "frontend/src/components/ProfileTab.tsx",
+          "operation": "modify",
+          "description": "Update backend-to-form and form-to-backend mapping for gender/profession/goals to match the backend bindings exactly (per `frontend/src/backend.d.ts`), ensuring existing values render correctly and saves persist without console decode errors after refresh/re-login."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Harden the post-login profile gating logic to avoid modal flash and ensure correct behavior when the profile query transitions between loading/fetched states (keep the modal opening condition aligned with the authorization component guidance for dependent queries; verify the component's usage instructions before implementing)."
+        }
+      ]
+    }
+  ]
+}

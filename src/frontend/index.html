@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthOS AI</title>
+    <script>
+      // Non-blocking AdSense script loader
+      (function() {
+        try {
+          // Only load if client ID is configured (check via meta tag or env)
+          const clientId = import.meta.env?.VITE_ADSENSE_CLIENT_ID;
+          if (clientId) {
+            const script = document.createElement('script');
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`;
+            script.onerror = function() {
+              console.warn('AdSense script failed to load (may be blocked)');
+            };
+            document.head.appendChild(script);
+          }
+        } catch (e) {
+          console.warn('AdSense initialization error:', e);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

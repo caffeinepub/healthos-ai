@@ -24,7 +24,7 @@
 
     /* Mobile chrome tokens */
     --header-h: 56px;
-    --bottom-nav-h: 68px;
+    --bottom-nav-h: 72px;
 
     /* Health-focused color palette - Light mode */
     --background: 0.99 0 0;
@@ -246,6 +246,12 @@
     border-radius: 2px;
   }
 
+  /* ── Touch Target Utility ── */
+  .touch-btn {
+    min-height: 48px;
+    padding: 0 20px;
+  }
+
   /* ── Bottom Navigation ── */
   .bottom-nav {
     position: sticky;
@@ -269,7 +275,7 @@
     align-items: center;
     justify-content: center;
     gap: 3px;
-    padding: 8px 4px;
+    padding: 10px 4px;
     cursor: pointer;
     background: none;
     border: none;
@@ -287,8 +293,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 32px;
+    width: 40px;
+    height: 34px;
     color: oklch(0.55 0.04 240);
     transition: color 0.2s;
   }
@@ -306,7 +312,7 @@
   }
 
   .bottom-nav-label {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.02em;
     color: oklch(0.5 0.03 240);
@@ -366,9 +372,9 @@
   .drawer-primary-item {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     width: 100%;
-    padding: 10px 10px;
+    padding: 13px 12px;
     border-radius: 14px;
     background: none;
     border: none;
@@ -389,8 +395,8 @@
   }
 
   .drawer-icon-wrap {
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     border-radius: 10px;
     background: oklch(0.18 0.03 250 / 0.8);
     border: 1px solid oklch(0.28 0.03 250 / 0.5);

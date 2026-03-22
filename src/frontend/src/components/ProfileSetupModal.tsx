@@ -164,25 +164,10 @@ export default function ProfileSetupModal({
     >
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <DialogTitle>Welcome to Mental Performance</DialogTitle>
-              <DialogDescription>
-                Let&apos;s set up your profile to personalize your experience
-              </DialogDescription>
-            </div>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="shrink-0 rounded-full"
-              onClick={onClose}
-              data-ocid="profile.close_button"
-              aria-label="Close profile setup"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          <DialogTitle>Welcome to Mental Performance</DialogTitle>
+          <DialogDescription>
+            Let&apos;s set up your profile to personalize your experience
+          </DialogDescription>
         </DialogHeader>
 
         {actorFetching && (

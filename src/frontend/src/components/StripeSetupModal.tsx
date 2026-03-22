@@ -71,7 +71,7 @@ export default function StripeSetupModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>Configure Stripe Payment</DialogTitle>
           <DialogDescription>

@@ -34,7 +34,6 @@ import {
   Shield,
   Sparkles,
   SunMedium,
-  X,
   Zap,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -183,7 +182,11 @@ function MoodStressDialog({
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-md" data-ocid="mood_stress.dialog">
+      <DialogContent
+        className="max-w-md"
+        showCloseButton={false}
+        data-ocid="mood_stress.dialog"
+      >
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Heart className="h-5 w-5 text-primary" />
@@ -467,17 +470,6 @@ function MeditationDialog({
             </Button>
           </div>
         )}
-
-        {!isRunning && (
-          <button
-            type="button"
-            className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100"
-            onClick={onClose}
-            data-ocid="meditation.close_button"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        )}
       </DialogContent>
     </Dialog>
   );
@@ -707,7 +699,7 @@ export default function MentalHealthTab({
       </div>
 
       <div
-        className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+        className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3"
         data-ocid="mental.tool_grid.section"
       >
         {TOOLS.map((tool) => {
@@ -719,22 +711,24 @@ export default function MentalHealthTab({
               onClick={() => handleToolClick(tool.key, tool.isDialog)}
               data-ocid={`mental.${tool.key.replace(/-/g, "_")}.card`}
             >
-              <CardHeader className="pb-2">
+              <CardHeader className="p-3">
                 <div className="flex items-center gap-3">
                   <div className="rounded-lg bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
                     <Icon className="h-5 w-5 text-primary" />
                   </div>
-                  <CardTitle className="text-base">{tool.title}</CardTitle>
+                  <CardTitle className="text-sm font-semibold">
+                    {tool.title}
+                  </CardTitle>
                 </div>
-                <CardDescription className="text-xs mt-1">
+                <CardDescription className="text-[10px] leading-tight mt-0.5">
                   {tool.description}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent className="px-3 pb-3 pt-0">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full"
+                  className="w-full mt-1 h-10 text-xs font-semibold"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleToolClick(tool.key, tool.isDialog);

@@ -38,9 +38,9 @@ export default function OverviewTab() {
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-white dark:border-blue-900/50 dark:from-blue-950/30 dark:to-card">
-          <CardHeader className="pb-3">
+          <CardHeader className="p-3 pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base">Health Score</CardTitle>
               <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900/30">
@@ -49,7 +49,7 @@ export default function OverviewTab() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">
+            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
               {mockHealthScore}
             </div>
             <Progress value={mockHealthScore} className="mt-2" />
@@ -60,7 +60,7 @@ export default function OverviewTab() {
         </Card>
 
         <Card className="border-green-200 bg-gradient-to-br from-green-50 to-white dark:border-green-900/50 dark:from-green-950/30 dark:to-card">
-          <CardHeader className="pb-3">
+          <CardHeader className="p-3 pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base">Vitals Tracked</CardTitle>
               <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900/30">
@@ -69,7 +69,7 @@ export default function OverviewTab() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-green-600 dark:text-green-400">
+            <div className="text-3xl font-bold text-green-600 dark:text-green-400">
               6
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
@@ -79,7 +79,7 @@ export default function OverviewTab() {
         </Card>
 
         <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-white dark:border-orange-900/50 dark:from-orange-950/30 dark:to-card">
-          <CardHeader className="pb-3">
+          <CardHeader className="p-3 pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base">Health Streak</CardTitle>
               <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900/30">
@@ -88,7 +88,7 @@ export default function OverviewTab() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-orange-600 dark:text-orange-400">
+            <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">
               {mockStreak}
             </div>
             <p className="mt-2 text-xs text-muted-foreground">days in a row</p>
@@ -96,7 +96,7 @@ export default function OverviewTab() {
         </Card>
 
         <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-white dark:border-purple-900/50 dark:from-purple-950/30 dark:to-card">
-          <CardHeader className="pb-3">
+          <CardHeader className="p-3 pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base">Membership</CardTitle>
               <div className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900/30">

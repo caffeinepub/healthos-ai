@@ -1,4 +1,4 @@
-import { DailyLog, WeeklyAnalytics } from '../../../backend';
+import type { DailyLog, WeeklyAnalytics } from "../../../backend";
 
 export function computeLocalWeeklyAnalytics(logs: DailyLog[]): WeeklyAnalytics {
   if (logs.length === 0) {
@@ -58,7 +58,7 @@ export function computeLocalWeeklyAnalytics(logs: DailyLog[]): WeeklyAnalytics {
 }
 
 export function interpretCorrelation(value: number): string {
-  if (value < 0.3) return 'Weak';
-  if (value < 0.6) return 'Moderate';
-  return 'Strong';
+  if (value < 0.3) return "Weak";
+  if (value < 0.6) return "Moderate";
+  return "Strong";
 }

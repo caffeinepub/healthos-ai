@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-export type BreathingPhase = 'inhale' | 'hold' | 'exhale' | 'rest';
+export type BreathingPhase = "inhale" | "hold" | "exhale" | "rest";
 
 export interface BreathingState {
   phase: BreathingPhase;
@@ -9,9 +9,9 @@ export interface BreathingState {
   isActive: boolean;
 }
 
-export function useBreathingTimer(durationMinutes: number = 2) {
+export function useBreathingTimer(durationMinutes = 2) {
   const [state, setState] = useState<BreathingState>({
-    phase: 'inhale',
+    phase: "inhale",
     secondsRemaining: 4,
     cyclesCompleted: 0,
     isActive: false,
@@ -26,7 +26,7 @@ export function useBreathingTimer(durationMinutes: number = 2) {
 
   const stop = () => {
     setState({
-      phase: 'inhale',
+      phase: "inhale",
       secondsRemaining: 4,
       cyclesCompleted: 0,
       isActive: false,
@@ -47,21 +47,21 @@ export function useBreathingTimer(durationMinutes: number = 2) {
         }
 
         // Move to next phase
-        let nextPhase: BreathingPhase = 'inhale';
+        let nextPhase: BreathingPhase = "inhale";
         let nextDuration = 4;
         let nextCycles = prev.cyclesCompleted;
 
-        if (prev.phase === 'inhale') {
-          nextPhase = 'hold';
+        if (prev.phase === "inhale") {
+          nextPhase = "hold";
           nextDuration = 4;
-        } else if (prev.phase === 'hold') {
-          nextPhase = 'exhale';
+        } else if (prev.phase === "hold") {
+          nextPhase = "exhale";
           nextDuration = 6;
-        } else if (prev.phase === 'exhale') {
-          nextPhase = 'rest';
+        } else if (prev.phase === "exhale") {
+          nextPhase = "rest";
           nextDuration = 2;
         } else {
-          nextPhase = 'inhale';
+          nextPhase = "inhale";
           nextDuration = 4;
           nextCycles = prev.cyclesCompleted + 1;
         }

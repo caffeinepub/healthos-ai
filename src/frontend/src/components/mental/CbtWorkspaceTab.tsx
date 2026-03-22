@@ -1,10 +1,20 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { CBT_MODULES, DISTORTION_EDUCATION } from './cbt/modules';
-import { computeProgressMetrics } from './cbt/computeProgressMetrics';
-import { useGetInterventions, useGetJournalEntries, useGetDailyLogs } from '../../hooks/useQueries';
-import { BookOpen, TrendingDown, Target, AlertCircle } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { AlertCircle, BookOpen, Target, TrendingDown } from "lucide-react";
+import {
+  useGetDailyLogs,
+  useGetInterventions,
+  useGetJournalEntries,
+} from "../../hooks/useQueries";
+import { computeProgressMetrics } from "./cbt/computeProgressMetrics";
+import { CBT_MODULES, DISTORTION_EDUCATION } from "./cbt/modules";
 
 export default function CbtWorkspaceTab() {
   const { data: interventions = [] } = useGetInterventions();
@@ -31,8 +41,8 @@ export default function CbtWorkspaceTab() {
         </CardHeader>
         <CardContent className="text-sm">
           <p>
-            This is not therapy. These tools are for self-help and education. Consult a licensed
-            therapist for professional CBT treatment.
+            This is not therapy. These tools are for self-help and education.
+            Consult a licensed therapist for professional CBT treatment.
           </p>
         </CardContent>
       </Card>
@@ -47,7 +57,10 @@ export default function CbtWorkspaceTab() {
             <div className="text-3xl font-bold text-primary">
               {metrics.distortionFrequency.toFixed(1)}
             </div>
-            <Progress value={Math.min(metrics.distortionFrequency * 20, 100)} className="mt-3" />
+            <Progress
+              value={Math.min(metrics.distortionFrequency * 20, 100)}
+              className="mt-3"
+            />
           </CardContent>
         </Card>
 
@@ -60,7 +73,10 @@ export default function CbtWorkspaceTab() {
             <div className="text-3xl font-bold text-primary">
               {metrics.beliefShiftAverage.toFixed(1)}/10
             </div>
-            <Progress value={metrics.beliefShiftAverage * 10} className="mt-3" />
+            <Progress
+              value={metrics.beliefShiftAverage * 10}
+              className="mt-3"
+            />
           </CardContent>
         </Card>
 
@@ -73,7 +89,10 @@ export default function CbtWorkspaceTab() {
             <div className="text-3xl font-bold text-primary">
               {metrics.avoidanceBehaviorScore.toFixed(1)}/10
             </div>
-            <Progress value={metrics.avoidanceBehaviorScore * 10} className="mt-3" />
+            <Progress
+              value={metrics.avoidanceBehaviorScore * 10}
+              className="mt-3"
+            />
           </CardContent>
         </Card>
       </div>
@@ -86,9 +105,14 @@ export default function CbtWorkspaceTab() {
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2">
             {CBT_MODULES.map((module) => (
-              <div key={module.id} className="rounded-lg border border-border p-4">
+              <div
+                key={module.id}
+                className="rounded-lg border border-border p-4"
+              >
                 <h3 className="font-semibold">{module.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{module.description}</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {module.description}
+                </p>
                 <Badge variant="outline" className="mt-3">
                   Coming Soon
                 </Badge>
@@ -104,15 +128,24 @@ export default function CbtWorkspaceTab() {
             <BookOpen className="h-5 w-5 text-primary" />
             <CardTitle>Cognitive Distortion Education</CardTitle>
           </div>
-          <CardDescription>Learn to recognize common thinking errors</CardDescription>
+          <CardDescription>
+            Learn to recognize common thinking errors
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {DISTORTION_EDUCATION.map((distortion, idx) => (
-              <div key={idx} className="rounded-lg border border-border p-4">
+            {DISTORTION_EDUCATION.map((distortion) => (
+              <div
+                key={distortion.name}
+                className="rounded-lg border border-border p-4"
+              >
                 <h3 className="font-semibold">{distortion.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{distortion.description}</p>
-                <p className="mt-2 text-sm italic">Example: {distortion.example}</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {distortion.description}
+                </p>
+                <p className="mt-2 text-sm italic">
+                  Example: {distortion.example}
+                </p>
               </div>
             ))}
           </div>

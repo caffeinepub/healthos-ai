@@ -2,129 +2,475 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Sora";
+  src: url("/assets/fonts/Sora.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
-    :root {
-        --radius: 0.75rem;
-        
-        /* Health-focused color palette - Light mode */
-        --background: 0.99 0 0;
-        --foreground: 0.15 0 0;
-        
-        --card: 1 0 0;
-        --card-foreground: 0.15 0 0;
-        
-        --popover: 1 0 0;
-        --popover-foreground: 0.15 0 0;
-        
-        /* Primary: Vibrant blue for health/medical theme */
-        --primary: 0.55 0.20 250;
-        --primary-foreground: 0.99 0 0;
-        
-        /* Secondary: Soft teal for wellness */
-        --secondary: 0.92 0.02 180;
-        --secondary-foreground: 0.20 0 0;
-        
-        /* Muted: Subtle gray-blue */
-        --muted: 0.96 0.01 240;
-        --muted-foreground: 0.50 0.02 240;
-        
-        /* Accent: Fresh green for vitality */
-        --accent: 0.90 0.03 150;
-        --accent-foreground: 0.20 0 0;
-        
-        /* Destructive: Warm red for alerts */
-        --destructive: 0.60 0.22 25;
-        --destructive-foreground: 0.99 0 0;
-        
-        /* Borders and inputs */
-        --border: 0.90 0.01 240;
-        --input: 0.90 0.01 240;
-        --ring: 0.55 0.20 250;
-        
-        /* Chart colors - health vitals themed */
-        --chart-1: 0.60 0.20 10;    /* Heart rate - red */
-        --chart-2: 0.55 0.18 250;   /* Blood pressure - blue */
-        --chart-3: 0.65 0.15 280;   /* Blood sugar - purple */
-        --chart-4: 0.70 0.18 140;   /* SpO2 - green */
-        --chart-5: 0.65 0.20 40;    /* Temperature - orange */
-        
-        /* Sidebar */
-        --sidebar: 0.98 0 0;
-        --sidebar-foreground: 0.15 0 0;
-        --sidebar-primary: 0.55 0.20 250;
-        --sidebar-primary-foreground: 0.99 0 0;
-        --sidebar-accent: 0.96 0.01 240;
-        --sidebar-accent-foreground: 0.20 0 0;
-        --sidebar-border: 0.90 0.01 240;
-        --sidebar-ring: 0.55 0.20 250;
-    }
+  :root {
+    --radius: 0.75rem;
 
-    .dark {
-        /* Health-focused color palette - Dark mode */
-        --background: 0.12 0 0;
-        --foreground: 0.98 0 0;
-        
-        --card: 0.18 0 0;
-        --card-foreground: 0.98 0 0;
-        
-        --popover: 0.15 0 0;
-        --popover-foreground: 0.98 0 0;
-        
-        /* Primary: Bright blue for dark mode */
-        --primary: 0.70 0.18 250;
-        --primary-foreground: 0.12 0 0;
-        
-        /* Secondary: Muted teal */
-        --secondary: 0.25 0.02 180;
-        --secondary-foreground: 0.98 0 0;
-        
-        /* Muted: Dark gray-blue */
-        --muted: 0.22 0.01 240;
-        --muted-foreground: 0.65 0.02 240;
-        
-        /* Accent: Vibrant green */
-        --accent: 0.30 0.03 150;
-        --accent-foreground: 0.98 0 0;
-        
-        /* Destructive: Bright red for dark mode */
-        --destructive: 0.65 0.20 25;
-        --destructive-foreground: 0.98 0 0;
-        
-        /* Borders and inputs */
-        --border: 0.25 0.01 240;
-        --input: 0.28 0.01 240;
-        --ring: 0.70 0.18 250;
-        
-        /* Chart colors - adjusted for dark mode */
-        --chart-1: 0.65 0.22 10;
-        --chart-2: 0.70 0.18 250;
-        --chart-3: 0.70 0.16 280;
-        --chart-4: 0.75 0.18 140;
-        --chart-5: 0.70 0.20 40;
-        
-        /* Sidebar */
-        --sidebar: 0.15 0 0;
-        --sidebar-foreground: 0.98 0 0;
-        --sidebar-primary: 0.70 0.18 250;
-        --sidebar-primary-foreground: 0.98 0 0;
-        --sidebar-accent: 0.22 0.01 240;
-        --sidebar-accent-foreground: 0.98 0 0;
-        --sidebar-border: 0.25 0.01 240;
-        --sidebar-ring: 0.70 0.18 250;
-    }
+    /* Mobile chrome tokens */
+    --header-h: 56px;
+    --bottom-nav-h: 68px;
 
-    * {
-        @apply border-border;
+    /* Health-focused color palette - Light mode */
+    --background: 0.99 0 0;
+    --foreground: 0.15 0 0;
+
+    --card: 1 0 0;
+    --card-foreground: 0.15 0 0;
+
+    --popover: 1 0 0;
+    --popover-foreground: 0.15 0 0;
+
+    /* Primary: Vibrant blue for health/medical theme */
+    --primary: 0.55 0.2 250;
+    --primary-foreground: 0.99 0 0;
+
+    /* Secondary: Soft teal for wellness */
+    --secondary: 0.92 0.02 180;
+    --secondary-foreground: 0.2 0 0;
+
+    /* Muted: Subtle gray-blue */
+    --muted: 0.96 0.01 240;
+    --muted-foreground: 0.5 0.02 240;
+
+    /* Accent: Fresh green for vitality */
+    --accent: 0.9 0.03 150;
+    --accent-foreground: 0.2 0 0;
+
+    /* Destructive: Warm red for alerts */
+    --destructive: 0.6 0.22 25;
+    --destructive-foreground: 0.99 0 0;
+
+    /* Borders and inputs */
+    --border: 0.9 0.01 240;
+    --input: 0.9 0.01 240;
+    --ring: 0.55 0.2 250;
+
+    /* Chart colors - health vitals themed */
+    --chart-1: 0.6 0.2 10;
+    --chart-2: 0.55 0.18 250;
+    --chart-3: 0.65 0.15 280;
+    --chart-4: 0.7 0.18 140;
+    --chart-5: 0.65 0.2 40;
+
+    /* Sidebar */
+    --sidebar: 0.98 0 0;
+    --sidebar-foreground: 0.15 0 0;
+    --sidebar-primary: 0.55 0.2 250;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.96 0.01 240;
+    --sidebar-accent-foreground: 0.2 0 0;
+    --sidebar-border: 0.9 0.01 240;
+    --sidebar-ring: 0.55 0.2 250;
+  }
+
+  .dark {
+    /* Health-focused color palette - Dark mode */
+    --background: 0.12 0 0;
+    --foreground: 0.98 0 0;
+
+    --card: 0.18 0 0;
+    --card-foreground: 0.98 0 0;
+
+    --popover: 0.15 0 0;
+    --popover-foreground: 0.98 0 0;
+
+    /* Primary: Bright blue for dark mode */
+    --primary: 0.7 0.18 250;
+    --primary-foreground: 0.12 0 0;
+
+    /* Secondary: Muted teal */
+    --secondary: 0.25 0.02 180;
+    --secondary-foreground: 0.98 0 0;
+
+    /* Muted: Dark gray-blue */
+    --muted: 0.22 0.01 240;
+    --muted-foreground: 0.65 0.02 240;
+
+    /* Accent: Vibrant green */
+    --accent: 0.3 0.03 150;
+    --accent-foreground: 0.98 0 0;
+
+    /* Destructive: Bright red for dark mode */
+    --destructive: 0.65 0.2 25;
+    --destructive-foreground: 0.98 0 0;
+
+    /* Borders and inputs */
+    --border: 0.25 0.01 240;
+    --input: 0.28 0.01 240;
+    --ring: 0.7 0.18 250;
+
+    /* Chart colors - adjusted for dark mode */
+    --chart-1: 0.65 0.22 10;
+    --chart-2: 0.7 0.18 250;
+    --chart-3: 0.7 0.16 280;
+    --chart-4: 0.75 0.18 140;
+    --chart-5: 0.7 0.2 40;
+
+    /* Sidebar */
+    --sidebar: 0.15 0 0;
+    --sidebar-foreground: 0.98 0 0;
+    --sidebar-primary: 0.7 0.18 250;
+    --sidebar-primary-foreground: 0.98 0 0;
+    --sidebar-accent: 0.22 0.01 240;
+    --sidebar-accent-foreground: 0.98 0 0;
+    --sidebar-border: 0.25 0.01 240;
+    --sidebar-ring: 0.7 0.18 250;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Sora", system-ui, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    /* Prevent horizontal overflow on mobile */
+    overflow-x: hidden;
+  }
+}
+
+/* ── Mobile App Shell ── */
+@layer components {
+  .mobile-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    /* On desktop, show as a centered phone-like card */
+    @media (min-width: 600px) {
+      box-shadow: 0 0 0 1px oklch(0.25 0.01 240), 0 20px 80px oklch(0 0 0 / 0.4);
+      border-radius: 24px;
+      height: 100vh;
+      margin-top: 0;
     }
-    
-    body {
-        @apply bg-background text-foreground;
-        font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* ── Header ── */
+  .mobile-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    height: var(--header-h);
+    background: oklch(0.13 0.015 250 / 0.92);
+    backdrop-filter: blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    border-bottom: 1px solid oklch(0.3 0.02 250 / 0.4);
+    flex-shrink: 0;
+  }
+
+  .header-logo-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      oklch(0.75 0.18 200),
+      oklch(0.65 0.22 250)
+    );
+    box-shadow: 0 0 8px oklch(0.7 0.2 220 / 0.6);
+    animation: pulse-dot 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
     }
+    50% {
+      opacity: 0.6;
+      transform: scale(0.8);
+    }
+  }
+
+  .header-title {
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(
+      135deg,
+      oklch(0.95 0.02 200),
+      oklch(0.8 0.12 250)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Main scrollable content ── */
+  .mobile-main {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: oklch(0.11 0.01 250);
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.3 0.02 250) transparent;
+    padding-bottom: 4px;
+  }
+
+  .mobile-main::-webkit-scrollbar {
+    width: 3px;
+  }
+  .mobile-main::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .mobile-main::-webkit-scrollbar-thumb {
+    background: oklch(0.3 0.02 250);
+    border-radius: 2px;
+  }
+
+  /* ── Bottom Navigation ── */
+  .bottom-nav {
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+    display: flex;
+    align-items: stretch;
+    height: var(--bottom-nav-h);
+    background: oklch(0.13 0.015 250 / 0.96);
+    backdrop-filter: blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    border-top: 1px solid oklch(0.28 0.02 250 / 0.5);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    flex-shrink: 0;
+  }
+
+  .bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 8px 4px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.15s;
+  }
+
+  .bottom-nav-item:active {
+    opacity: 0.7;
+  }
+
+  .bottom-nav-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 32px;
+    color: oklch(0.55 0.04 240);
+    transition: color 0.2s;
+  }
+
+  .bottom-nav-item.active .bottom-nav-icon-wrap {
+    color: oklch(0.85 0.14 220);
+  }
+
+  .bottom-nav-pill {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: oklch(0.35 0.1 240 / 0.45);
+    z-index: 0;
+  }
+
+  .bottom-nav-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: oklch(0.5 0.03 240);
+    transition: color 0.2s;
+    line-height: 1;
+  }
+
+  .bottom-nav-item.active .bottom-nav-label {
+    color: oklch(0.82 0.12 220);
+  }
+
+  /* ── Drawer Sheet ── */
+  .drawer-sheet {
+    background: oklch(0.1 0.015 250) !important;
+    color: oklch(0.9 0.01 240);
+  }
+
+  /* Override shadcn Sheet close button styling inside our drawer */
+  .drawer-sheet [data-radix-collection-item] {
+    color: oklch(0.7 0.02 240);
+  }
+
+  .drawer-header {
+    background: linear-gradient(
+      160deg,
+      oklch(0.16 0.04 265) 0%,
+      oklch(0.12 0.02 250) 100%
+    );
+    border-bottom: 1px solid oklch(0.25 0.02 250 / 0.5);
+  }
+
+  .drawer-logo-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(
+      135deg,
+      oklch(0.55 0.22 250),
+      oklch(0.45 0.2 280)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px oklch(0.5 0.2 260 / 0.4);
+  }
+
+  .drawer-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: oklch(0.45 0.04 250);
+    padding: 0 8px;
+    margin-bottom: 6px;
+  }
+
+  .drawer-primary-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: oklch(0.8 0.02 240);
+    transition: background 0.15s, color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .drawer-primary-item:hover,
+  .drawer-primary-item:active {
+    background: oklch(0.2 0.03 250 / 0.6);
+  }
+
+  .drawer-primary-item.active {
+    background: oklch(0.22 0.06 250 / 0.8);
+    color: oklch(0.95 0.02 240);
+  }
+
+  .drawer-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: oklch(0.18 0.03 250 / 0.8);
+    border: 1px solid oklch(0.28 0.03 250 / 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .drawer-primary-item.active .drawer-icon-wrap {
+    background: oklch(0.25 0.06 250);
+    border-color: oklch(0.45 0.1 250 / 0.4);
+  }
+
+  .drawer-active-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: oklch(0.75 0.18 200);
+    box-shadow: 0 0 6px oklch(0.75 0.18 200 / 0.7);
+    flex-shrink: 0;
+  }
+
+  .drawer-secondary-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: oklch(0.65 0.02 240);
+    transition: background 0.15s, color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .drawer-secondary-item:hover,
+  .drawer-secondary-item:active {
+    background: oklch(0.18 0.02 250 / 0.5);
+    color: oklch(0.82 0.02 240);
+  }
+
+  .drawer-secondary-item.active {
+    background: oklch(0.2 0.04 250 / 0.7);
+    color: oklch(0.9 0.02 240);
+  }
+
+  .drawer-upgrade-card {
+    background: linear-gradient(
+      135deg,
+      oklch(0.18 0.06 280 / 0.8),
+      oklch(0.15 0.04 260 / 0.8)
+    );
+    border: 1px solid oklch(0.32 0.08 280 / 0.5);
+  }
+
+  .drawer-upgrade-btn {
+    background: linear-gradient(135deg, oklch(0.72 0.18 60), oklch(0.65 0.2 45));
+    color: oklch(0.12 0 0);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .drawer-upgrade-btn:active {
+    opacity: 0.85;
+    transform: scale(0.97);
+  }
 }
 
 @layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
+  .text-balance {
+    text-wrap: balance;
+  }
 }

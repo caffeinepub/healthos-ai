@@ -1,31 +1,50 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ALL_THERAPY_MODULES } from '../therapyPathwayModel';
-import { MODULE_DEFINITIONS } from './moduleDefinitions';
-import { ELITE_MODULE_DEFINITIONS } from './eliteModuleDefinitions';
-import TherapyModuleRunner, { ModuleRunnerState } from './TherapyModuleRunner';
-import { useGetModuleProgress, useSaveModuleProgress, useGetCallerUserProfile } from '../../../../hooks/useQueries';
-import { buildModuleProgress, parseModuleProgress } from './modulePersistence';
-import { toast } from 'sonner';
-import MentalHealthDisclaimerCard from '../MentalHealthDisclaimerCard';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import {
+  useGetCallerUserProfile,
+  useGetModuleProgress,
+  useSaveModuleProgress,
+} from "../../../../hooks/useQueries";
+import MentalHealthDisclaimerCard from "../MentalHealthDisclaimerCard";
+import { ALL_THERAPY_MODULES } from "../therapyPathwayModel";
+import TherapyModuleRunner, {
+  type ModuleRunnerState,
+} from "./TherapyModuleRunner";
+import { ELITE_MODULE_DEFINITIONS } from "./eliteModuleDefinitions";
+import { MODULE_DEFINITIONS } from "./moduleDefinitions";
+import { buildModuleProgress, parseModuleProgress } from "./modulePersistence";
 
 interface TherapyModuleScreenProps {
   moduleId: string;
   onBack: () => void;
 }
 
-export default function TherapyModuleScreen({ moduleId, onBack }: TherapyModuleScreenProps) {
+export default function TherapyModuleScreen({
+  moduleId,
+  onBack,
+}: TherapyModuleScreenProps) {
   const { data: userProfile } = useGetCallerUserProfile();
-  const { data: savedProgress, isLoading: progressLoading } = useGetModuleProgress(moduleId);
+  const { data: savedProgress, isLoading: progressLoading } =
+    useGetModuleProgress(moduleId);
   const saveProgress = useSaveModuleProgress();
-  const [runnerState, setRunnerState] = useState<ModuleRunnerState | null>(null);
+  const [runnerState, setRunnerState] = useState<ModuleRunnerState | null>(
+    null,
+  );
   const [isCompleted, setIsCompleted] = useState(false);
 
   const moduleInfo = ALL_THERAPY_MODULES.find((m) => m.id === moduleId);
-  const moduleDefinition = MODULE_DEFINITIONS[moduleId] || ELITE_MODULE_DEFINITIONS[moduleId];
+  const moduleDefinition =
+    MODULE_DEFINITIONS[moduleId] || ELITE_MODULE_DEFINITIONS[moduleId];
 
   useEffect(() => {
     if (!progressLoading && savedProgress) {
@@ -62,11 +81,11 @@ export default function TherapyModuleScreen({ moduleId, onBack }: TherapyModuleS
         moduleId,
         state,
         false,
-        userProfile?.anonymousMode || false
+        userProfile?.anonymousMode || false,
       );
       await saveProgress.mutateAsync(progress);
     } catch (error) {
-      console.error('Failed to save progress:', error);
+      console.error("Failed to save progress:", error);
     }
   };
 
@@ -77,13 +96,13 @@ export default function TherapyModuleScreen({ moduleId, onBack }: TherapyModuleS
         moduleId,
         runnerState,
         true,
-        userProfile?.anonymousMode || false
+        userProfile?.anonymousMode || false,
       );
       await saveProgress.mutateAsync(progress);
       setIsCompleted(true);
-      toast.success('Module completed!');
+      toast.success("Module completed!");
     } catch (error) {
-      toast.error('Failed to save completion');
+      toast.error("Failed to save completion");
       console.error(error);
     }
   };
@@ -101,7 +120,9 @@ export default function TherapyModuleScreen({ moduleId, onBack }: TherapyModuleS
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h2 className="text-3xl font-bold text-foreground">{moduleInfo.name}</h2>
+            <h2 className="text-3xl font-bold text-foreground">
+              {moduleInfo.name}
+            </h2>
             <p className="text-muted-foreground">{moduleInfo.description}</p>
           </div>
         </div>
@@ -113,7 +134,8 @@ export default function TherapyModuleScreen({ moduleId, onBack }: TherapyModuleS
               <CardTitle>Module Completed!</CardTitle>
             </div>
             <CardDescription>
-              You have successfully completed this module. You can review your progress or restart if you'd like to practice again.
+              You have successfully completed this module. You can review your
+              progress or restart if you'd like to practice again.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -136,7 +158,9 @@ export default function TherapyModuleScreen({ moduleId, onBack }: TherapyModuleS
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h2 className="text-3xl font-bold text-foreground">{moduleInfo.name}</h2>
+          <h2 className="text-3xl font-bold text-foreground">
+            {moduleInfo.name}
+          </h2>
           <p className="text-muted-foreground">{moduleInfo.description}</p>
         </div>
       </div>
@@ -150,7 +174,9 @@ export default function TherapyModuleScreen({ moduleId, onBack }: TherapyModuleS
       {userProfile?.anonymousMode && (
         <Alert>
           <AlertDescription>
-            <strong>Anonymous mode is enabled.</strong> Your free-text responses will not be stored on-chain. Only structured progress data will be saved.
+            <strong>Anonymous mode is enabled.</strong> Your free-text responses
+            will not be stored on-chain. Only structured progress data will be
+            saved.
           </AlertDescription>
         </Alert>
       )}

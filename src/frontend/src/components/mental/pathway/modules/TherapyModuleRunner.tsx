@@ -1,15 +1,21 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ModuleStep } from './moduleDefinitions';
-import { ChevronLeft, ChevronRight, Info } from 'lucide-react';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Textarea } from "@/components/ui/textarea";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { useState } from "react";
+import type { ModuleStep } from "./moduleDefinitions";
 
 export interface ModuleRunnerState {
   currentStepIndex: number;
@@ -30,7 +36,7 @@ export default function TherapyModuleRunner({
   onComplete,
 }: TherapyModuleRunnerProps) {
   const [state, setState] = useState<ModuleRunnerState>(
-    initialState || { currentStepIndex: 0, answers: {} }
+    initialState || { currentStepIndex: 0, answers: {} },
   );
 
   const currentStep = steps[state.currentStepIndex];
@@ -65,44 +71,50 @@ export default function TherapyModuleRunner({
   };
 
   const canProceed = () => {
-    if (currentStep.type === 'info') return true;
-    if (currentStep.type === 'checklist') return true;
-    return currentAnswer !== undefined && currentAnswer !== '' && currentAnswer !== null;
+    if (currentStep.type === "info") return true;
+    if (currentStep.type === "checklist") return true;
+    return (
+      currentAnswer !== undefined &&
+      currentAnswer !== "" &&
+      currentAnswer !== null
+    );
   };
 
   const renderStepInput = () => {
     switch (currentStep.type) {
-      case 'info':
+      case "info":
         return (
           <Alert>
             <Info className="h-4 w-4" />
             <AlertDescription className="text-base">
               {currentStep.prompt}
               {currentStep.info && (
-                <p className="mt-2 text-sm text-muted-foreground">{currentStep.info}</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {currentStep.info}
+                </p>
               )}
             </AlertDescription>
           </Alert>
         );
 
-      case 'text':
+      case "text":
         return (
           <div className="space-y-3">
             <Label>{currentStep.prompt}</Label>
             <Input
-              value={currentAnswer || ''}
+              value={currentAnswer || ""}
               onChange={(e) => handleAnswerChange(e.target.value)}
               placeholder={currentStep.placeholder}
             />
           </div>
         );
 
-      case 'textarea':
+      case "textarea":
         return (
           <div className="space-y-3">
             <Label>{currentStep.prompt}</Label>
             <Textarea
-              value={currentAnswer || ''}
+              value={currentAnswer || ""}
               onChange={(e) => handleAnswerChange(e.target.value)}
               placeholder={currentStep.placeholder}
               rows={6}
@@ -110,11 +122,14 @@ export default function TherapyModuleRunner({
           </div>
         );
 
-      case 'select':
+      case "select":
         return (
           <div className="space-y-3">
             <Label>{currentStep.prompt}</Label>
-            <Select value={currentAnswer || ''} onValueChange={handleAnswerChange}>
+            <Select
+              value={currentAnswer || ""}
+              onValueChange={handleAnswerChange}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select an option..." />
               </SelectTrigger>
@@ -129,7 +144,7 @@ export default function TherapyModuleRunner({
           </div>
         );
 
-      case 'multiselect':
+      case "multiselect":
         return (
           <div className="space-y-3">
             <Label>{currentStep.prompt}</Label>
@@ -159,7 +174,7 @@ export default function TherapyModuleRunner({
           </div>
         );
 
-      case 'slider':
+      case "slider":
         return (
           <div className="space-y-3">
             <Label>{currentStep.prompt}</Label>
@@ -172,13 +187,15 @@ export default function TherapyModuleRunner({
                 step={1}
               />
               <p className="text-center text-lg font-semibold">
-                {currentAnswer !== undefined ? currentAnswer : currentStep.min || 0}
+                {currentAnswer !== undefined
+                  ? currentAnswer
+                  : currentStep.min || 0}
               </p>
             </div>
           </div>
         );
 
-      case 'checklist':
+      case "checklist":
         return (
           <div className="space-y-3">
             <Label>{currentStep.prompt}</Label>
@@ -233,7 +250,7 @@ export default function TherapyModuleRunner({
           Back
         </Button>
         <Button onClick={handleNext} disabled={!canProceed()}>
-          {isLastStep ? 'Complete' : 'Next'}
+          {isLastStep ? "Complete" : "Next"}
           {!isLastStep && <ChevronRight className="ml-2 h-4 w-4" />}
         </Button>
       </div>

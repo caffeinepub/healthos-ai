@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from "@/components/ui/card";
+import { useEffect, useRef } from "react";
 
 interface AdSenseBannerProps {
   adSlot: string;
@@ -7,31 +7,32 @@ interface AdSenseBannerProps {
   className?: string;
 }
 
-export default function AdSenseBanner({ adSlot, adClient, className = '' }: AdSenseBannerProps) {
+export default function AdSenseBanner({
+  adSlot,
+  adClient,
+  className = "",
+}: AdSenseBannerProps) {
   const adRef = useRef<HTMLDivElement>(null);
   const hasInitialized = useRef(false);
 
-  // Get client ID from prop or environment variable
   const clientId = adClient || import.meta.env.VITE_ADSENSE_CLIENT_ID;
 
   useEffect(() => {
-    // Only initialize once and only if we have a client ID
     if (hasInitialized.current || !clientId || !adSlot) {
       return;
     }
 
     try {
-      // Check if adsbygoogle is available
       if (window.adsbygoogle && adRef.current) {
         hasInitialized.current = true;
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        window.adsbygoogle = window.adsbygoogle || [];
+        window.adsbygoogle.push({});
       }
     } catch (error) {
-      console.warn('AdSense initialization failed:', error);
+      console.warn("AdSense initialization failed:", error);
     }
   }, [clientId, adSlot]);
 
-  // If no configuration, show placeholder
   if (!clientId || !adSlot) {
     return (
       <Card className={`border-dashed ${className}`}>
@@ -51,7 +52,7 @@ export default function AdSenseBanner({ adSlot, adClient, className = '' }: AdSe
         <div ref={adRef} className="min-h-[250px]">
           <ins
             className="adsbygoogle"
-            style={{ display: 'block' }}
+            style={{ display: "block" }}
             data-ad-client={clientId}
             data-ad-slot={adSlot}
             data-ad-format="auto"

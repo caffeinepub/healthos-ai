@@ -7,18 +7,40 @@ export interface JournalAnalysis {
 }
 
 const DISTORTION_KEYWORDS = {
-  'All-or-Nothing': ['always', 'never', 'every', 'none', 'completely'],
-  'Overgeneralization': ['everyone', 'nobody', 'everything', 'nothing'],
-  'Mental Filter': ['only', 'just', 'merely'],
-  'Catastrophizing': ['disaster', 'terrible', 'awful', 'worst', 'ruined', 'doomed'],
-  'Emotional Reasoning': ['feel like', 'feels', 'feeling'],
-  'Should Statements': ['should', 'must', 'ought', 'have to'],
-  'Labeling': ['I am a', 'I\'m a', 'loser', 'failure', 'idiot'],
-  'Personalization': ['my fault', 'because of me', 'I caused'],
+  "All-or-Nothing": ["always", "never", "every", "none", "completely"],
+  Overgeneralization: ["everyone", "nobody", "everything", "nothing"],
+  "Mental Filter": ["only", "just", "merely"],
+  Catastrophizing: [
+    "disaster",
+    "terrible",
+    "awful",
+    "worst",
+    "ruined",
+    "doomed",
+  ],
+  "Emotional Reasoning": ["feel like", "feels", "feeling"],
+  "Should Statements": ["should", "must", "ought", "have to"],
+  Labeling: ["I am a", "I'm a", "loser", "failure", "idiot"],
+  Personalization: ["my fault", "because of me", "I caused"],
 };
 
-const NEGATIVE_BELIEF_KEYWORDS = ['worthless', 'useless', 'hopeless', 'helpless', 'unlovable', 'broken'];
-const CATASTROPHIZING_KEYWORDS = ['disaster', 'terrible', 'awful', 'worst', 'ruined', 'doomed', 'end of'];
+const NEGATIVE_BELIEF_KEYWORDS = [
+  "worthless",
+  "useless",
+  "hopeless",
+  "helpless",
+  "unlovable",
+  "broken",
+];
+const CATASTROPHIZING_KEYWORDS = [
+  "disaster",
+  "terrible",
+  "awful",
+  "worst",
+  "ruined",
+  "doomed",
+  "end of",
+];
 
 export function analyzeJournalEntry(content: string): JournalAnalysis {
   const lowerContent = content.toLowerCase();
@@ -32,10 +54,14 @@ export function analyzeJournalEntry(content: string): JournalAnalysis {
   }
 
   // Detect negative beliefs
-  const negativeBeliefs = NEGATIVE_BELIEF_KEYWORDS.some((kw) => lowerContent.includes(kw));
+  const negativeBeliefs = NEGATIVE_BELIEF_KEYWORDS.some((kw) =>
+    lowerContent.includes(kw),
+  );
 
   // Detect catastrophizing
-  const catastrophizing = CATASTROPHIZING_KEYWORDS.some((kw) => lowerContent.includes(kw));
+  const catastrophizing = CATASTROPHIZING_KEYWORDS.some((kw) =>
+    lowerContent.includes(kw),
+  );
 
   // Estimate emotional intensity (1-10) based on keywords and punctuation
   let intensity = 5;
@@ -48,20 +74,20 @@ export function analyzeJournalEntry(content: string): JournalAnalysis {
 
   // Generate Socratic prompts
   const prompts: string[] = [];
-  if (distortions.includes('All-or-Nothing')) {
-    prompts.push('Are there any exceptions to this absolute statement?');
+  if (distortions.includes("All-or-Nothing")) {
+    prompts.push("Are there any exceptions to this absolute statement?");
   }
-  if (distortions.includes('Catastrophizing')) {
-    prompts.push('What is the most realistic outcome?');
+  if (distortions.includes("Catastrophizing")) {
+    prompts.push("What is the most realistic outcome?");
   }
-  if (distortions.includes('Should Statements')) {
-    prompts.push('What would be a more flexible way to think about this?');
+  if (distortions.includes("Should Statements")) {
+    prompts.push("What would be a more flexible way to think about this?");
   }
   if (negativeBeliefs) {
-    prompts.push('What evidence do you have that contradicts this belief?');
+    prompts.push("What evidence do you have that contradicts this belief?");
   }
   if (prompts.length === 0) {
-    prompts.push('What are the facts of this situation?');
+    prompts.push("What are the facts of this situation?");
   }
 
   return {

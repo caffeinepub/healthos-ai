@@ -1,18 +1,32 @@
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, Calendar, Moon, TrendingUp, AlertCircle } from 'lucide-react';
-import { useGetSleepEstimatorRuns } from '../../../hooks/useQueries';
-import { convertFromBackendRun, UIReportModel } from './sleepRunAdapters';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import {
+  AlertCircle,
+  ArrowLeft,
+  Calendar,
+  Moon,
+  TrendingUp,
+} from "lucide-react";
+import { useState } from "react";
+import { useGetSleepEstimatorRuns } from "../../../hooks/useQueries";
+import { type UIReportModel, convertFromBackendRun } from "./sleepRunAdapters";
 
 interface SleepEstimatorHistoryProps {
   onBack: () => void;
 }
 
-export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryProps) {
+export default function SleepEstimatorHistory({
+  onBack,
+}: SleepEstimatorHistoryProps) {
   const { data: runs, isLoading } = useGetSleepEstimatorRuns();
   const [selectedRun, setSelectedRun] = useState<UIReportModel | null>(null);
 
@@ -20,7 +34,7 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <p className="text-muted-foreground">Loading history...</p>
         </div>
       </div>
@@ -36,9 +50,12 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
             Back to History
           </Button>
           <div>
-            <h2 className="text-2xl font-bold text-foreground">Sleep Analysis Report</h2>
+            <h2 className="text-2xl font-bold text-foreground">
+              Sleep Analysis Report
+            </h2>
             <p className="text-sm text-muted-foreground">
-              {selectedRun.runTimestamp.toLocaleDateString()} at {selectedRun.runTimestamp.toLocaleTimeString()}
+              {selectedRun.runTimestamp.toLocaleDateString()} at{" "}
+              {selectedRun.runTimestamp.toLocaleTimeString()}
             </p>
           </div>
         </div>
@@ -46,31 +63,51 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            <strong>Data stored:</strong> This analysis uses behavioral phone-usage metadata and derived metrics only. No content is captured.
+            <strong>Data stored:</strong> This analysis uses behavioral
+            phone-usage metadata and derived metrics only. No content is
+            captured.
           </AlertDescription>
         </Alert>
 
         <Card>
           <CardHeader>
-            <CardTitle>Sleep Analysis Summary (Last {selectedRun.daysAnalyzed} Days)</CardTitle>
+            <CardTitle>
+              Sleep Analysis Summary (Last {selectedRun.daysAnalyzed} Days)
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Average Sleep Onset</p>
-                <p className="text-2xl font-bold">{selectedRun.output.averageSleepOnset}</p>
+                <p className="text-sm text-muted-foreground">
+                  Average Sleep Onset
+                </p>
+                <p className="text-2xl font-bold">
+                  {selectedRun.output.averageSleepOnset}
+                </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Average Wake Time</p>
-                <p className="text-2xl font-bold">{selectedRun.output.averageWakeTime}</p>
+                <p className="text-sm text-muted-foreground">
+                  Average Wake Time
+                </p>
+                <p className="text-2xl font-bold">
+                  {selectedRun.output.averageWakeTime}
+                </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Average Duration</p>
-                <p className="text-2xl font-bold">{selectedRun.output.averageDuration}h</p>
+                <p className="text-sm text-muted-foreground">
+                  Average Duration
+                </p>
+                <p className="text-2xl font-bold">
+                  {selectedRun.output.averageDuration}h
+                </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Consistency Score</p>
-                <p className="text-2xl font-bold">{selectedRun.output.sleepConsistencyScore}/100</p>
+                <p className="text-sm text-muted-foreground">
+                  Consistency Score
+                </p>
+                <p className="text-2xl font-bold">
+                  {selectedRun.output.sleepConsistencyScore}/100
+                </p>
               </div>
             </div>
 
@@ -78,19 +115,31 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
 
             <div className="grid gap-4 md:grid-cols-3">
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Circadian Stability</p>
-                <Badge variant={selectedRun.output.circadianStability === 'Stable' ? 'default' : 'outline'}>
+                <p className="text-sm text-muted-foreground">
+                  Circadian Stability
+                </p>
+                <Badge
+                  variant={
+                    selectedRun.output.circadianStability === "Stable"
+                      ? "default"
+                      : "outline"
+                  }
+                >
                   {selectedRun.output.circadianStability}
                 </Badge>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Estimated Chronotype</p>
-                <p className="font-medium">{selectedRun.output.estimatedChronotype}</p>
+                <p className="text-sm text-muted-foreground">
+                  Estimated Chronotype
+                </p>
+                <p className="font-medium">
+                  {selectedRun.output.estimatedChronotype}
+                </p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-muted-foreground">Sleep Debt</p>
                 <p className="font-medium">
-                  {selectedRun.output.sleepDebt > 0 ? '+' : ''}
+                  {selectedRun.output.sleepDebt > 0 ? "+" : ""}
                   {selectedRun.output.sleepDebt}h
                 </p>
               </div>
@@ -108,8 +157,8 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">
-                {selectedRun.output.riskIndicators.map((risk, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-sm">
+                {selectedRun.output.riskIndicators.map((risk) => (
+                  <li key={risk} className="flex items-start gap-2 text-sm">
                     <span className="text-amber-600 mt-0.5">•</span>
                     <span>{risk}</span>
                   </li>
@@ -129,12 +178,19 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
             </CardHeader>
             <CardContent>
               <ol className="space-y-2">
-                {selectedRun.output.optimizationSuggestions.map((suggestion, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-sm">
-                    <span className="font-semibold text-primary">{idx + 1}.</span>
-                    <span>{suggestion}</span>
-                  </li>
-                ))}
+                {selectedRun.output.optimizationSuggestions.map(
+                  (suggestion, idx) => (
+                    <li
+                      key={suggestion}
+                      className="flex items-start gap-2 text-sm"
+                    >
+                      <span className="font-semibold text-primary">
+                        {idx + 1}.
+                      </span>
+                      <span>{suggestion}</span>
+                    </li>
+                  ),
+                )}
               </ol>
             </CardContent>
           </Card>
@@ -143,7 +199,8 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
         <Card className="border-primary/50 bg-primary/5">
           <CardContent className="pt-6">
             <p className="text-sm font-medium">
-              Sleep estimates are behavioral approximations derived from phone usage patterns and are not a medical assessment.
+              Sleep estimates are behavioral approximations derived from phone
+              usage patterns and are not a medical assessment.
             </p>
           </CardContent>
         </Card>
@@ -159,15 +216,20 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
           Back to Input
         </Button>
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Sleep Analysis History</h2>
-          <p className="text-sm text-muted-foreground">View your previous sleep analysis runs</p>
+          <h2 className="text-2xl font-bold text-foreground">
+            Sleep Analysis History
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            View your previous sleep analysis runs
+          </p>
         </div>
       </div>
 
       <Alert>
         <AlertCircle className="h-4 w-4" />
         <AlertDescription>
-          <strong>Data stored:</strong> Your sleep analysis history includes behavioral metadata and derived metrics only. No content is captured.
+          <strong>Data stored:</strong> Your sleep analysis history includes
+          behavioral metadata and derived metrics only. No content is captured.
         </AlertDescription>
       </Alert>
 
@@ -183,10 +245,14 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
         </Card>
       ) : (
         <div className="grid gap-4">
-          {runs.map((run, idx) => {
+          {runs.map((run) => {
             const uiRun = convertFromBackendRun(run);
             return (
-              <Card key={idx} className="cursor-pointer hover:border-primary/50 transition-colors" onClick={() => setSelectedRun(uiRun)}>
+              <Card
+                key={String(run.runTimestamp)}
+                className="cursor-pointer hover:border-primary/50 transition-colors"
+                onClick={() => setSelectedRun(uiRun)}
+              >
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -196,7 +262,8 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
                           {uiRun.runTimestamp.toLocaleDateString()}
                         </CardTitle>
                         <CardDescription>
-                          {uiRun.runTimestamp.toLocaleTimeString()} • {uiRun.daysAnalyzed} days analyzed
+                          {uiRun.runTimestamp.toLocaleTimeString()} •{" "}
+                          {uiRun.daysAnalyzed} days analyzed
                         </CardDescription>
                       </div>
                     </div>
@@ -209,18 +276,22 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div>
                       <p className="text-muted-foreground">Avg Duration</p>
-                      <p className="font-medium">{uiRun.output.averageDuration}h</p>
+                      <p className="font-medium">
+                        {uiRun.output.averageDuration}h
+                      </p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Sleep Debt</p>
                       <p className="font-medium">
-                        {uiRun.output.sleepDebt > 0 ? '+' : ''}
+                        {uiRun.output.sleepDebt > 0 ? "+" : ""}
                         {uiRun.output.sleepDebt}h
                       </p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Chronotype</p>
-                      <p className="font-medium">{uiRun.output.estimatedChronotype}</p>
+                      <p className="font-medium">
+                        {uiRun.output.estimatedChronotype}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -233,7 +304,8 @@ export default function SleepEstimatorHistory({ onBack }: SleepEstimatorHistoryP
       <Card className="border-primary/50 bg-primary/5">
         <CardContent className="pt-6">
           <p className="text-sm font-medium">
-            Sleep estimates are behavioral approximations derived from phone usage patterns and are not a medical assessment.
+            Sleep estimates are behavioral approximations derived from phone
+            usage patterns and are not a medical assessment.
           </p>
         </CardContent>
       </Card>

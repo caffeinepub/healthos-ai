@@ -1,48 +1,67 @@
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGetCallerUserProfile, useSaveCallerUserProfile, useRevokeConsent, useToggleAnonymousMode } from '../hooks/useQueries';
-import { toast } from 'sonner';
-import { User, Shield, Database, Clock, Briefcase, Target } from 'lucide-react';
-import { ExtendedMentalHealthProfile, LifeGoal } from '../backend';
+import { Button } from "@/components/ui/button";
 import {
-  validatePersonalizationFields,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Shield, Target, User } from "lucide-react";
+import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import type { ExtendedMentalHealthProfile, LifeGoal } from "../backend";
+import {
+  useGetCallerUserProfile,
+  useRevokeConsent,
+  useSaveCallerUserProfile,
+  useToggleAnonymousMode,
+} from "../hooks/useQueries";
+import {
   formValueToGender,
   formValueToProfession,
   genderToFormValue,
-  professionToFormValue,
   getGenderLabel,
   getProfessionLabel,
   parseAge,
-} from '../utils/personalization';
-import { X } from 'lucide-react';
+  professionToFormValue,
+  validatePersonalizationFields,
+} from "../utils/personalization";
 
-export default function ProfileTab() {
-  const { data: userProfile } = useGetCallerUserProfile();
+export default function ProfileTab({
+  onOpenProfileSetup,
+}: { onOpenProfileSetup?: () => void }) {
+  const { data: userProfile, isFetched } = useGetCallerUserProfile();
   const saveProfile = useSaveCallerUserProfile();
   const revokeConsent = useRevokeConsent();
   const toggleAnonymous = useToggleAnonymousMode();
   const [isEditing, setIsEditing] = useState(false);
 
-  const [displayName, setDisplayName] = useState('');
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState('');
-  const [profession, setProfession] = useState('');
-  const [professionOther, setProfessionOther] = useState('');
-  const [timeZone, setTimeZone] = useState('');
-  const [goalInput, setGoalInput] = useState('');
-  const [goalYear, setGoalYear] = useState('');
+  const [displayName, setDisplayName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [profession, setProfession] = useState("");
+  const [professionOther, setProfessionOther] = useState("");
+  const [timeZone, setTimeZone] = useState("");
+  const [goalInput, setGoalInput] = useState("");
+  const [goalYear, setGoalYear] = useState("");
   const [futureGoals, setFutureGoals] = useState<LifeGoal[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (userProfile) {
       setDisplayName(userProfile.displayName);
-      setAge(userProfile.age ? userProfile.age.toString() : '');
+      setAge(userProfile.age ? userProfile.age.toString() : "");
       setGender(genderToFormValue(userProfile.gender));
       const profData = professionToFormValue(userProfile.profession);
       setProfession(profData.value);
@@ -54,17 +73,23 @@ export default function ProfileTab() {
 
   const handleAddGoal = () => {
     if (!goalInput.trim()) {
-      toast.error('Please enter a goal description');
+      toast.error("Please enter a goal description");
       return;
     }
     if (!goalYear) {
-      toast.error('Please enter a target year');
+      toast.error("Please enter a target year");
       return;
     }
-    const yearNum = parseInt(goalYear, 10);
+    const yearNum = Number.parseInt(goalYear, 10);
     const currentYear = new Date().getFullYear();
-    if (isNaN(yearNum) || yearNum < currentYear || yearNum > currentYear + 50) {
-      toast.error(`Target year must be between ${currentYear} and ${currentYear + 50}`);
+    if (
+      Number.isNaN(yearNum) ||
+      yearNum < currentYear ||
+      yearNum > currentYear + 50
+    ) {
+      toast.error(
+        `Target year must be between ${currentYear} and ${currentYear + 50}`,
+      );
       return;
     }
 
@@ -73,8 +98,8 @@ export default function ProfileTab() {
       targetYear: BigInt(yearNum),
     };
     setFutureGoals([...futureGoals, newGoal]);
-    setGoalInput('');
-    setGoalYear('');
+    setGoalInput("");
+    setGoalYear("");
   };
 
   const handleRemoveGoal = (index: number) => {
@@ -84,36 +109,34 @@ export default function ProfileTab() {
   const handleSave = async () => {
     if (!userProfile) return;
 
-    // Validate display name
     const newErrors: Record<string, string> = {};
     if (!displayName.trim()) {
-      newErrors.displayName = 'Name is required';
+      newErrors.displayName = "Name is required";
     }
 
-    // Validate personalization fields (edit context - age is optional)
     const validationErrors = validatePersonalizationFields(
       age,
       gender,
       profession,
       professionOther,
       futureGoals,
-      'edit'
+      "edit",
     );
 
-    // Merge errors
-    const allErrors = { ...newErrors, ...validationErrors };
+    // Future goals are optional — exclude from required error checks
+    const { futureGoals: _fg, ...requiredValidationErrors } = validationErrors;
+    const allErrors = { ...newErrors, ...requiredValidationErrors };
 
     if (Object.keys(allErrors).length > 0) {
       setErrors(allErrors);
-      toast.error('Please fix the errors before saving');
+      toast.error("Please fix the errors before saving");
       return;
     }
 
-    // Parse age safely - allow blank for edit
     const parsedAge = parseAge(age);
     if (age.trim() && !parsedAge) {
-      setErrors({ age: 'Please enter a valid age between 13 and 120' });
-      toast.error('Please enter a valid age');
+      setErrors({ age: "Please enter a valid age between 13 and 120" });
+      toast.error("Please enter a valid age");
       return;
     }
 
@@ -128,11 +151,11 @@ export default function ProfileTab() {
         futureGoals,
       };
       await saveProfile.mutateAsync(updatedProfile);
-      toast.success('Profile updated successfully');
+      toast.success("Profile updated successfully");
       setIsEditing(false);
       setErrors({});
     } catch (error) {
-      toast.error('Failed to update profile');
+      toast.error("Failed to update profile");
       console.error(error);
     }
   };
@@ -140,7 +163,7 @@ export default function ProfileTab() {
   const handleCancel = () => {
     if (userProfile) {
       setDisplayName(userProfile.displayName);
-      setAge(userProfile.age ? userProfile.age.toString() : '');
+      setAge(userProfile.age ? userProfile.age.toString() : "");
       setGender(genderToFormValue(userProfile.gender));
       const profData = professionToFormValue(userProfile.profession);
       setProfession(profData.value);
@@ -158,33 +181,60 @@ export default function ProfileTab() {
       await toggleAnonymous.mutateAsync(!userProfile.anonymousMode);
       toast.success(
         userProfile.anonymousMode
-          ? 'Anonymous mode disabled'
-          : 'Anonymous mode enabled - journal content will not be saved'
+          ? "Anonymous mode disabled"
+          : "Anonymous mode enabled - journal content will not be saved",
       );
     } catch (error) {
-      toast.error('Failed to toggle anonymous mode');
+      toast.error("Failed to toggle anonymous mode");
       console.error(error);
     }
   };
 
   const handleRevokeConsent = async () => {
     if (!userProfile) return;
-    if (!confirm('Are you sure you want to revoke consent? This will prevent saving new data.')) {
+    if (
+      !confirm(
+        "Are you sure you want to revoke consent? This will prevent saving new data.",
+      )
+    ) {
       return;
     }
     try {
       await revokeConsent.mutateAsync();
-      toast.success('Consent revoked');
+      toast.success("Consent revoked");
     } catch (error) {
-      toast.error('Failed to revoke consent');
+      toast.error("Failed to revoke consent");
       console.error(error);
     }
   };
 
+  if (!isFetched) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-muted-foreground">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!userProfile) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-muted-foreground">Loading profile...</p>
+        <div className="text-center max-w-md">
+          <h3 className="text-lg font-semibold mb-2">No Profile Found</h3>
+          <p className="text-muted-foreground mb-6">
+            Please complete your profile setup to get personalized health
+            guidance.
+          </p>
+          <Button
+            onClick={() => onOpenProfileSetup?.()}
+            data-ocid="settings.setup_button"
+          >
+            Set Up Profile
+          </Button>
+        </div>
       </div>
     );
   }
@@ -194,7 +244,9 @@ export default function ProfileTab() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Profile Settings</h2>
-          <p className="text-muted-foreground">Manage your personal information and preferences</p>
+          <p className="text-muted-foreground">
+            Manage your personal information and preferences
+          </p>
         </div>
         {!isEditing && (
           <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
@@ -220,7 +272,11 @@ export default function ProfileTab() {
                   onChange={(e) => setDisplayName(e.target.value)}
                   placeholder="Enter your name"
                 />
-                {errors.displayName && <p className="text-sm text-destructive">{errors.displayName}</p>}
+                {errors.displayName && (
+                  <p className="text-sm text-destructive">
+                    {errors.displayName}
+                  </p>
+                )}
               </>
             ) : (
               <p className="text-sm">{userProfile.displayName}</p>
@@ -240,10 +296,14 @@ export default function ProfileTab() {
                   min="13"
                   max="120"
                 />
-                {errors.age && <p className="text-sm text-destructive">{errors.age}</p>}
+                {errors.age && (
+                  <p className="text-sm text-destructive">{errors.age}</p>
+                )}
               </>
             ) : (
-              <p className="text-sm">{userProfile.age ? userProfile.age.toString() : 'Not specified'}</p>
+              <p className="text-sm">
+                {userProfile.age ? userProfile.age.toString() : "Not specified"}
+              </p>
             )}
           </div>
 
@@ -260,10 +320,14 @@ export default function ProfileTab() {
                     <SelectItem value="female">Female</SelectItem>
                     <SelectItem value="nonBinary">Non-binary</SelectItem>
                     <SelectItem value="other">Other</SelectItem>
-                    <SelectItem value="preferNotToSay">Prefer not to say</SelectItem>
+                    <SelectItem value="preferNotToSay">
+                      Prefer not to say
+                    </SelectItem>
                   </SelectContent>
                 </Select>
-                {errors.gender && <p className="text-sm text-destructive">{errors.gender}</p>}
+                {errors.gender && (
+                  <p className="text-sm text-destructive">{errors.gender}</p>
+                )}
               </>
             ) : (
               <p className="text-sm">{getGenderLabel(userProfile.gender)}</p>
@@ -280,7 +344,9 @@ export default function ProfileTab() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="student">Student</SelectItem>
-                    <SelectItem value="softwareEngineer">Software Engineer</SelectItem>
+                    <SelectItem value="softwareEngineer">
+                      Software Engineer
+                    </SelectItem>
                     <SelectItem value="doctor">Doctor</SelectItem>
                     <SelectItem value="nurse">Nurse</SelectItem>
                     <SelectItem value="teacher">Teacher</SelectItem>
@@ -291,7 +357,7 @@ export default function ProfileTab() {
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
-                {profession === 'other' && (
+                {profession === "other" && (
                   <Input
                     placeholder="Please specify your profession"
                     value={professionOther}
@@ -299,10 +365,16 @@ export default function ProfileTab() {
                     className="mt-2"
                   />
                 )}
-                {errors.profession && <p className="text-sm text-destructive">{errors.profession}</p>}
+                {errors.profession && (
+                  <p className="text-sm text-destructive">
+                    {errors.profession}
+                  </p>
+                )}
               </>
             ) : (
-              <p className="text-sm">{getProfessionLabel(userProfile.profession)}</p>
+              <p className="text-sm">
+                {getProfessionLabel(userProfile.profession)}
+              </p>
             )}
           </div>
 
@@ -354,7 +426,6 @@ export default function ProfileTab() {
                   Add
                 </Button>
               </div>
-              {errors.futureGoals && <p className="text-sm text-destructive">{errors.futureGoals}</p>}
             </div>
           )}
 
@@ -362,12 +433,14 @@ export default function ProfileTab() {
             <div className="space-y-2">
               {futureGoals.map((goal, index) => (
                 <div
-                  key={index}
+                  key={`goal-${goal.description}-${index}`}
                   className="flex items-center justify-between gap-2 p-3 rounded-lg border border-border"
                 >
                   <div className="flex-1">
                     <p className="font-medium">{goal.description}</p>
-                    <p className="text-sm text-muted-foreground">Target: {goal.targetYear.toString()}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Target: {goal.targetYear.toString()}
+                    </p>
                   </div>
                   {isEditing && (
                     <Button
@@ -392,9 +465,11 @@ export default function ProfileTab() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
-            Privacy & Consent
+            Privacy &amp; Consent
           </CardTitle>
-          <CardDescription>Manage your data privacy preferences</CardDescription>
+          <CardDescription>
+            Manage your data privacy preferences
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
@@ -416,8 +491,8 @@ export default function ProfileTab() {
               <Label>Data Consent</Label>
               <p className="text-sm text-muted-foreground">
                 {userProfile.consentGiven
-                  ? 'You have given consent to save your data'
-                  : 'Consent required to save data'}
+                  ? "You have given consent to save your data"
+                  : "Consent required to save data"}
               </p>
             </div>
             {userProfile.consentGiven && (
@@ -440,7 +515,7 @@ export default function ProfileTab() {
             Cancel
           </Button>
           <Button onClick={handleSave} disabled={saveProfile.isPending}>
-            {saveProfile.isPending ? 'Saving...' : 'Save Changes'}
+            {saveProfile.isPending ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       )}

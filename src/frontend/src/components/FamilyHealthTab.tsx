@@ -1,39 +1,90 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Users, Plus, Heart, Shield, AlertCircle, UserPlus } from 'lucide-react';
-import { toast } from 'sonner';
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  AlertCircle,
+  Heart,
+  Plus,
+  Shield,
+  UserPlus,
+  Users,
+} from "lucide-react";
+import { toast } from "sonner";
 
 export default function FamilyHealthTab() {
   const mockFamilyMembers = [
-    { id: '1', name: 'Sarah Johnson', relation: 'Spouse', healthScore: 82, status: 'Good' },
-    { id: '2', name: 'Michael Johnson', relation: 'Child', healthScore: 90, status: 'Excellent' },
-    { id: '3', name: 'Emma Johnson', relation: 'Child', healthScore: 88, status: 'Good' },
+    {
+      id: "1",
+      name: "Sarah Johnson",
+      relation: "Spouse",
+      healthScore: 82,
+      status: "Good",
+    },
+    {
+      id: "2",
+      name: "Michael Johnson",
+      relation: "Child",
+      healthScore: 90,
+      status: "Excellent",
+    },
+    {
+      id: "3",
+      name: "Emma Johnson",
+      relation: "Child",
+      healthScore: 88,
+      status: "Good",
+    },
   ];
 
   const mockEmergencyContacts = [
-    { id: '1', name: 'Dr. Smith', phone: '+1 (555) 123-4567', type: 'Primary Doctor' },
-    { id: '2', name: 'Sarah Johnson', phone: '+1 (555) 987-6543', type: 'Emergency Contact' },
+    {
+      id: "1",
+      name: "Dr. Smith",
+      phone: "+1 (555) 123-4567",
+      type: "Primary Doctor",
+    },
+    {
+      id: "2",
+      name: "Sarah Johnson",
+      phone: "+1 (555) 987-6543",
+      type: "Emergency Contact",
+    },
   ];
 
   const handleAddMember = () => {
-    toast.success('Family member invitation sent');
+    toast.success("Family member invitation sent");
   };
 
   const handleAddContact = () => {
-    toast.success('Emergency contact added');
+    toast.success("Emergency contact added");
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-foreground">Family Health Management</h2>
-          <p className="text-muted-foreground">Monitor and manage your family's health together</p>
+          <h2 className="text-3xl font-bold text-foreground">
+            Family Health Management
+          </h2>
+          <p className="text-muted-foreground">
+            Monitor and manage your family's health together
+          </p>
         </div>
       </div>
 
@@ -74,7 +125,10 @@ export default function FamilyHealthTab() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="relation">Relationship</Label>
-                      <Input id="relation" placeholder="e.g., Spouse, Child, Parent" />
+                      <Input
+                        id="relation"
+                        placeholder="e.g., Spouse, Child, Parent"
+                      />
                     </div>
                     <Button onClick={handleAddMember} className="w-full">
                       Send Invitation
@@ -87,10 +141,18 @@ export default function FamilyHealthTab() {
           <CardContent>
             <div className="space-y-3">
               {mockFamilyMembers.map((member) => (
-                <div key={member.id} className="flex items-center justify-between rounded-lg border border-border p-4">
+                <div
+                  key={member.id}
+                  className="flex items-center justify-between rounded-lg border border-border p-4"
+                >
                   <div className="flex items-center gap-3">
                     <Avatar>
-                      <AvatarFallback>{member.name.split(' ').map((n) => n[0]).join('')}</AvatarFallback>
+                      <AvatarFallback>
+                        {member.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
                     </Avatar>
                     <div>
                       <p className="font-medium">{member.name}</p>
@@ -169,7 +231,9 @@ export default function FamilyHealthTab() {
               />
               <div>
                 <CardTitle>Emergency Contacts & SOS</CardTitle>
-                <CardDescription>Quick access in case of emergency</CardDescription>
+                <CardDescription>
+                  Quick access in case of emergency
+                </CardDescription>
               </div>
             </div>
             <Dialog>
@@ -190,11 +254,18 @@ export default function FamilyHealthTab() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="contactPhone">Phone Number</Label>
-                    <Input id="contactPhone" type="tel" placeholder="+1 (555) 123-4567" />
+                    <Input
+                      id="contactPhone"
+                      type="tel"
+                      placeholder="+1 (555) 123-4567"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="contactType">Contact Type</Label>
-                    <Input id="contactType" placeholder="e.g., Doctor, Family Member" />
+                    <Input
+                      id="contactType"
+                      placeholder="e.g., Doctor, Family Member"
+                    />
                   </div>
                   <Button onClick={handleAddContact} className="w-full">
                     Add Contact
@@ -207,7 +278,10 @@ export default function FamilyHealthTab() {
         <CardContent>
           <div className="space-y-3">
             {mockEmergencyContacts.map((contact) => (
-              <div key={contact.id} className="flex items-center justify-between rounded-lg border border-border p-4">
+              <div
+                key={contact.id}
+                className="flex items-center justify-between rounded-lg border border-border p-4"
+              >
                 <div className="flex items-center gap-3">
                   <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900/30">
                     <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />

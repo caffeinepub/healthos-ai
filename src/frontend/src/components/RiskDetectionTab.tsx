@@ -1,36 +1,49 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Shield, AlertTriangle, CheckCircle, TrendingUp, Lock, Sparkles } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import {
+  AlertTriangle,
+  CheckCircle,
+  Lock,
+  Shield,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
 
 export default function RiskDetectionTab() {
   const isPremium = false;
 
   const riskCategories = [
     {
-      name: 'Diabetes',
-      risk: 'Low',
+      name: "Diabetes",
+      risk: "Low",
       score: 15,
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-100 dark:bg-green-900/30',
-      factors: ['Normal blood sugar', 'Healthy BMI', 'Regular exercise'],
+      color: "text-green-600 dark:text-green-400",
+      bgColor: "bg-green-100 dark:bg-green-900/30",
+      factors: ["Normal blood sugar", "Healthy BMI", "Regular exercise"],
     },
     {
-      name: 'Hypertension',
-      risk: 'Moderate',
+      name: "Hypertension",
+      risk: "Moderate",
       score: 45,
-      color: 'text-yellow-600 dark:text-yellow-400',
-      bgColor: 'bg-yellow-100 dark:bg-yellow-900/30',
-      factors: ['Slightly elevated BP', 'Family history', 'Moderate stress'],
+      color: "text-yellow-600 dark:text-yellow-400",
+      bgColor: "bg-yellow-100 dark:bg-yellow-900/30",
+      factors: ["Slightly elevated BP", "Family history", "Moderate stress"],
     },
     {
-      name: 'Heart Disease',
-      risk: 'Low',
+      name: "Heart Disease",
+      risk: "Low",
       score: 20,
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-100 dark:bg-green-900/30',
-      factors: ['Good cholesterol', 'Active lifestyle', 'No smoking'],
+      color: "text-green-600 dark:text-green-400",
+      bgColor: "bg-green-100 dark:bg-green-900/30",
+      factors: ["Good cholesterol", "Active lifestyle", "No smoking"],
     },
   ];
 
@@ -38,8 +51,12 @@ export default function RiskDetectionTab() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-foreground">Risk Detection & Prevention</h2>
-          <p className="text-muted-foreground">AI-powered health risk assessment and preventive care</p>
+          <h2 className="text-3xl font-bold text-foreground">
+            Risk Detection &amp; Prevention
+          </h2>
+          <p className="text-muted-foreground">
+            AI-powered health risk assessment and preventive care
+          </p>
         </div>
         {!isPremium && (
           <Badge variant="outline" className="gap-1">
@@ -56,11 +73,14 @@ export default function RiskDetectionTab() {
               <Sparkles className="h-5 w-5 text-primary" />
               <CardTitle>Unlock Risk Detection</CardTitle>
             </div>
-            <CardDescription>Get personalized health risk assessments</CardDescription>
+            <CardDescription>
+              Get personalized health risk assessments
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-sm text-muted-foreground">
-              Upgrade to premium to access disease risk scoring, lifestyle risk assessment, and early warning system.
+              Upgrade to premium to access disease risk scoring, lifestyle risk
+              assessment, and early warning system.
             </p>
             <Button>Upgrade to Premium</Button>
           </CardContent>
@@ -70,13 +90,17 @@ export default function RiskDetectionTab() {
       <Card>
         <CardHeader>
           <CardTitle>Overall Risk Score</CardTitle>
-          <CardDescription>Your comprehensive health risk assessment</CardDescription>
+          <CardDescription>
+            Your comprehensive health risk assessment
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-6">
             <div className="flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/30 dark:to-green-800/30">
               <div className="text-center">
-                <div className="text-4xl font-bold text-green-600 dark:text-green-400">Low</div>
+                <div className="text-4xl font-bold text-green-600 dark:text-green-400">
+                  Low
+                </div>
                 <div className="text-sm text-muted-foreground">Risk</div>
               </div>
             </div>
@@ -102,7 +126,7 @@ export default function RiskDetectionTab() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         {riskCategories.map((category) => (
-          <Card key={category.name} className={isPremium ? '' : 'opacity-60'}>
+          <Card key={category.name} className={isPremium ? "" : "opacity-60"}>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">{category.name}</CardTitle>
@@ -120,13 +144,18 @@ export default function RiskDetectionTab() {
                   </Badge>
                 </div>
                 <Progress value={category.score} />
-                <p className="mt-1 text-xs text-muted-foreground">{category.score}% risk score</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {category.score}% risk score
+                </p>
               </div>
               <div>
                 <p className="mb-2 text-sm font-medium">Key Factors</p>
                 <ul className="space-y-1">
-                  {category.factors.map((factor, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
+                  {category.factors.map((factor) => (
+                    <li
+                      key={factor}
+                      className="flex items-start gap-2 text-xs text-muted-foreground"
+                    >
                       <CheckCircle className="mt-0.5 h-3 w-3 shrink-0 text-green-600" />
                       <span>{factor}</span>
                     </li>
@@ -138,10 +167,12 @@ export default function RiskDetectionTab() {
         ))}
       </div>
 
-      <Card className={isPremium ? '' : 'opacity-60'}>
+      <Card className={isPremium ? "" : "opacity-60"}>
         <CardHeader>
           <CardTitle>Preventive Action Plan</CardTitle>
-          <CardDescription>Personalized recommendations to reduce your health risks</CardDescription>
+          <CardDescription>
+            Personalized recommendations to reduce your health risks
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -152,7 +183,8 @@ export default function RiskDetectionTab() {
               <div className="flex-1">
                 <h4 className="font-semibold">Monitor Blood Pressure Weekly</h4>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Track your blood pressure at least once per week to catch any concerning trends early.
+                  Track your blood pressure at least once per week to catch any
+                  concerning trends early.
                 </p>
               </div>
               <Button variant="outline" size="sm" disabled={!isPremium}>
@@ -166,7 +198,8 @@ export default function RiskDetectionTab() {
               <div className="flex-1">
                 <h4 className="font-semibold">Increase Physical Activity</h4>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Aim for 150 minutes of moderate exercise per week to improve cardiovascular health.
+                  Aim for 150 minutes of moderate exercise per week to improve
+                  cardiovascular health.
                 </p>
               </div>
               <Button variant="outline" size="sm" disabled={!isPremium}>
@@ -180,7 +213,8 @@ export default function RiskDetectionTab() {
               <div className="flex-1">
                 <h4 className="font-semibold">Reduce Sodium Intake</h4>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Limit sodium to less than 2,300mg per day to help manage blood pressure.
+                  Limit sodium to less than 2,300mg per day to help manage blood
+                  pressure.
                 </p>
               </div>
               <Button variant="outline" size="sm" disabled={!isPremium}>

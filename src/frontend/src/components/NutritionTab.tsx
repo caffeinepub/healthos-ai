@@ -1,13 +1,25 @@
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Apple, Camera, Plus, Lock, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { Apple, Camera, Lock, Plus, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function NutritionTab() {
   const [isLogging, setIsLogging] = useState(false);
@@ -21,16 +33,31 @@ export default function NutritionTab() {
   };
 
   const mockMeals = [
-    { id: '1', name: 'Breakfast - Oatmeal & Fruits', calories: 350, time: '08:00 AM' },
-    { id: '2', name: 'Lunch - Grilled Chicken Salad', calories: 520, time: '12:30 PM' },
-    { id: '3', name: 'Snack - Greek Yogurt', calories: 150, time: '03:00 PM' },
-    { id: '4', name: 'Dinner - Salmon & Vegetables', calories: 500, time: '07:00 PM' },
+    {
+      id: "1",
+      name: "Breakfast - Oatmeal & Fruits",
+      calories: 350,
+      time: "08:00 AM",
+    },
+    {
+      id: "2",
+      name: "Lunch - Grilled Chicken Salad",
+      calories: 520,
+      time: "12:30 PM",
+    },
+    { id: "3", name: "Snack - Greek Yogurt", calories: 150, time: "03:00 PM" },
+    {
+      id: "4",
+      name: "Dinner - Salmon & Vegetables",
+      calories: 500,
+      time: "07:00 PM",
+    },
   ];
 
   const handleLogFood = () => {
     setIsLogging(true);
     setTimeout(() => {
-      toast.success('Food logged successfully');
+      toast.success("Food logged successfully");
       setIsLogging(false);
     }, 1000);
   };
@@ -39,8 +66,12 @@ export default function NutritionTab() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-foreground">Nutrition & Diet Management</h2>
-          <p className="text-muted-foreground">Track your meals and nutritional intake</p>
+          <h2 className="text-3xl font-bold text-foreground">
+            Nutrition & Diet Management
+          </h2>
+          <p className="text-muted-foreground">
+            Track your meals and nutritional intake
+          </p>
         </div>
         {!isPremium && (
           <Badge variant="outline" className="gap-1">
@@ -56,9 +87,18 @@ export default function NutritionTab() {
             <CardTitle className="text-base">Calories</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{dailyGoals.calories.current}</div>
-            <Progress value={(dailyGoals.calories.current / dailyGoals.calories.target) * 100} className="mt-2" />
-            <p className="mt-1 text-xs text-muted-foreground">Goal: {dailyGoals.calories.target} kcal</p>
+            <div className="text-3xl font-bold">
+              {dailyGoals.calories.current}
+            </div>
+            <Progress
+              value={
+                (dailyGoals.calories.current / dailyGoals.calories.target) * 100
+              }
+              className="mt-2"
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Goal: {dailyGoals.calories.target} kcal
+            </p>
           </CardContent>
         </Card>
 
@@ -67,9 +107,18 @@ export default function NutritionTab() {
             <CardTitle className="text-base">Protein</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{dailyGoals.protein.current}g</div>
-            <Progress value={(dailyGoals.protein.current / dailyGoals.protein.target) * 100} className="mt-2" />
-            <p className="mt-1 text-xs text-muted-foreground">Goal: {dailyGoals.protein.target}g</p>
+            <div className="text-3xl font-bold">
+              {dailyGoals.protein.current}g
+            </div>
+            <Progress
+              value={
+                (dailyGoals.protein.current / dailyGoals.protein.target) * 100
+              }
+              className="mt-2"
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Goal: {dailyGoals.protein.target}g
+            </p>
           </CardContent>
         </Card>
 
@@ -78,9 +127,16 @@ export default function NutritionTab() {
             <CardTitle className="text-base">Carbs</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{dailyGoals.carbs.current}g</div>
-            <Progress value={(dailyGoals.carbs.current / dailyGoals.carbs.target) * 100} className="mt-2" />
-            <p className="mt-1 text-xs text-muted-foreground">Goal: {dailyGoals.carbs.target}g</p>
+            <div className="text-3xl font-bold">
+              {dailyGoals.carbs.current}g
+            </div>
+            <Progress
+              value={(dailyGoals.carbs.current / dailyGoals.carbs.target) * 100}
+              className="mt-2"
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Goal: {dailyGoals.carbs.target}g
+            </p>
           </CardContent>
         </Card>
 
@@ -90,8 +146,13 @@ export default function NutritionTab() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{dailyGoals.fats.current}g</div>
-            <Progress value={(dailyGoals.fats.current / dailyGoals.fats.target) * 100} className="mt-2" />
-            <p className="mt-1 text-xs text-muted-foreground">Goal: {dailyGoals.fats.target}g</p>
+            <Progress
+              value={(dailyGoals.fats.current / dailyGoals.fats.target) * 100}
+              className="mt-2"
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Goal: {dailyGoals.fats.target}g
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -103,7 +164,9 @@ export default function NutritionTab() {
               <Sparkles className="h-5 w-5 text-primary" />
               <CardTitle>Unlock AI Diet Planner</CardTitle>
             </div>
-            <CardDescription>Get personalized meal plans based on your health goals</CardDescription>
+            <CardDescription>
+              Get personalized meal plans based on your health goals
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="mb-4 flex items-center gap-4">
@@ -113,7 +176,8 @@ export default function NutritionTab() {
                 className="h-24 w-32 rounded-lg object-cover"
               />
               <p className="text-sm text-muted-foreground">
-                Upgrade to premium for AI-powered meal plans, food scanning, and nutritional analysis.
+                Upgrade to premium for AI-powered meal plans, food scanning, and
+                nutritional analysis.
               </p>
             </div>
             <Button>Upgrade to Premium</Button>
@@ -144,7 +208,9 @@ export default function NutritionTab() {
                       <div className="flex aspect-video items-center justify-center rounded-lg border-2 border-dashed border-border">
                         <div className="text-center">
                           <Camera className="mx-auto h-12 w-12 text-muted-foreground" />
-                          <p className="mt-2 text-sm text-muted-foreground">Camera preview would appear here</p>
+                          <p className="mt-2 text-sm text-muted-foreground">
+                            Camera preview would appear here
+                          </p>
                         </div>
                       </div>
                       <Button className="w-full" disabled>
@@ -167,12 +233,19 @@ export default function NutritionTab() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="foodName">Food Name</Label>
-                        <Input id="foodName" placeholder="e.g., Grilled Chicken Breast" />
+                        <Input
+                          id="foodName"
+                          placeholder="e.g., Grilled Chicken Breast"
+                        />
                       </div>
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
                           <Label htmlFor="calories">Calories</Label>
-                          <Input id="calories" type="number" placeholder="250" />
+                          <Input
+                            id="calories"
+                            type="number"
+                            placeholder="250"
+                          />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="serving">Serving Size</Label>
@@ -193,8 +266,12 @@ export default function NutritionTab() {
                           <Input id="fats" type="number" placeholder="5" />
                         </div>
                       </div>
-                      <Button onClick={handleLogFood} disabled={isLogging} className="w-full">
-                        {isLogging ? 'Logging...' : 'Log Food'}
+                      <Button
+                        onClick={handleLogFood}
+                        disabled={isLogging}
+                        className="w-full"
+                      >
+                        {isLogging ? "Logging..." : "Log Food"}
                       </Button>
                     </div>
                   </DialogContent>
@@ -205,7 +282,10 @@ export default function NutritionTab() {
           <CardContent>
             <div className="space-y-3">
               {mockMeals.map((meal) => (
-                <div key={meal.id} className="flex items-center justify-between rounded-lg border border-border p-4">
+                <div
+                  key={meal.id}
+                  className="flex items-center justify-between rounded-lg border border-border p-4"
+                >
                   <div className="flex items-center gap-3">
                     <div className="rounded-lg bg-primary/10 p-2">
                       <Apple className="h-5 w-5 text-primary" />
@@ -226,7 +306,7 @@ export default function NutritionTab() {
         </Card>
 
         <div className="space-y-6">
-          <Card className={isPremium ? '' : 'opacity-60'}>
+          <Card className={isPremium ? "" : "opacity-60"}>
             <CardHeader>
               <CardTitle className="text-base">AI Meal Plan</CardTitle>
               <CardDescription>Personalized for your goals</CardDescription>
@@ -234,10 +314,18 @@ export default function NutritionTab() {
             <CardContent className="space-y-3">
               <div className="rounded-lg border border-border p-3">
                 <p className="text-sm font-medium">Tomorrow's Plan</p>
-                <p className="mt-1 text-xs text-muted-foreground">High Protein, Low Carb</p>
-                <p className="mt-1 text-xs text-muted-foreground">2000 kcal • 150g protein</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  High Protein, Low Carb
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  2000 kcal • 150g protein
+                </p>
               </div>
-              <Button variant="outline" className="w-full" disabled={!isPremium}>
+              <Button
+                variant="outline"
+                className="w-full"
+                disabled={!isPremium}
+              >
                 View Full Plan
               </Button>
             </CardContent>

@@ -1,7 +1,13 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { XCircle, ArrowLeft } from 'lucide-react';
-import { useNavigate } from '@tanstack/react-router';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, XCircle } from "lucide-react";
 
 export default function PaymentFailure() {
   const navigate = useNavigate();
@@ -18,14 +24,19 @@ export default function PaymentFailure() {
         </CardHeader>
         <CardContent className="space-y-4 text-center">
           <p className="text-sm text-muted-foreground">
-            Don't worry, no charges were made to your account. You can try again whenever you're ready.
+            Don't worry, no charges were made to your account. You can try again
+            whenever you're ready.
           </p>
           <div className="space-y-2">
-            <Button onClick={() => navigate({ to: '/' })} className="w-full">
+            <Button onClick={() => navigate({ to: "/" })} className="w-full">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Return to Dashboard
             </Button>
-            <Button onClick={() => navigate({ to: '/' })} variant="outline" className="w-full">
+            <Button
+              onClick={() => navigate({ to: "/" })}
+              variant="outline"
+              className="w-full"
+            >
               Try Again
             </Button>
           </div>

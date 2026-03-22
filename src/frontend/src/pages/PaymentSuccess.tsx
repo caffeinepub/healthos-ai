@@ -1,15 +1,21 @@
-import { useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { CheckCircle, Sparkles } from 'lucide-react';
-import { useNavigate } from '@tanstack/react-router';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useNavigate } from "@tanstack/react-router";
+import { CheckCircle, Sparkles } from "lucide-react";
+import { useEffect } from "react";
 
 export default function PaymentSuccess() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate({ to: '/' });
+      navigate({ to: "/" });
     }, 5000);
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -31,13 +37,14 @@ export default function PaymentSuccess() {
               <span className="font-semibold">Premium Features Unlocked</span>
             </div>
             <p className="mt-2 text-sm text-muted-foreground">
-              You now have access to AI Medical Chat, Risk Detection, Health Vault, Fitness & Nutrition AI, and more!
+              You now have access to AI Medical Chat, Risk Detection, Health
+              Vault, Fitness & Nutrition AI, and more!
             </p>
           </div>
           <p className="text-sm text-muted-foreground">
             Redirecting to dashboard in 5 seconds...
           </p>
-          <Button onClick={() => navigate({ to: '/' })} className="w-full">
+          <Button onClick={() => navigate({ to: "/" })} className="w-full">
             Go to Dashboard
           </Button>
         </CardContent>

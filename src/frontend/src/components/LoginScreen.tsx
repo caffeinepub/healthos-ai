@@ -1,6 +1,6 @@
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import { Button } from '@/components/ui/button';
-import { Activity, Shield, TrendingUp, Heart } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Activity, Heart, Shield, TrendingUp } from "lucide-react";
+import { useInternetIdentity } from "../hooks/useInternetIdentity";
 
 export default function LoginScreen() {
   const { login, loginStatus } = useInternetIdentity();
@@ -9,11 +9,11 @@ export default function LoginScreen() {
     try {
       await login();
     } catch (error: any) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     }
   };
 
-  const isLoggingIn = loginStatus === 'logging-in';
+  const isLoggingIn = loginStatus === "logging-in";
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -23,8 +23,12 @@ export default function LoginScreen() {
             <div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-green-500 shadow-lg">
               <Activity className="h-12 w-12 text-white" />
             </div>
-            <h1 className="mb-2 text-5xl font-bold text-foreground">HealthOS AI</h1>
-            <p className="text-xl text-muted-foreground">Your Intelligent Health Management Platform</p>
+            <h1 className="mb-2 text-5xl font-bold text-foreground">
+              HealthOS AI
+            </h1>
+            <p className="text-xl text-muted-foreground">
+              Your Intelligent Health Management Platform
+            </p>
           </div>
 
           <div className="mb-12 overflow-hidden rounded-2xl shadow-2xl">
@@ -40,9 +44,12 @@ export default function LoginScreen() {
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30">
                 <Heart className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-card-foreground">Smart Health Profile</h3>
+              <h3 className="mb-2 text-lg font-semibold text-card-foreground">
+                Smart Health Profile
+              </h3>
               <p className="text-sm text-muted-foreground">
-                Track your vitals, lifestyle, and health goals in one secure place
+                Track your vitals, lifestyle, and health goals in one secure
+                place
               </p>
             </div>
 
@@ -50,9 +57,12 @@ export default function LoginScreen() {
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30">
                 <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-card-foreground">AI-Powered Insights</h3>
+              <h3 className="mb-2 text-lg font-semibold text-card-foreground">
+                AI-Powered Insights
+              </h3>
               <p className="text-sm text-muted-foreground">
-                Get personalized health scores and recommendations based on your data
+                Get personalized health scores and recommendations based on your
+                data
               </p>
             </div>
 
@@ -60,9 +70,12 @@ export default function LoginScreen() {
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30">
                 <Shield className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-card-foreground">Secure & Private</h3>
+              <h3 className="mb-2 text-lg font-semibold text-card-foreground">
+                Secure & Private
+              </h3>
               <p className="text-sm text-muted-foreground">
-                Your health data is encrypted and stored securely on the blockchain
+                Your health data is encrypted and stored securely on the
+                blockchain
               </p>
             </div>
           </div>
@@ -74,7 +87,7 @@ export default function LoginScreen() {
               size="lg"
               className="h-14 px-12 text-lg font-semibold shadow-lg transition-all hover:scale-105"
             >
-              {isLoggingIn ? 'Connecting...' : 'Get Started'}
+              {isLoggingIn ? "Connecting..." : "Get Started"}
             </Button>
             <p className="mt-4 text-sm text-muted-foreground">
               Secure login powered by Internet Identity

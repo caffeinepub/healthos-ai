@@ -1,9 +1,18 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { useGetWeeklyAnalytics, useGetWeeklyLogs } from '../../hooks/useQueries';
-import { interpretCorrelation } from './analytics/computeWeeklyAnalytics';
-import { AlertCircle, TrendingUp, TrendingDown, Activity } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Activity, AlertCircle, TrendingDown, TrendingUp } from "lucide-react";
+import {
+  useGetWeeklyAnalytics,
+  useGetWeeklyLogs,
+} from "../../hooks/useQueries";
+import { interpretCorrelation } from "./analytics/computeWeeklyAnalytics";
 
 export default function WeeklyAnalyticsTab() {
   const { data: analytics, isLoading } = useGetWeeklyAnalytics();
@@ -13,7 +22,7 @@ export default function WeeklyAnalyticsTab() {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <p className="text-muted-foreground">Loading analytics...</p>
         </div>
       </div>
@@ -37,7 +46,8 @@ export default function WeeklyAnalyticsTab() {
       <div>
         <h2 className="text-3xl font-bold text-foreground">Weekly Analytics</h2>
         <p className="text-muted-foreground">
-          Insights from your last {logs.length} day{logs.length !== 1 ? 's' : ''} of tracking
+          Insights from your last {logs.length} day
+          {logs.length !== 1 ? "s" : ""} of tracking
         </p>
       </div>
 
@@ -50,9 +60,9 @@ export default function WeeklyAnalyticsTab() {
         </CardHeader>
         <CardContent className="text-sm">
           <p>
-            These metrics are informational and non-diagnostic. They are based on your self-reported
-            data and deterministic calculations. Consult a mental health professional for clinical
-            assessment.
+            These metrics are informational and non-diagnostic. They are based
+            on your self-reported data and deterministic calculations. Consult a
+            mental health professional for clinical assessment.
           </p>
         </CardContent>
       </Card>
@@ -74,7 +84,9 @@ export default function WeeklyAnalyticsTab() {
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Burnout Index</CardTitle>
-            <CardDescription>Work exhaustion indicator (0-100%)</CardDescription>
+            <CardDescription>
+              Work exhaustion indicator (0-100%)
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-primary">
@@ -93,7 +105,10 @@ export default function WeeklyAnalyticsTab() {
             <div className="text-3xl font-bold text-primary">
               {analytics.emotionalStability.toFixed(1)}/10
             </div>
-            <Progress value={analytics.emotionalStability * 10} className="mt-3" />
+            <Progress
+              value={analytics.emotionalStability * 10}
+              className="mt-3"
+            />
           </CardContent>
         </Card>
 
@@ -106,7 +121,10 @@ export default function WeeklyAnalyticsTab() {
             <div className="text-3xl font-bold text-primary">
               {(analytics.cognitiveFatigue * 100).toFixed(0)}%
             </div>
-            <Progress value={analytics.cognitiveFatigue * 100} className="mt-3" />
+            <Progress
+              value={analytics.cognitiveFatigue * 100}
+              className="mt-3"
+            />
           </CardContent>
         </Card>
 
@@ -120,7 +138,8 @@ export default function WeeklyAnalyticsTab() {
               {analytics.sleepMoodCorrelation.toFixed(1)}h
             </div>
             <p className="mt-3 text-sm text-muted-foreground">
-              Correlation: {interpretCorrelation(analytics.sleepMoodCorrelation / 10)}
+              Correlation:{" "}
+              {interpretCorrelation(analytics.sleepMoodCorrelation / 10)}
             </p>
           </CardContent>
         </Card>
@@ -135,7 +154,11 @@ export default function WeeklyAnalyticsTab() {
               {analytics.moodVolatility.toFixed(2)}
             </div>
             <p className="mt-3 text-sm text-muted-foreground">
-              {analytics.moodVolatility < 1.5 ? 'Stable' : analytics.moodVolatility < 2.5 ? 'Moderate' : 'High'}
+              {analytics.moodVolatility < 1.5
+                ? "Stable"
+                : analytics.moodVolatility < 2.5
+                  ? "Moderate"
+                  : "High"}
             </p>
           </CardContent>
         </Card>
@@ -145,7 +168,8 @@ export default function WeeklyAnalyticsTab() {
         <CardHeader>
           <CardTitle>7-Day Risk Forecast</CardTitle>
           <CardDescription>
-            Rule-based prediction of potential stress/burnout risk (informational only)
+            Rule-based prediction of potential stress/burnout risk
+            (informational only)
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -176,8 +200,9 @@ export default function WeeklyAnalyticsTab() {
             </div>
           </div>
           <p className="mt-4 text-sm text-muted-foreground">
-            This forecast is based on your recent stress, burnout, and cognitive fatigue scores. It
-            is not a clinical prediction. If you're concerned, please seek professional support.
+            This forecast is based on your recent stress, burnout, and cognitive
+            fatigue scores. It is not a clinical prediction. If you're
+            concerned, please seek professional support.
           </p>
         </CardContent>
       </Card>

@@ -1,8 +1,25 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useGetCallerUserProfile } from '../hooks/useQueries';
-import { Activity, Heart, TrendingUp, Shield, Dumbbell, Apple, Brain, Award, Flame, Target } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import {
+  Activity,
+  Apple,
+  Award,
+  Brain,
+  Dumbbell,
+  Flame,
+  Heart,
+  Shield,
+  Target,
+  TrendingUp,
+} from "lucide-react";
+import { useGetCallerUserProfile } from "../hooks/useQueries";
 
 export default function OverviewTab() {
   const { data: userProfile } = useGetCallerUserProfile();
@@ -14,9 +31,11 @@ export default function OverviewTab() {
     <div className="space-y-6">
       <div>
         <h2 className="mb-2 text-3xl font-bold text-foreground">
-          Welcome back, {userProfile?.displayName || 'User'}!
+          Welcome back, {userProfile?.displayName || "User"}!
         </h2>
-        <p className="text-muted-foreground">Here's your comprehensive health overview for today</p>
+        <p className="text-muted-foreground">
+          Here's your comprehensive health overview for today
+        </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -30,9 +49,13 @@ export default function OverviewTab() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">{mockHealthScore}</div>
+            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">
+              {mockHealthScore}
+            </div>
             <Progress value={mockHealthScore} className="mt-2" />
-            <p className="mt-2 text-xs text-muted-foreground">+3 from last week</p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              +3 from last week
+            </p>
           </CardContent>
         </Card>
 
@@ -46,8 +69,12 @@ export default function OverviewTab() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-green-600 dark:text-green-400">6</div>
-            <p className="mt-2 text-xs text-muted-foreground">All vitals up to date</p>
+            <div className="text-4xl font-bold text-green-600 dark:text-green-400">
+              6
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              All vitals up to date
+            </p>
           </CardContent>
         </Card>
 
@@ -61,7 +88,9 @@ export default function OverviewTab() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-orange-600 dark:text-orange-400">{mockStreak}</div>
+            <div className="text-4xl font-bold text-orange-600 dark:text-orange-400">
+              {mockStreak}
+            </div>
             <p className="mt-2 text-xs text-muted-foreground">days in a row</p>
           </CardContent>
         </Card>
@@ -79,7 +108,9 @@ export default function OverviewTab() {
             <Badge variant="outline" className="mb-2">
               Free Plan
             </Badge>
-            <p className="text-xs text-muted-foreground">Upgrade for premium features</p>
+            <p className="text-xs text-muted-foreground">
+              Upgrade for premium features
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -88,7 +119,9 @@ export default function OverviewTab() {
         <Card>
           <CardHeader>
             <CardTitle>Today's Health Summary</CardTitle>
-            <CardDescription>Your key health metrics at a glance</CardDescription>
+            <CardDescription>
+              Your key health metrics at a glance
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
@@ -101,7 +134,9 @@ export default function OverviewTab() {
                   <p className="text-xs text-muted-foreground">72 bpm</p>
                 </div>
               </div>
-              <Badge variant="outline" className="text-green-600">Normal</Badge>
+              <Badge variant="outline" className="text-green-600">
+                Normal
+              </Badge>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -113,7 +148,9 @@ export default function OverviewTab() {
                   <p className="text-xs text-muted-foreground">120/80 mmHg</p>
                 </div>
               </div>
-              <Badge variant="outline" className="text-green-600">Normal</Badge>
+              <Badge variant="outline" className="text-green-600">
+                Normal
+              </Badge>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -125,7 +162,9 @@ export default function OverviewTab() {
                   <p className="text-xs text-muted-foreground">Low risk</p>
                 </div>
               </div>
-              <Badge variant="outline" className="text-green-600">Good</Badge>
+              <Badge variant="outline" className="text-green-600">
+                Good
+              </Badge>
             </div>
           </CardContent>
         </Card>

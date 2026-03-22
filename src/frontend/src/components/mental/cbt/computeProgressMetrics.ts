@@ -1,4 +1,4 @@
-import { Intervention, JournalEntry, DailyLog } from '../../../backend';
+import type { DailyLog, Intervention, JournalEntry } from "../../../backend";
 
 export interface ProgressMetrics {
   distortionFrequency: number;
@@ -7,17 +7,18 @@ export interface ProgressMetrics {
 }
 
 export function computeProgressMetrics(
-  interventions: Intervention[],
+  _interventions: Intervention[],
   journals: JournalEntry[],
-  logs: DailyLog[]
+  logs: DailyLog[],
 ): ProgressMetrics {
   // Distortion frequency reduction (count distortions over time)
   const recentJournals = journals.slice(-10);
   const distortionCount = recentJournals.reduce(
     (sum, j) => sum + j.cognitiveDistortions.length,
-    0
+    0,
   );
-  const distortionFrequency = recentJournals.length > 0 ? distortionCount / recentJournals.length : 0;
+  const distortionFrequency =
+    recentJournals.length > 0 ? distortionCount / recentJournals.length : 0;
 
   // Belief shift tracking (average belief strength change)
   const beliefStrengths = recentJournals.map((j) => Number(j.beliefStrength));
@@ -30,7 +31,8 @@ export function computeProgressMetrics(
   const recentLogs = logs.slice(-7);
   const avgProductivity =
     recentLogs.length > 0
-      ? recentLogs.reduce((sum, l) => sum + Number(l.productivity), 0) / recentLogs.length
+      ? recentLogs.reduce((sum, l) => sum + Number(l.productivity), 0) /
+        recentLogs.length
       : 5;
   const avoidanceBehaviorScore = 10 - avgProductivity;
 

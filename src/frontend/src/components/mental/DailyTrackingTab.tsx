@@ -1,17 +1,33 @@
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useGetDailyLogs, useSaveDailyLog, useGetCallerUserProfile } from '../../hooks/useQueries';
-import { getTodayKey, formatDate } from '../mental/dateTime';
-import { EMOTION_TAGS } from './tracking/emotionTags';
-import { DailyLog } from '../../backend';
-import { toast } from 'sonner';
-import { Plus, Calendar } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Calendar, Plus } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import type { DailyLog } from "../../backend";
+import {
+  useGetCallerUserProfile,
+  useGetDailyLogs,
+  useSaveDailyLog,
+} from "../../hooks/useQueries";
+import { formatDate, getTodayKey } from "../mental/dateTime";
+import { EMOTION_TAGS } from "./tracking/emotionTags";
 
 export default function DailyTrackingTab() {
   const { data: profile } = useGetCallerUserProfile();
@@ -21,8 +37,8 @@ export default function DailyTrackingTab() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [mood, setMood] = useState([5]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [customTag, setCustomTag] = useState('');
-  const [sleepHours, setSleepHours] = useState('7');
+  const [customTag, setCustomTag] = useState("");
+  const [sleepHours, setSleepHours] = useState("7");
   const [energy, setEnergy] = useState([5]);
   const [cognitiveClarity, setCognitiveClarity] = useState([5]);
   const [stress, setStress] = useState([5]);
@@ -31,13 +47,15 @@ export default function DailyTrackingTab() {
   const handleSave = async () => {
     if (!profile) return;
 
-    const sleepValue = parseFloat(sleepHours);
-    if (isNaN(sleepValue) || sleepValue < 0) {
-      toast.error('Please enter a valid sleep hours value');
+    const sleepValue = Number.parseFloat(sleepHours);
+    if (Number.isNaN(sleepValue) || sleepValue < 0) {
+      toast.error("Please enter a valid sleep hours value");
       return;
     }
 
-    const allTags = customTag.trim() ? [...selectedTags, customTag.trim()] : selectedTags;
+    const allTags = customTag.trim()
+      ? [...selectedTags, customTag.trim()]
+      : selectedTags;
 
     const log: DailyLog = {
       id: getTodayKey(profile.timeZone),
@@ -53,11 +71,11 @@ export default function DailyTrackingTab() {
 
     try {
       await saveDailyLog.mutateAsync(log);
-      toast.success('Daily log saved successfully!');
+      toast.success("Daily log saved successfully!");
       setIsDialogOpen(false);
       resetForm();
     } catch (error) {
-      toast.error('Failed to save daily log');
+      toast.error("Failed to save daily log");
       console.error(error);
     }
   };
@@ -65,8 +83,8 @@ export default function DailyTrackingTab() {
   const resetForm = () => {
     setMood([5]);
     setSelectedTags([]);
-    setCustomTag('');
-    setSleepHours('7');
+    setCustomTag("");
+    setSleepHours("7");
     setEnergy([5]);
     setCognitiveClarity([5]);
     setStress([5]);
@@ -75,7 +93,7 @@ export default function DailyTrackingTab() {
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
   };
 
@@ -84,7 +102,9 @@ export default function DailyTrackingTab() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold text-foreground">Daily Tracking</h2>
-          <p className="text-muted-foreground">Log your mood, energy, and behavior</p>
+          <p className="text-muted-foreground">
+            Log your mood, energy, and behavior
+          </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
@@ -100,8 +120,16 @@ export default function DailyTrackingTab() {
             <div className="space-y-6">
               <div className="space-y-3">
                 <Label>Mood (1-10)</Label>
-                <Slider value={mood} onValueChange={setMood} min={1} max={10} step={1} />
-                <p className="text-center text-sm text-muted-foreground">{mood[0]}/10</p>
+                <Slider
+                  value={mood}
+                  onValueChange={setMood}
+                  min={1}
+                  max={10}
+                  step={1}
+                />
+                <p className="text-center text-sm text-muted-foreground">
+                  {mood[0]}/10
+                </p>
               </div>
 
               <div className="space-y-3">
@@ -110,7 +138,9 @@ export default function DailyTrackingTab() {
                   {EMOTION_TAGS.map((tag) => (
                     <Badge
                       key={tag}
-                      variant={selectedTags.includes(tag) ? 'default' : 'outline'}
+                      variant={
+                        selectedTags.includes(tag) ? "default" : "outline"
+                      }
                       className="cursor-pointer"
                       onClick={() => toggleTag(tag)}
                     >
@@ -140,8 +170,16 @@ export default function DailyTrackingTab() {
 
               <div className="space-y-3">
                 <Label>Energy Level (1-10)</Label>
-                <Slider value={energy} onValueChange={setEnergy} min={1} max={10} step={1} />
-                <p className="text-center text-sm text-muted-foreground">{energy[0]}/10</p>
+                <Slider
+                  value={energy}
+                  onValueChange={setEnergy}
+                  min={1}
+                  max={10}
+                  step={1}
+                />
+                <p className="text-center text-sm text-muted-foreground">
+                  {energy[0]}/10
+                </p>
               </div>
 
               <div className="space-y-3">
@@ -160,8 +198,16 @@ export default function DailyTrackingTab() {
 
               <div className="space-y-3">
                 <Label>Stress Rating (1-10)</Label>
-                <Slider value={stress} onValueChange={setStress} min={1} max={10} step={1} />
-                <p className="text-center text-sm text-muted-foreground">{stress[0]}/10</p>
+                <Slider
+                  value={stress}
+                  onValueChange={setStress}
+                  min={1}
+                  max={10}
+                  step={1}
+                />
+                <p className="text-center text-sm text-muted-foreground">
+                  {stress[0]}/10
+                </p>
               </div>
 
               <div className="space-y-3">
@@ -173,11 +219,17 @@ export default function DailyTrackingTab() {
                   max={10}
                   step={1}
                 />
-                <p className="text-center text-sm text-muted-foreground">{productivity[0]}/10</p>
+                <p className="text-center text-sm text-muted-foreground">
+                  {productivity[0]}/10
+                </p>
               </div>
 
-              <Button onClick={handleSave} className="w-full" disabled={saveDailyLog.isPending}>
-                {saveDailyLog.isPending ? 'Saving...' : 'Save Entry'}
+              <Button
+                onClick={handleSave}
+                className="w-full"
+                disabled={saveDailyLog.isPending}
+              >
+                {saveDailyLog.isPending ? "Saving..." : "Save Entry"}
               </Button>
             </div>
           </DialogContent>
@@ -191,7 +243,9 @@ export default function DailyTrackingTab() {
         </CardHeader>
         <CardContent>
           {logs.length === 0 ? (
-            <p className="text-center text-muted-foreground">No logs yet. Start tracking today!</p>
+            <p className="text-center text-muted-foreground">
+              No logs yet. Start tracking today!
+            </p>
           ) : (
             <div className="space-y-3">
               {logs
@@ -216,8 +270,8 @@ export default function DailyTrackingTab() {
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1">
-                      {log.emotionTags.slice(0, 3).map((tag, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
+                      {log.emotionTags.slice(0, 3).map((tag) => (
+                        <Badge key={tag} variant="outline" className="text-xs">
                           {tag}
                         </Badge>
                       ))}

@@ -4,13 +4,21 @@ export interface DailySleepInput {
   date: string; // YYYY-MM-DD format
   lastActivity: string; // HH:MM format (24-hour)
   firstActivity: string; // HH:MM format (24-hour)
-  nightChecks?: Array<{ time: string; durationMinutes?: number; type?: string }>; // time in HH:MM format
+  nightChecks?: Array<{
+    time: string;
+    durationMinutes?: number;
+    type?: string;
+  }>; // time in HH:MM format
   totalScreenTimeMinutes: number;
   // Optional ML-friendly fields
   hourlyScreenTime?: number[]; // 24-element array
   hourlyUnlockCount?: number[]; // 24-element array
   unlockBurstTimes?: string[]; // HH:MM format
-  inactivityBlocks?: Array<{ start: string; end: string; durationMinutes: number }>;
+  inactivityBlocks?: Array<{
+    start: string;
+    end: string;
+    durationMinutes: number;
+  }>;
 }
 
 export interface SleepAnalysisInput {

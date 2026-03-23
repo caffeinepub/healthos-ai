@@ -1,21 +1,11 @@
-import Map "mo:core/Map";
 import Nat "mo:core/Nat";
-import Float "mo:core/Float";
-import Text "mo:core/Text";
-import Int "mo:core/Int";
 import Principal "mo:core/Principal";
+import Float "mo:core/Float";
+import Map "mo:core/Map";
+import Time "mo:core/Time";
 
 module {
-  // Previous Gender variant.
-  type Gender = {
-    #male;
-    #female;
-    #nonBinary;
-    #other : Text;
-    #preferNotToSay;
-  };
-
-  type Profession = {
+  public type Profession = {
     #student;
     #softwareEngineer;
     #doctor;
@@ -28,19 +18,26 @@ module {
     #other : Text;
   };
 
-  type LifeGoal = {
+  public type LifeGoal = {
     description : Text;
     targetYear : Int;
   };
 
-  type ExtendedMentalHealthProfile = {
+  public type ClinicalRole = {
+    #doctor;
+    #nurse;
+    #admin;
+    #billing;
+    #patient;
+  };
+
+  public type ExtendedMentalHealthProfile = {
     displayName : Text;
     timeZone : Text;
     consentGiven : Bool;
     anonymousMode : Bool;
     age : ?Nat;
-    // Previous Gender type (variant), New uses Int.
-    gender : Gender;
+    gender : Int;
     profession : Profession;
     futureGoals : [LifeGoal];
   };
@@ -227,6 +224,98 @@ module {
     notes : ?Text;
   };
 
+  public type ClinicalProfile = {
+    principal : Principal;
+    clinicalRole : ClinicalRole;
+    specialty : Text;
+    licenseNumber : Text;
+    hospitalName : Text;
+    department : Text;
+    linkedPatients : [Principal];
+  };
+
+  public type PatientRecord = {
+    id : Text;
+    patientPrincipal : Principal;
+    assignedDoctor : Principal;
+    name : Text;
+    age : Nat;
+    gender : Text;
+    bloodType : Text;
+    allergies : [Text];
+    diagnoses : [Text];
+    notes : Text;
+    riskScore : Float;
+    lastVisit : Int;
+    createdAt : Int;
+  };
+
+  public type SoapNote = {
+    id : Text;
+    patientId : Text;
+    doctorPrincipal : Principal;
+    subjective : Text;
+    objective : Text;
+    assessment : Text;
+    plan : Text;
+    icdCodes : [Text];
+    specialty : Text;
+    confidenceScore : Float;
+    voiceTranscript : ?Text;
+    timestamp : Int;
+  };
+
+  public type Prescription = {
+    id : Text;
+    patientId : Text;
+    doctorPrincipal : Principal;
+    medications : [{ name : Text; dosage : Text; frequency : Text; duration : Text }];
+    instructions : Text;
+    icdCodes : [Text];
+    status : Text;
+    timestamp : Int;
+  };
+
+  public type FollowUp = {
+    id : Text;
+    patientId : Text;
+    scheduledBy : Principal;
+    scheduledDate : Int;
+    reason : Text;
+    priority : Text;
+    status : Text;
+    notes : Text;
+    createdAt : Int;
+  };
+
+  public type AuditLogEntry = {
+    id : Text;
+    actorPrincipal : Principal;
+    action : Text;
+    targetId : Text;
+    details : Text;
+    timestamp : Int;
+  };
+
+  public type RevenueEntry = {
+    id : Text;
+    amount : Float;
+    currency : Text;
+    source : Text;
+    patientId : ?Text;
+    description : Text;
+    timestamp : Int;
+  };
+
+  public type PredictiveRiskFlag = {
+    patientId : Text;
+    riskScore : Float;
+    riskFactors : [Text];
+    recommendations : [Text];
+    flaggedAt : Int;
+    severity : Text;
+  };
+
   public type OldActor = {
     profiles : Map.Map<Principal, ExtendedMentalHealthProfile>;
     assessments : Map.Map<Principal, AssessmentResult>;
@@ -235,78 +324,63 @@ module {
     interventions : Map.Map<Principal, Map.Map<Text, Intervention>>;
     safetyPlans : Map.Map<Principal, SafetyPlan>;
     moduleProgress : Map.Map<Principal, Map.Map<Text, ModuleProgress>>;
-    userProfiles : Map.Map<Principal, Text>;
     sleepEstimatorRuns : Map.Map<Principal, Map.Map<Nat, SleepEstimatorRun>>;
     nextSleepRunId : Nat;
   };
 
-  type ProfessionNew = {
-    #student;
-    #softwareEngineer;
-    #doctor;
-    #nurse;
-    #teacher;
-    #artist;
-    #musician;
-    #designer;
-    #scientist;
-    #other : Text;
-  };
-
-  type LifeGoalNew = {
-    description : Text;
-    targetYear : Int;
-  };
-
-  type ExtendedMentalHealthProfileNew = {
-    displayName : Text;
-    timeZone : Text;
-    consentGiven : Bool;
-    anonymousMode : Bool;
-    age : ?Nat;
-    // Switch from previous (variant) Gender type to Int.
-    gender : Int;
-    profession : ProfessionNew;
-    futureGoals : [LifeGoalNew];
-  };
-
   public type NewActor = {
-    profiles : Map.Map<Principal, ExtendedMentalHealthProfileNew>;
+    profiles : Map.Map<Principal, ExtendedMentalHealthProfile>;
     assessments : Map.Map<Principal, AssessmentResult>;
     dailyLogs : Map.Map<Principal, Map.Map<Text, DailyLog>>;
     journals : Map.Map<Principal, Map.Map<Text, JournalEntry>>;
     interventions : Map.Map<Principal, Map.Map<Text, Intervention>>;
     safetyPlans : Map.Map<Principal, SafetyPlan>;
     moduleProgress : Map.Map<Principal, Map.Map<Text, ModuleProgress>>;
-    userProfiles : Map.Map<Principal, Text>;
     sleepEstimatorRuns : Map.Map<Principal, Map.Map<Nat, SleepEstimatorRun>>;
     nextSleepRunId : Nat;
+    clinicalProfiles : Map.Map<Principal, ClinicalProfile>;
+    patientRecords : Map.Map<Text, PatientRecord>;
+    soapNotes : Map.Map<Text, SoapNote>;
+    prescriptions : Map.Map<Text, Prescription>;
+    followUps : Map.Map<Text, FollowUp>;
+    auditLogs : Map.Map<Text, AuditLogEntry>;
+    revenueEntries : Map.Map<Text, RevenueEntry>;
+    riskFlags : Map.Map<Text, PredictiveRiskFlag>;
+    nextPatientId : Nat;
+    nextAuditId : Nat;
   };
 
-  func convertGender(gender : Gender) : Int {
-    switch (gender) {
-      case (#male) { 0 };
-      case (#female) { 1 };
-      case (#nonBinary) { 2 };
-      case (#other(_)) { 3 };
-      case (#preferNotToSay) { 4 };
-    };
+  func transformSleepEstimatorRun(run : SleepEstimatorRun) : SleepEstimatorRun {
+    { run with advancedMetrics = null };
   };
 
   public func run(old : OldActor) : NewActor {
     {
-      old with
-      profiles = old.profiles.map<Principal, ExtendedMentalHealthProfile, ExtendedMentalHealthProfileNew>(
-        func(
-          _,
-          profile,
-        ) {
-          {
-            profile with
-            gender = convertGender(profile.gender);
-          };
+      profiles = old.profiles;
+      assessments = old.assessments;
+      dailyLogs = old.dailyLogs;
+      journals = old.journals;
+      interventions = old.interventions;
+      safetyPlans = old.safetyPlans;
+      moduleProgress = old.moduleProgress;
+      sleepEstimatorRuns = old.sleepEstimatorRuns.map<Principal, Map.Map<Nat, SleepEstimatorRun>, Map.Map<Nat, SleepEstimatorRun>>(
+        func(_p, runs) {
+          runs.map<Nat, SleepEstimatorRun, SleepEstimatorRun>(
+            func(_id, run) { transformSleepEstimatorRun(run) }
+          );
         }
       );
+      nextSleepRunId = old.nextSleepRunId;
+      clinicalProfiles = Map.empty<Principal, ClinicalProfile>();
+      patientRecords = Map.empty<Text, PatientRecord>();
+      soapNotes = Map.empty<Text, SoapNote>();
+      prescriptions = Map.empty<Text, Prescription>();
+      followUps = Map.empty<Text, FollowUp>();
+      auditLogs = Map.empty<Text, AuditLogEntry>();
+      revenueEntries = Map.empty<Text, RevenueEntry>();
+      riskFlags = Map.empty<Text, PredictiveRiskFlag>();
+      nextPatientId = 1;
+      nextAuditId = 1;
     };
   };
 };

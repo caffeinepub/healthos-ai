@@ -89,22 +89,6 @@ export class ExternalBlob {
         return this;
     }
 }
-export interface ModuleProgress {
-    moduleId: string;
-    isCompleted: boolean;
-    artifacts?: Array<string>;
-    currentStep: bigint;
-    lastSaved: bigint;
-}
-export interface Intervention {
-    id: string;
-    startTime: bigint;
-    endTime?: bigint;
-    name: string;
-    type: string;
-    progress: number;
-    notes: string;
-}
 export interface TransformationOutput {
     status: bigint;
     body: Uint8Array;
@@ -153,59 +137,6 @@ export interface WeeklyAnalytics {
     sleepMoodCorrelation: number;
     burnoutIndex: number;
 }
-export interface SafetyPlan {
-    contacts: Array<string>;
-    copingStrategies: Array<string>;
-    crisisHotlines: Array<string>;
-    riskLevel: bigint;
-}
-export interface _CaffeineStorageCreateCertificateResult {
-    method: string;
-    blob_hash: string;
-}
-export interface NormalizedSleepInput {
-    sleepConsistencyScore: number;
-    screenTimeBeforeBed: number;
-    sleepQualityRating: bigint;
-    bedtime: bigint;
-    sleepLatency: number;
-    stressLevel: bigint;
-    napTime?: bigint;
-    environmentalQualityScore: number;
-    sleepPreparationRating: bigint;
-    napDuration?: bigint;
-    physicalActivityIntensity: bigint;
-    wakeTime: bigint;
-    emotionalStateScore: bigint;
-    noiseLevelInSleepingArea: bigint;
-    brightnessInSleepingArea: bigint;
-    nutritionScore: number;
-    substanceUseIndicator: boolean;
-    cognitiveFatigueScore: bigint;
-    caffeineConsumption: number;
-    timeZone: string;
-    sleepAwakeningCount: bigint;
-    sleepDuration: number;
-}
-export interface ExtendedMentalHealthProfile {
-    age?: bigint;
-    futureGoals: Array<LifeGoal>;
-    displayName: string;
-    profession: Profession;
-    anonymousMode: boolean;
-    gender: bigint;
-    consentGiven: boolean;
-    timeZone: string;
-}
-export interface http_header {
-    value: string;
-    name: string;
-}
-export interface http_request_result {
-    status: bigint;
-    body: Uint8Array;
-    headers: Array<http_header>;
-}
 export interface AdvancedMetrics {
     respiratoryAnalysis?: {
         breathingRate: number;
@@ -237,56 +168,28 @@ export interface AdvancedMetrics {
         rmssd: number;
     };
 }
-export interface ShoppingItem {
-    productName: string;
-    currency: string;
-    quantity: bigint;
-    priceInCents: bigint;
-    productDescription: string;
+export interface _CaffeineStorageCreateCertificateResult {
+    method: string;
+    blob_hash: string;
 }
-export interface LifeGoal {
-    description: string;
-    targetYear: bigint;
-}
-export interface JournalEntry {
+export interface PatientRecord {
     id: string;
-    isReframed: boolean;
-    cognitiveDistortions: Array<string>;
-    content: string;
-    catastrophizing: boolean;
-    negativeBeliefs: boolean;
-    timestamp: bigint;
-    emotionalIntensity: bigint;
-    beliefStrength: bigint;
-    socraticPrompts: Array<string>;
+    age: bigint;
+    bloodType: string;
+    name: string;
+    createdAt: bigint;
+    diagnoses: Array<string>;
+    lastVisit: bigint;
+    patientPrincipal: Principal;
+    gender: string;
+    notes: string;
+    assignedDoctor: Principal;
+    allergies: Array<string>;
+    riskScore: number;
 }
 export interface TransformationInput {
     context: Uint8Array;
     response: http_request_result;
-}
-export interface DailyLog {
-    id: string;
-    emotionTags: Array<string>;
-    stressRating: bigint;
-    cognitiveClarity: bigint;
-    mood: bigint;
-    productivity: bigint;
-    energyLevel: bigint;
-    timestamp: bigint;
-    sleepHours: number;
-}
-export interface AssessmentResult {
-    copingStyle: string;
-    baselineScore: number;
-    stressTriggers: Array<string>;
-    personalityProfile: string;
-    sleepQualityScore: number;
-    bigFive: Array<number>;
-    stressReactivityType: string;
-    burnoutScore: number;
-    timestamp: bigint;
-    phq9Score: bigint;
-    gad7Score: bigint;
 }
 export type StripeSessionStatus = {
     __kind__: "completed";
@@ -326,6 +229,168 @@ export interface SleepEstimatorRun {
     advancedMetrics?: AdvancedMetrics;
     dataFormatVersion: string;
 }
+export interface ModuleProgress {
+    moduleId: string;
+    isCompleted: boolean;
+    artifacts?: Array<string>;
+    currentStep: bigint;
+    lastSaved: bigint;
+}
+export interface Intervention {
+    id: string;
+    startTime: bigint;
+    endTime?: bigint;
+    name: string;
+    type: string;
+    progress: number;
+    notes: string;
+}
+export interface AuditLogEntry {
+    id: string;
+    action: string;
+    timestamp: bigint;
+    details: string;
+    actorPrincipal: Principal;
+    targetId: string;
+}
+export interface SafetyPlan {
+    contacts: Array<string>;
+    copingStrategies: Array<string>;
+    crisisHotlines: Array<string>;
+    riskLevel: bigint;
+}
+export interface SoapNote {
+    id: string;
+    assessment: string;
+    patientId: string;
+    objective: string;
+    plan: string;
+    icdCodes: Array<string>;
+    confidenceScore: number;
+    specialty: string;
+    doctorPrincipal: Principal;
+    subjective: string;
+    timestamp: bigint;
+    voiceTranscript?: string;
+}
+export interface RevenueEntry {
+    id: string;
+    source: string;
+    patientId?: string;
+    description: string;
+    currency: string;
+    timestamp: bigint;
+    amount: number;
+}
+export interface NormalizedSleepInput {
+    sleepConsistencyScore: number;
+    screenTimeBeforeBed: number;
+    sleepQualityRating: bigint;
+    bedtime: bigint;
+    sleepLatency: number;
+    stressLevel: bigint;
+    napTime?: bigint;
+    environmentalQualityScore: number;
+    sleepPreparationRating: bigint;
+    napDuration?: bigint;
+    physicalActivityIntensity: bigint;
+    wakeTime: bigint;
+    emotionalStateScore: bigint;
+    noiseLevelInSleepingArea: bigint;
+    brightnessInSleepingArea: bigint;
+    nutritionScore: number;
+    substanceUseIndicator: boolean;
+    cognitiveFatigueScore: bigint;
+    caffeineConsumption: number;
+    timeZone: string;
+    sleepAwakeningCount: bigint;
+    sleepDuration: number;
+}
+export interface http_header {
+    value: string;
+    name: string;
+}
+export interface http_request_result {
+    status: bigint;
+    body: Uint8Array;
+    headers: Array<http_header>;
+}
+export interface PredictiveRiskFlag {
+    patientId: string;
+    recommendations: Array<string>;
+    riskFactors: Array<string>;
+    flaggedAt: bigint;
+    severity: string;
+    riskScore: number;
+}
+export interface ExtendedMentalHealthProfile {
+    age?: bigint;
+    futureGoals: Array<LifeGoal>;
+    displayName: string;
+    profession: Profession;
+    anonymousMode: boolean;
+    gender: bigint;
+    consentGiven: boolean;
+    timeZone: string;
+}
+export interface ShoppingItem {
+    productName: string;
+    currency: string;
+    quantity: bigint;
+    priceInCents: bigint;
+    productDescription: string;
+}
+export interface LifeGoal {
+    description: string;
+    targetYear: bigint;
+}
+export interface JournalEntry {
+    id: string;
+    isReframed: boolean;
+    cognitiveDistortions: Array<string>;
+    content: string;
+    catastrophizing: boolean;
+    negativeBeliefs: boolean;
+    timestamp: bigint;
+    emotionalIntensity: bigint;
+    beliefStrength: bigint;
+    socraticPrompts: Array<string>;
+}
+export interface DailyLog {
+    id: string;
+    emotionTags: Array<string>;
+    stressRating: bigint;
+    cognitiveClarity: bigint;
+    mood: bigint;
+    productivity: bigint;
+    energyLevel: bigint;
+    timestamp: bigint;
+    sleepHours: number;
+}
+export interface FollowUp {
+    id: string;
+    status: string;
+    scheduledDate: bigint;
+    patientId: string;
+    createdAt: bigint;
+    notes: string;
+    priority: string;
+    scheduledBy: Principal;
+    reason: string;
+}
+export interface AssessmentResult {
+    copingStyle: string;
+    baselineScore: number;
+    stressTriggers: Array<string>;
+    personalityProfile: string;
+    sleepQualityScore: number;
+    bigFive: Array<number>;
+    stressReactivityType: string;
+    burnoutScore: number;
+    timestamp: bigint;
+    phq9Score: bigint;
+    gad7Score: bigint;
+}
 export interface SleepMetrics {
     sleepConsistencyScore: number;
     sleepLatency: number;
@@ -337,6 +402,30 @@ export interface SleepMetrics {
     sleepTrend: string;
     remSleepPercentage: number;
     sleepEfficiency: number;
+}
+export interface ClinicalProfile {
+    clinicalRole: ClinicalRole;
+    principal: Principal;
+    specialty: string;
+    licenseNumber: string;
+    hospitalName: string;
+    department: string;
+    linkedPatients: Array<Principal>;
+}
+export interface Prescription {
+    id: string;
+    status: string;
+    patientId: string;
+    icdCodes: Array<string>;
+    instructions: string;
+    medications: Array<{
+        duration: string;
+        dosage: string;
+        name: string;
+        frequency: string;
+    }>;
+    doctorPrincipal: Principal;
+    timestamp: bigint;
 }
 export interface _CaffeineStorageRefillResult {
     success?: boolean;
@@ -356,6 +445,13 @@ export interface RiskIndicator {
     riskLevel: bigint;
     projectedSleepDebt: number;
 }
+export enum ClinicalRole {
+    patient = "patient",
+    admin = "admin",
+    doctor = "doctor",
+    billing = "billing",
+    nurse = "nurse"
+}
 export enum UserRole {
     admin = "admin",
     user = "user",
@@ -370,19 +466,34 @@ export interface backendInterface {
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createCheckoutSession(items: Array<ShoppingItem>, successUrl: string, cancelUrl: string): Promise<string>;
+    createPatientRecord(record: PatientRecord): Promise<string>;
     deleteSleepEstimatorRun(runId: bigint): Promise<void>;
     getAllModuleProgress(): Promise<Array<ModuleProgress>>;
     getAllUsersWithHighRiskFlags(): Promise<Array<Principal>>;
     getAssessment(): Promise<AssessmentResult | null>;
+    getAuditLog(): Promise<Array<AuditLogEntry>>;
     getCallerUserProfile(): Promise<ExtendedMentalHealthProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
+    getClinicalProfile(): Promise<ClinicalProfile | null>;
     getDailyLogs(): Promise<Array<DailyLog>>;
+    getHighRiskPatients(): Promise<Array<PredictiveRiskFlag>>;
     getInterventions(): Promise<Array<Intervention>>;
     getJournalEntries(): Promise<Array<JournalEntry>>;
     getModuleProgress(moduleId: string): Promise<ModuleProgress | null>;
+    getPatientFollowUps(patientId: string): Promise<Array<FollowUp>>;
+    getPatientPrescriptions(patientId: string): Promise<Array<Prescription>>;
+    getPatientRecord(patientId: string): Promise<PatientRecord | null>;
+    getPatientRiskFlag(patientId: string): Promise<PredictiveRiskFlag | null>;
+    getPatientSoapNotes(patientId: string): Promise<Array<SoapNote>>;
+    getPrescription(prescriptionId: string): Promise<Prescription | null>;
+    getRevenueSummary(): Promise<{
+        total: number;
+        byDay: Array<number>;
+    }>;
     getSafetyPlan(): Promise<SafetyPlan | null>;
     getSleepEstimatorRunCount(): Promise<bigint>;
     getSleepEstimatorRuns(limit: bigint | null): Promise<Array<SleepEstimatorRun>>;
+    getSoapNote(noteId: string): Promise<SoapNote | null>;
     getStripeSessionStatus(sessionId: string): Promise<StripeSessionStatus>;
     getUserAssessment(user: Principal): Promise<AssessmentResult | null>;
     getUserDailyLogs(user: Principal): Promise<Array<DailyLog>>;
@@ -399,20 +510,29 @@ export interface backendInterface {
     initializeAccessControl(): Promise<void>;
     isCallerAdmin(): Promise<boolean>;
     isStripeConfigured(): Promise<boolean>;
+    listDoctorPatients(doctorPrincipal: Principal): Promise<Array<PatientRecord>>;
+    recordRevenueEntry(entry: RevenueEntry): Promise<void>;
     revokeConsent(): Promise<void>;
     saveAssessment(result: AssessmentResult): Promise<void>;
     saveCallerUserProfile(profile: ExtendedMentalHealthProfile): Promise<void>;
+    saveClinicalProfile(profile: ClinicalProfile): Promise<void>;
     saveDailyLog(dayLog: DailyLog): Promise<void>;
+    saveFollowUp(followUp: FollowUp): Promise<void>;
     saveIntervention(intervention: Intervention): Promise<void>;
     saveJournalEntry(entry: JournalEntry): Promise<void>;
     saveModuleProgress(progress: ModuleProgress): Promise<void>;
+    savePredictiveRiskFlag(flag: PredictiveRiskFlag): Promise<void>;
+    savePrescription(prescription: Prescription): Promise<void>;
     saveSafetyPlan(plan: SafetyPlan): Promise<void>;
     saveSleepEstimatorRun(run: SleepEstimatorRun): Promise<void>;
+    saveSoapNote(note: SoapNote): Promise<void>;
     setStripeConfiguration(config: StripeConfiguration): Promise<void>;
     toggleAnonymousMode(isAnonymous: boolean): Promise<void>;
     transform(input: TransformationInput): Promise<TransformationOutput>;
+    updateFollowUpStatus(followUpId: string, status: string): Promise<void>;
+    updatePatientRiskScore(patientId: string, riskScore: number): Promise<void>;
 }
-import type { AdvancedMetrics as _AdvancedMetrics, AssessmentResult as _AssessmentResult, ExtendedMentalHealthProfile as _ExtendedMentalHealthProfile, Intervention as _Intervention, LifeGoal as _LifeGoal, ModuleProgress as _ModuleProgress, NormalizedSleepInput as _NormalizedSleepInput, Profession as _Profession, RiskIndicator as _RiskIndicator, SafetyPlan as _SafetyPlan, SleepEstimatorRun as _SleepEstimatorRun, SleepMetrics as _SleepMetrics, StripeSessionStatus as _StripeSessionStatus, UserRole as _UserRole, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
+import type { AdvancedMetrics as _AdvancedMetrics, AssessmentResult as _AssessmentResult, ClinicalProfile as _ClinicalProfile, ClinicalRole as _ClinicalRole, ExtendedMentalHealthProfile as _ExtendedMentalHealthProfile, Intervention as _Intervention, LifeGoal as _LifeGoal, ModuleProgress as _ModuleProgress, NormalizedSleepInput as _NormalizedSleepInput, PatientRecord as _PatientRecord, PredictiveRiskFlag as _PredictiveRiskFlag, Prescription as _Prescription, Profession as _Profession, RevenueEntry as _RevenueEntry, RiskIndicator as _RiskIndicator, SafetyPlan as _SafetyPlan, SleepEstimatorRun as _SleepEstimatorRun, SleepMetrics as _SleepMetrics, SoapNote as _SoapNote, StripeSessionStatus as _StripeSessionStatus, UserRole as _UserRole, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
     async _caffeineStorageBlobIsLive(arg0: Uint8Array): Promise<boolean> {
@@ -527,6 +647,20 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async createPatientRecord(arg0: PatientRecord): Promise<string> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.createPatientRecord(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.createPatientRecord(arg0);
+            return result;
+        }
+    }
     async deleteSleepEstimatorRun(arg0: bigint): Promise<void> {
         if (this.processError) {
             try {
@@ -583,6 +717,20 @@ export class Backend implements backendInterface {
             return from_candid_opt_n14(this._uploadFile, this._downloadFile, result);
         }
     }
+    async getAuditLog(): Promise<Array<AuditLogEntry>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAuditLog();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAuditLog();
+            return result;
+        }
+    }
     async getCallerUserProfile(): Promise<ExtendedMentalHealthProfile | null> {
         if (this.processError) {
             try {
@@ -611,6 +759,20 @@ export class Backend implements backendInterface {
             return from_candid_UserRole_n20(this._uploadFile, this._downloadFile, result);
         }
     }
+    async getClinicalProfile(): Promise<ClinicalProfile | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getClinicalProfile();
+                return from_candid_opt_n22(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getClinicalProfile();
+            return from_candid_opt_n22(this._uploadFile, this._downloadFile, result);
+        }
+    }
     async getDailyLogs(): Promise<Array<DailyLog>> {
         if (this.processError) {
             try {
@@ -625,18 +787,32 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async getHighRiskPatients(): Promise<Array<PredictiveRiskFlag>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getHighRiskPatients();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getHighRiskPatients();
+            return result;
+        }
+    }
     async getInterventions(): Promise<Array<Intervention>> {
         if (this.processError) {
             try {
                 const result = await this.actor.getInterventions();
-                return from_candid_vec_n22(this._uploadFile, this._downloadFile, result);
+                return from_candid_vec_n27(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getInterventions();
-            return from_candid_vec_n22(this._uploadFile, this._downloadFile, result);
+            return from_candid_vec_n27(this._uploadFile, this._downloadFile, result);
         }
     }
     async getJournalEntries(): Promise<Array<JournalEntry>> {
@@ -657,28 +833,129 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.getModuleProgress(arg0);
-                return from_candid_opt_n26(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n31(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getModuleProgress(arg0);
-            return from_candid_opt_n26(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n31(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getPatientFollowUps(arg0: string): Promise<Array<FollowUp>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPatientFollowUps(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPatientFollowUps(arg0);
+            return result;
+        }
+    }
+    async getPatientPrescriptions(arg0: string): Promise<Array<Prescription>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPatientPrescriptions(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPatientPrescriptions(arg0);
+            return result;
+        }
+    }
+    async getPatientRecord(arg0: string): Promise<PatientRecord | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPatientRecord(arg0);
+                return from_candid_opt_n32(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPatientRecord(arg0);
+            return from_candid_opt_n32(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getPatientRiskFlag(arg0: string): Promise<PredictiveRiskFlag | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPatientRiskFlag(arg0);
+                return from_candid_opt_n33(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPatientRiskFlag(arg0);
+            return from_candid_opt_n33(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getPatientSoapNotes(arg0: string): Promise<Array<SoapNote>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPatientSoapNotes(arg0);
+                return from_candid_vec_n34(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPatientSoapNotes(arg0);
+            return from_candid_vec_n34(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getPrescription(arg0: string): Promise<Prescription | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPrescription(arg0);
+                return from_candid_opt_n38(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPrescription(arg0);
+            return from_candid_opt_n38(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getRevenueSummary(): Promise<{
+        total: number;
+        byDay: Array<number>;
+    }> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getRevenueSummary();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getRevenueSummary();
+            return result;
         }
     }
     async getSafetyPlan(): Promise<SafetyPlan | null> {
         if (this.processError) {
             try {
                 const result = await this.actor.getSafetyPlan();
-                return from_candid_opt_n27(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n39(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getSafetyPlan();
-            return from_candid_opt_n27(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n39(this._uploadFile, this._downloadFile, result);
         }
     }
     async getSleepEstimatorRunCount(): Promise<bigint> {
@@ -698,29 +975,43 @@ export class Backend implements backendInterface {
     async getSleepEstimatorRuns(arg0: bigint | null): Promise<Array<SleepEstimatorRun>> {
         if (this.processError) {
             try {
-                const result = await this.actor.getSleepEstimatorRuns(to_candid_opt_n28(this._uploadFile, this._downloadFile, arg0));
-                return from_candid_vec_n29(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.getSleepEstimatorRuns(to_candid_opt_n40(this._uploadFile, this._downloadFile, arg0));
+                return from_candid_vec_n41(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getSleepEstimatorRuns(to_candid_opt_n28(this._uploadFile, this._downloadFile, arg0));
-            return from_candid_vec_n29(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.getSleepEstimatorRuns(to_candid_opt_n40(this._uploadFile, this._downloadFile, arg0));
+            return from_candid_vec_n41(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getSoapNote(arg0: string): Promise<SoapNote | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getSoapNote(arg0);
+                return from_candid_opt_n56(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getSoapNote(arg0);
+            return from_candid_opt_n56(this._uploadFile, this._downloadFile, result);
         }
     }
     async getStripeSessionStatus(arg0: string): Promise<StripeSessionStatus> {
         if (this.processError) {
             try {
                 const result = await this.actor.getStripeSessionStatus(arg0);
-                return from_candid_StripeSessionStatus_n45(this._uploadFile, this._downloadFile, result);
+                return from_candid_StripeSessionStatus_n57(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getStripeSessionStatus(arg0);
-            return from_candid_StripeSessionStatus_n45(this._uploadFile, this._downloadFile, result);
+            return from_candid_StripeSessionStatus_n57(this._uploadFile, this._downloadFile, result);
         }
     }
     async getUserAssessment(arg0: Principal): Promise<AssessmentResult | null> {
@@ -755,14 +1046,14 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.getUserInterventions(arg0);
-                return from_candid_vec_n22(this._uploadFile, this._downloadFile, result);
+                return from_candid_vec_n27(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getUserInterventions(arg0);
-            return from_candid_vec_n22(this._uploadFile, this._downloadFile, result);
+            return from_candid_vec_n27(this._uploadFile, this._downloadFile, result);
         }
     }
     async getUserJournalEntries(arg0: Principal): Promise<Array<JournalEntry>> {
@@ -797,14 +1088,14 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.getUserSafetyPlan(arg0);
-                return from_candid_opt_n27(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n39(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getUserSafetyPlan(arg0);
-            return from_candid_opt_n27(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n39(this._uploadFile, this._downloadFile, result);
         }
     }
     async getUserSleepEstimatorRunCount(arg0: Principal): Promise<bigint> {
@@ -824,15 +1115,15 @@ export class Backend implements backendInterface {
     async getUserSleepEstimatorRuns(arg0: Principal, arg1: bigint | null): Promise<Array<SleepEstimatorRun>> {
         if (this.processError) {
             try {
-                const result = await this.actor.getUserSleepEstimatorRuns(arg0, to_candid_opt_n28(this._uploadFile, this._downloadFile, arg1));
-                return from_candid_vec_n29(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.getUserSleepEstimatorRuns(arg0, to_candid_opt_n40(this._uploadFile, this._downloadFile, arg1));
+                return from_candid_vec_n41(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getUserSleepEstimatorRuns(arg0, to_candid_opt_n28(this._uploadFile, this._downloadFile, arg1));
-            return from_candid_vec_n29(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.getUserSleepEstimatorRuns(arg0, to_candid_opt_n40(this._uploadFile, this._downloadFile, arg1));
+            return from_candid_vec_n41(this._uploadFile, this._downloadFile, result);
         }
     }
     async getUserWeeklyAnalytics(arg0: Principal): Promise<WeeklyAnalytics> {
@@ -933,6 +1224,34 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async listDoctorPatients(arg0: Principal): Promise<Array<PatientRecord>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.listDoctorPatients(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.listDoctorPatients(arg0);
+            return result;
+        }
+    }
+    async recordRevenueEntry(arg0: RevenueEntry): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.recordRevenueEntry(to_candid_RevenueEntry_n60(this._uploadFile, this._downloadFile, arg0));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.recordRevenueEntry(to_candid_RevenueEntry_n60(this._uploadFile, this._downloadFile, arg0));
+            return result;
+        }
+    }
     async revokeConsent(): Promise<void> {
         if (this.processError) {
             try {
@@ -964,14 +1283,28 @@ export class Backend implements backendInterface {
     async saveCallerUserProfile(arg0: ExtendedMentalHealthProfile): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.saveCallerUserProfile(to_candid_ExtendedMentalHealthProfile_n48(this._uploadFile, this._downloadFile, arg0));
+                const result = await this.actor.saveCallerUserProfile(to_candid_ExtendedMentalHealthProfile_n62(this._uploadFile, this._downloadFile, arg0));
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.saveCallerUserProfile(to_candid_ExtendedMentalHealthProfile_n48(this._uploadFile, this._downloadFile, arg0));
+            const result = await this.actor.saveCallerUserProfile(to_candid_ExtendedMentalHealthProfile_n62(this._uploadFile, this._downloadFile, arg0));
+            return result;
+        }
+    }
+    async saveClinicalProfile(arg0: ClinicalProfile): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.saveClinicalProfile(to_candid_ClinicalProfile_n66(this._uploadFile, this._downloadFile, arg0));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.saveClinicalProfile(to_candid_ClinicalProfile_n66(this._uploadFile, this._downloadFile, arg0));
             return result;
         }
     }
@@ -989,17 +1322,31 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async saveIntervention(arg0: Intervention): Promise<void> {
+    async saveFollowUp(arg0: FollowUp): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.saveIntervention(to_candid_Intervention_n52(this._uploadFile, this._downloadFile, arg0));
+                const result = await this.actor.saveFollowUp(arg0);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.saveIntervention(to_candid_Intervention_n52(this._uploadFile, this._downloadFile, arg0));
+            const result = await this.actor.saveFollowUp(arg0);
+            return result;
+        }
+    }
+    async saveIntervention(arg0: Intervention): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.saveIntervention(to_candid_Intervention_n70(this._uploadFile, this._downloadFile, arg0));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.saveIntervention(to_candid_Intervention_n70(this._uploadFile, this._downloadFile, arg0));
             return result;
         }
     }
@@ -1020,14 +1367,42 @@ export class Backend implements backendInterface {
     async saveModuleProgress(arg0: ModuleProgress): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.saveModuleProgress(to_candid_ModuleProgress_n54(this._uploadFile, this._downloadFile, arg0));
+                const result = await this.actor.saveModuleProgress(to_candid_ModuleProgress_n72(this._uploadFile, this._downloadFile, arg0));
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.saveModuleProgress(to_candid_ModuleProgress_n54(this._uploadFile, this._downloadFile, arg0));
+            const result = await this.actor.saveModuleProgress(to_candid_ModuleProgress_n72(this._uploadFile, this._downloadFile, arg0));
+            return result;
+        }
+    }
+    async savePredictiveRiskFlag(arg0: PredictiveRiskFlag): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.savePredictiveRiskFlag(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.savePredictiveRiskFlag(arg0);
+            return result;
+        }
+    }
+    async savePrescription(arg0: Prescription): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.savePrescription(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.savePrescription(arg0);
             return result;
         }
     }
@@ -1048,14 +1423,28 @@ export class Backend implements backendInterface {
     async saveSleepEstimatorRun(arg0: SleepEstimatorRun): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.saveSleepEstimatorRun(to_candid_SleepEstimatorRun_n56(this._uploadFile, this._downloadFile, arg0));
+                const result = await this.actor.saveSleepEstimatorRun(to_candid_SleepEstimatorRun_n74(this._uploadFile, this._downloadFile, arg0));
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.saveSleepEstimatorRun(to_candid_SleepEstimatorRun_n56(this._uploadFile, this._downloadFile, arg0));
+            const result = await this.actor.saveSleepEstimatorRun(to_candid_SleepEstimatorRun_n74(this._uploadFile, this._downloadFile, arg0));
+            return result;
+        }
+    }
+    async saveSoapNote(arg0: SoapNote): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.saveSoapNote(to_candid_SoapNote_n81(this._uploadFile, this._downloadFile, arg0));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.saveSoapNote(to_candid_SoapNote_n81(this._uploadFile, this._downloadFile, arg0));
             return result;
         }
     }
@@ -1101,30 +1490,67 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async updateFollowUpStatus(arg0: string, arg1: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updateFollowUpStatus(arg0, arg1);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updateFollowUpStatus(arg0, arg1);
+            return result;
+        }
+    }
+    async updatePatientRiskScore(arg0: string, arg1: number): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updatePatientRiskScore(arg0, arg1);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updatePatientRiskScore(arg0, arg1);
+            return result;
+        }
+    }
 }
-function from_candid_AdvancedMetrics_n39(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _AdvancedMetrics): AdvancedMetrics {
-    return from_candid_record_n40(_uploadFile, _downloadFile, value);
+function from_candid_AdvancedMetrics_n50(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _AdvancedMetrics): AdvancedMetrics {
+    return from_candid_record_n51(_uploadFile, _downloadFile, value);
+}
+function from_candid_ClinicalProfile_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ClinicalProfile): ClinicalProfile {
+    return from_candid_record_n24(_uploadFile, _downloadFile, value);
+}
+function from_candid_ClinicalRole_n25(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ClinicalRole): ClinicalRole {
+    return from_candid_variant_n26(_uploadFile, _downloadFile, value);
 }
 function from_candid_ExtendedMentalHealthProfile_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ExtendedMentalHealthProfile): ExtendedMentalHealthProfile {
     return from_candid_record_n17(_uploadFile, _downloadFile, value);
 }
-function from_candid_Intervention_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Intervention): Intervention {
-    return from_candid_record_n24(_uploadFile, _downloadFile, value);
+function from_candid_Intervention_n28(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Intervention): Intervention {
+    return from_candid_record_n29(_uploadFile, _downloadFile, value);
 }
 function from_candid_ModuleProgress_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ModuleProgress): ModuleProgress {
     return from_candid_record_n12(_uploadFile, _downloadFile, value);
 }
-function from_candid_NormalizedSleepInput_n35(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _NormalizedSleepInput): NormalizedSleepInput {
-    return from_candid_record_n36(_uploadFile, _downloadFile, value);
+function from_candid_NormalizedSleepInput_n46(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _NormalizedSleepInput): NormalizedSleepInput {
+    return from_candid_record_n47(_uploadFile, _downloadFile, value);
 }
 function from_candid_Profession_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Profession): Profession {
     return from_candid_variant_n19(_uploadFile, _downloadFile, value);
 }
-function from_candid_SleepEstimatorRun_n30(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _SleepEstimatorRun): SleepEstimatorRun {
-    return from_candid_record_n31(_uploadFile, _downloadFile, value);
+function from_candid_SleepEstimatorRun_n42(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _SleepEstimatorRun): SleepEstimatorRun {
+    return from_candid_record_n43(_uploadFile, _downloadFile, value);
 }
-function from_candid_StripeSessionStatus_n45(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _StripeSessionStatus): StripeSessionStatus {
-    return from_candid_variant_n46(_uploadFile, _downloadFile, value);
+function from_candid_SoapNote_n35(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _SoapNote): SoapNote {
+    return from_candid_record_n36(_uploadFile, _downloadFile, value);
+}
+function from_candid_StripeSessionStatus_n57(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _StripeSessionStatus): StripeSessionStatus {
+    return from_candid_variant_n58(_uploadFile, _downloadFile, value);
 }
 function from_candid_UserRole_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
     return from_candid_variant_n21(_uploadFile, _downloadFile, value);
@@ -1141,16 +1567,31 @@ function from_candid_opt_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
 function from_candid_opt_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_ExtendedMentalHealthProfile]): ExtendedMentalHealthProfile | null {
     return value.length === 0 ? null : from_candid_ExtendedMentalHealthProfile_n16(_uploadFile, _downloadFile, value[0]);
 }
-function from_candid_opt_n25(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [bigint]): bigint | null {
+function from_candid_opt_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_ClinicalProfile]): ClinicalProfile | null {
+    return value.length === 0 ? null : from_candid_ClinicalProfile_n23(_uploadFile, _downloadFile, value[0]);
+}
+function from_candid_opt_n30(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [bigint]): bigint | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n26(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_ModuleProgress]): ModuleProgress | null {
+function from_candid_opt_n31(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_ModuleProgress]): ModuleProgress | null {
     return value.length === 0 ? null : from_candid_ModuleProgress_n11(_uploadFile, _downloadFile, value[0]);
 }
-function from_candid_opt_n27(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_SafetyPlan]): SafetyPlan | null {
+function from_candid_opt_n32(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_PatientRecord]): PatientRecord | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n32(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
+function from_candid_opt_n33(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_PredictiveRiskFlag]): PredictiveRiskFlag | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n37(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n38(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_Prescription]): Prescription | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n39(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_SafetyPlan]): SafetyPlan | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n44(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
         duration: number;
         audioFeatureVector: number;
         sampleRate: bigint;
@@ -1161,10 +1602,7 @@ function from_candid_opt_n32(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
 } | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n33(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
-    return value.length === 0 ? null : value[0];
-}
-function from_candid_opt_n37(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
+function from_candid_opt_n48(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
         accelerometer: boolean;
         heartRateMonitor: boolean;
         breathingSensor: boolean;
@@ -1177,10 +1615,10 @@ function from_candid_opt_n37(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
 } | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n38(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_AdvancedMetrics]): AdvancedMetrics | null {
-    return value.length === 0 ? null : from_candid_AdvancedMetrics_n39(_uploadFile, _downloadFile, value[0]);
+function from_candid_opt_n49(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_AdvancedMetrics]): AdvancedMetrics | null {
+    return value.length === 0 ? null : from_candid_AdvancedMetrics_n50(_uploadFile, _downloadFile, value[0]);
 }
-function from_candid_opt_n41(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
+function from_candid_opt_n52(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
         breathingRate: number;
         co2RetentionEstimate: number;
         apneaHypopneaIndex: number;
@@ -1197,7 +1635,7 @@ function from_candid_opt_n41(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
 } | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n42(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
+function from_candid_opt_n53(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
         movementBurstFrequency: number;
         totalSleepMovementIndex: number;
         restlessnessScore: number;
@@ -1212,7 +1650,7 @@ function from_candid_opt_n42(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
 } | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n43(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
+function from_candid_opt_n54(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
         sleepStageTransitions: Array<bigint>;
         sleepStageDurationAnalysis: Array<number>;
         sleepStageDistribution: Array<number>;
@@ -1225,7 +1663,7 @@ function from_candid_opt_n43(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
 } | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_opt_n44(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
+function from_candid_opt_n55(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [{
         fragmentIndex: number;
         meanHrv: number;
         sdnn: number;
@@ -1241,6 +1679,9 @@ function from_candid_opt_n44(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
     rmssd: number;
 } | null {
     return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n56(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_SoapNote]): SoapNote | null {
+    return value.length === 0 ? null : from_candid_SoapNote_n35(_uploadFile, _downloadFile, value[0]);
 }
 function from_candid_opt_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [boolean]): boolean | null {
     return value.length === 0 ? null : value[0];
@@ -1300,6 +1741,33 @@ function from_candid_record_n17(_uploadFile: (file: ExternalBlob) => Promise<Uin
     };
 }
 function from_candid_record_n24(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    clinicalRole: _ClinicalRole;
+    principal: Principal;
+    specialty: string;
+    licenseNumber: string;
+    hospitalName: string;
+    department: string;
+    linkedPatients: Array<Principal>;
+}): {
+    clinicalRole: ClinicalRole;
+    principal: Principal;
+    specialty: string;
+    licenseNumber: string;
+    hospitalName: string;
+    department: string;
+    linkedPatients: Array<Principal>;
+} {
+    return {
+        clinicalRole: from_candid_ClinicalRole_n25(_uploadFile, _downloadFile, value.clinicalRole),
+        principal: value.principal,
+        specialty: value.specialty,
+        licenseNumber: value.licenseNumber,
+        hospitalName: value.hospitalName,
+        department: value.department,
+        linkedPatients: value.linkedPatients
+    };
+}
+function from_candid_record_n29(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     id: string;
     startTime: bigint;
     endTime: [] | [bigint];
@@ -1319,14 +1787,56 @@ function from_candid_record_n24(_uploadFile: (file: ExternalBlob) => Promise<Uin
     return {
         id: value.id,
         startTime: value.startTime,
-        endTime: record_opt_to_undefined(from_candid_opt_n25(_uploadFile, _downloadFile, value.endTime)),
+        endTime: record_opt_to_undefined(from_candid_opt_n30(_uploadFile, _downloadFile, value.endTime)),
         name: value.name,
         type: value.type,
         progress: value.progress,
         notes: value.notes
     };
 }
-function from_candid_record_n31(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_record_n36(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    id: string;
+    assessment: string;
+    patientId: string;
+    objective: string;
+    plan: string;
+    icdCodes: Array<string>;
+    confidenceScore: number;
+    specialty: string;
+    doctorPrincipal: Principal;
+    subjective: string;
+    timestamp: bigint;
+    voiceTranscript: [] | [string];
+}): {
+    id: string;
+    assessment: string;
+    patientId: string;
+    objective: string;
+    plan: string;
+    icdCodes: Array<string>;
+    confidenceScore: number;
+    specialty: string;
+    doctorPrincipal: Principal;
+    subjective: string;
+    timestamp: bigint;
+    voiceTranscript?: string;
+} {
+    return {
+        id: value.id,
+        assessment: value.assessment,
+        patientId: value.patientId,
+        objective: value.objective,
+        plan: value.plan,
+        icdCodes: value.icdCodes,
+        confidenceScore: value.confidenceScore,
+        specialty: value.specialty,
+        doctorPrincipal: value.doctorPrincipal,
+        subjective: value.subjective,
+        timestamp: value.timestamp,
+        voiceTranscript: record_opt_to_undefined(from_candid_opt_n37(_uploadFile, _downloadFile, value.voiceTranscript))
+    };
+}
+function from_candid_record_n43(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     summaryMetrics: _SleepMetrics;
     runTimestamp: bigint;
     riskIndicators: _RiskIndicator;
@@ -1373,17 +1883,17 @@ function from_candid_record_n31(_uploadFile: (file: ExternalBlob) => Promise<Uin
         summaryMetrics: value.summaryMetrics,
         runTimestamp: value.runTimestamp,
         riskIndicators: value.riskIndicators,
-        audioAnalysisMetadata: record_opt_to_undefined(from_candid_opt_n32(_uploadFile, _downloadFile, value.audioAnalysisMetadata)),
+        audioAnalysisMetadata: record_opt_to_undefined(from_candid_opt_n44(_uploadFile, _downloadFile, value.audioAnalysisMetadata)),
         optimizationSuggestions: value.optimizationSuggestions,
-        notes: record_opt_to_undefined(from_candid_opt_n33(_uploadFile, _downloadFile, value.notes)),
-        normalizedDailyInputs: from_candid_vec_n34(_uploadFile, _downloadFile, value.normalizedDailyInputs),
-        sensorDataUsed: record_opt_to_undefined(from_candid_opt_n37(_uploadFile, _downloadFile, value.sensorDataUsed)),
+        notes: record_opt_to_undefined(from_candid_opt_n37(_uploadFile, _downloadFile, value.notes)),
+        normalizedDailyInputs: from_candid_vec_n45(_uploadFile, _downloadFile, value.normalizedDailyInputs),
+        sensorDataUsed: record_opt_to_undefined(from_candid_opt_n48(_uploadFile, _downloadFile, value.sensorDataUsed)),
         daysAnalyzed: value.daysAnalyzed,
-        advancedMetrics: record_opt_to_undefined(from_candid_opt_n38(_uploadFile, _downloadFile, value.advancedMetrics)),
+        advancedMetrics: record_opt_to_undefined(from_candid_opt_n49(_uploadFile, _downloadFile, value.advancedMetrics)),
         dataFormatVersion: value.dataFormatVersion
     };
 }
-function from_candid_record_n36(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_record_n47(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     sleepConsistencyScore: number;
     screenTimeBeforeBed: number;
     sleepQualityRating: bigint;
@@ -1437,10 +1947,10 @@ function from_candid_record_n36(_uploadFile: (file: ExternalBlob) => Promise<Uin
         bedtime: value.bedtime,
         sleepLatency: value.sleepLatency,
         stressLevel: value.stressLevel,
-        napTime: record_opt_to_undefined(from_candid_opt_n25(_uploadFile, _downloadFile, value.napTime)),
+        napTime: record_opt_to_undefined(from_candid_opt_n30(_uploadFile, _downloadFile, value.napTime)),
         environmentalQualityScore: value.environmentalQualityScore,
         sleepPreparationRating: value.sleepPreparationRating,
-        napDuration: record_opt_to_undefined(from_candid_opt_n25(_uploadFile, _downloadFile, value.napDuration)),
+        napDuration: record_opt_to_undefined(from_candid_opt_n30(_uploadFile, _downloadFile, value.napDuration)),
         physicalActivityIntensity: value.physicalActivityIntensity,
         wakeTime: value.wakeTime,
         emotionalStateScore: value.emotionalStateScore,
@@ -1455,7 +1965,19 @@ function from_candid_record_n36(_uploadFile: (file: ExternalBlob) => Promise<Uin
         sleepDuration: value.sleepDuration
     };
 }
-function from_candid_record_n40(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_record_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    success: [] | [boolean];
+    topped_up_amount: [] | [bigint];
+}): {
+    success?: boolean;
+    topped_up_amount?: bigint;
+} {
+    return {
+        success: record_opt_to_undefined(from_candid_opt_n6(_uploadFile, _downloadFile, value.success)),
+        topped_up_amount: record_opt_to_undefined(from_candid_opt_n7(_uploadFile, _downloadFile, value.topped_up_amount))
+    };
+}
+function from_candid_record_n51(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     respiratoryAnalysis: [] | [{
             breathingRate: number;
             co2RetentionEstimate: number;
@@ -1517,13 +2039,13 @@ function from_candid_record_n40(_uploadFile: (file: ExternalBlob) => Promise<Uin
     };
 } {
     return {
-        respiratoryAnalysis: record_opt_to_undefined(from_candid_opt_n41(_uploadFile, _downloadFile, value.respiratoryAnalysis)),
-        microMovementAnalysis: record_opt_to_undefined(from_candid_opt_n42(_uploadFile, _downloadFile, value.microMovementAnalysis)),
-        sleepArchitectureAnalysis: record_opt_to_undefined(from_candid_opt_n43(_uploadFile, _downloadFile, value.sleepArchitectureAnalysis)),
-        hrvAnalysis: record_opt_to_undefined(from_candid_opt_n44(_uploadFile, _downloadFile, value.hrvAnalysis))
+        respiratoryAnalysis: record_opt_to_undefined(from_candid_opt_n52(_uploadFile, _downloadFile, value.respiratoryAnalysis)),
+        microMovementAnalysis: record_opt_to_undefined(from_candid_opt_n53(_uploadFile, _downloadFile, value.microMovementAnalysis)),
+        sleepArchitectureAnalysis: record_opt_to_undefined(from_candid_opt_n54(_uploadFile, _downloadFile, value.sleepArchitectureAnalysis)),
+        hrvAnalysis: record_opt_to_undefined(from_candid_opt_n55(_uploadFile, _downloadFile, value.hrvAnalysis))
     };
 }
-function from_candid_record_n47(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_record_n59(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     userPrincipal: [] | [string];
     response: string;
 }): {
@@ -1531,20 +2053,8 @@ function from_candid_record_n47(_uploadFile: (file: ExternalBlob) => Promise<Uin
     response: string;
 } {
     return {
-        userPrincipal: record_opt_to_undefined(from_candid_opt_n33(_uploadFile, _downloadFile, value.userPrincipal)),
+        userPrincipal: record_opt_to_undefined(from_candid_opt_n37(_uploadFile, _downloadFile, value.userPrincipal)),
         response: value.response
-    };
-}
-function from_candid_record_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    success: [] | [boolean];
-    topped_up_amount: [] | [bigint];
-}): {
-    success?: boolean;
-    topped_up_amount?: bigint;
-} {
-    return {
-        success: record_opt_to_undefined(from_candid_opt_n6(_uploadFile, _downloadFile, value.success)),
-        topped_up_amount: record_opt_to_undefined(from_candid_opt_n7(_uploadFile, _downloadFile, value.topped_up_amount))
     };
 }
 function from_candid_variant_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -1639,7 +2149,20 @@ function from_candid_variant_n21(_uploadFile: (file: ExternalBlob) => Promise<Ui
 }): UserRole {
     return "admin" in value ? UserRole.admin : "user" in value ? UserRole.user : "guest" in value ? UserRole.guest : value;
 }
-function from_candid_variant_n46(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n26(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    patient: null;
+} | {
+    admin: null;
+} | {
+    doctor: null;
+} | {
+    billing: null;
+} | {
+    nurse: null;
+}): ClinicalRole {
+    return "patient" in value ? ClinicalRole.patient : "admin" in value ? ClinicalRole.admin : "doctor" in value ? ClinicalRole.doctor : "billing" in value ? ClinicalRole.billing : "nurse" in value ? ClinicalRole.nurse : value;
+}
+function from_candid_variant_n58(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     completed: {
         userPrincipal: [] | [string];
         response: string;
@@ -1662,7 +2185,7 @@ function from_candid_variant_n46(_uploadFile: (file: ExternalBlob) => Promise<Ui
 } {
     return "completed" in value ? {
         __kind__: "completed",
-        completed: from_candid_record_n47(_uploadFile, _downloadFile, value.completed)
+        completed: from_candid_record_n59(_uploadFile, _downloadFile, value.completed)
     } : "failed" in value ? {
         __kind__: "failed",
         failed: value.failed
@@ -1671,35 +2194,50 @@ function from_candid_variant_n46(_uploadFile: (file: ExternalBlob) => Promise<Ui
 function from_candid_vec_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_ModuleProgress>): Array<ModuleProgress> {
     return value.map((x)=>from_candid_ModuleProgress_n11(_uploadFile, _downloadFile, x));
 }
-function from_candid_vec_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Intervention>): Array<Intervention> {
-    return value.map((x)=>from_candid_Intervention_n23(_uploadFile, _downloadFile, x));
+function from_candid_vec_n27(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Intervention>): Array<Intervention> {
+    return value.map((x)=>from_candid_Intervention_n28(_uploadFile, _downloadFile, x));
 }
-function from_candid_vec_n29(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_SleepEstimatorRun>): Array<SleepEstimatorRun> {
-    return value.map((x)=>from_candid_SleepEstimatorRun_n30(_uploadFile, _downloadFile, x));
+function from_candid_vec_n34(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_SoapNote>): Array<SoapNote> {
+    return value.map((x)=>from_candid_SoapNote_n35(_uploadFile, _downloadFile, x));
 }
-function from_candid_vec_n34(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_NormalizedSleepInput>): Array<NormalizedSleepInput> {
-    return value.map((x)=>from_candid_NormalizedSleepInput_n35(_uploadFile, _downloadFile, x));
+function from_candid_vec_n41(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_SleepEstimatorRun>): Array<SleepEstimatorRun> {
+    return value.map((x)=>from_candid_SleepEstimatorRun_n42(_uploadFile, _downloadFile, x));
 }
-function to_candid_AdvancedMetrics_n61(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: AdvancedMetrics): _AdvancedMetrics {
-    return to_candid_record_n62(_uploadFile, _downloadFile, value);
+function from_candid_vec_n45(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_NormalizedSleepInput>): Array<NormalizedSleepInput> {
+    return value.map((x)=>from_candid_NormalizedSleepInput_n46(_uploadFile, _downloadFile, x));
 }
-function to_candid_ExtendedMentalHealthProfile_n48(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ExtendedMentalHealthProfile): _ExtendedMentalHealthProfile {
-    return to_candid_record_n49(_uploadFile, _downloadFile, value);
+function to_candid_AdvancedMetrics_n79(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: AdvancedMetrics): _AdvancedMetrics {
+    return to_candid_record_n80(_uploadFile, _downloadFile, value);
 }
-function to_candid_Intervention_n52(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Intervention): _Intervention {
-    return to_candid_record_n53(_uploadFile, _downloadFile, value);
+function to_candid_ClinicalProfile_n66(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ClinicalProfile): _ClinicalProfile {
+    return to_candid_record_n67(_uploadFile, _downloadFile, value);
 }
-function to_candid_ModuleProgress_n54(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ModuleProgress): _ModuleProgress {
-    return to_candid_record_n55(_uploadFile, _downloadFile, value);
+function to_candid_ClinicalRole_n68(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ClinicalRole): _ClinicalRole {
+    return to_candid_variant_n69(_uploadFile, _downloadFile, value);
 }
-function to_candid_NormalizedSleepInput_n59(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: NormalizedSleepInput): _NormalizedSleepInput {
-    return to_candid_record_n60(_uploadFile, _downloadFile, value);
+function to_candid_ExtendedMentalHealthProfile_n62(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ExtendedMentalHealthProfile): _ExtendedMentalHealthProfile {
+    return to_candid_record_n63(_uploadFile, _downloadFile, value);
 }
-function to_candid_Profession_n50(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Profession): _Profession {
-    return to_candid_variant_n51(_uploadFile, _downloadFile, value);
+function to_candid_Intervention_n70(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Intervention): _Intervention {
+    return to_candid_record_n71(_uploadFile, _downloadFile, value);
 }
-function to_candid_SleepEstimatorRun_n56(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: SleepEstimatorRun): _SleepEstimatorRun {
-    return to_candid_record_n57(_uploadFile, _downloadFile, value);
+function to_candid_ModuleProgress_n72(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ModuleProgress): _ModuleProgress {
+    return to_candid_record_n73(_uploadFile, _downloadFile, value);
+}
+function to_candid_NormalizedSleepInput_n77(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: NormalizedSleepInput): _NormalizedSleepInput {
+    return to_candid_record_n78(_uploadFile, _downloadFile, value);
+}
+function to_candid_Profession_n64(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Profession): _Profession {
+    return to_candid_variant_n65(_uploadFile, _downloadFile, value);
+}
+function to_candid_RevenueEntry_n60(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: RevenueEntry): _RevenueEntry {
+    return to_candid_record_n61(_uploadFile, _downloadFile, value);
+}
+function to_candid_SleepEstimatorRun_n74(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: SleepEstimatorRun): _SleepEstimatorRun {
+    return to_candid_record_n75(_uploadFile, _downloadFile, value);
+}
+function to_candid_SoapNote_n81(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: SoapNote): _SoapNote {
+    return to_candid_record_n82(_uploadFile, _downloadFile, value);
 }
 function to_candid_UserRole_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): _UserRole {
     return to_candid_variant_n9(_uploadFile, _downloadFile, value);
@@ -1710,7 +2248,7 @@ function to_candid__CaffeineStorageRefillInformation_n2(_uploadFile: (file: Exte
 function to_candid_opt_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _CaffeineStorageRefillInformation | null): [] | [__CaffeineStorageRefillInformation] {
     return value === null ? candid_none() : candid_some(to_candid__CaffeineStorageRefillInformation_n2(_uploadFile, _downloadFile, value));
 }
-function to_candid_opt_n28(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: bigint | null): [] | [bigint] {
+function to_candid_opt_n40(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: bigint | null): [] | [bigint] {
     return value === null ? candid_none() : candid_some(value);
 }
 function to_candid_record_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -1722,7 +2260,34 @@ function to_candid_record_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
         proposed_top_up_amount: value.proposed_top_up_amount ? candid_some(value.proposed_top_up_amount) : candid_none()
     };
 }
-function to_candid_record_n49(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n61(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    id: string;
+    source: string;
+    patientId?: string;
+    description: string;
+    currency: string;
+    timestamp: bigint;
+    amount: number;
+}): {
+    id: string;
+    source: string;
+    patientId: [] | [string];
+    description: string;
+    currency: string;
+    timestamp: bigint;
+    amount: number;
+} {
+    return {
+        id: value.id,
+        source: value.source,
+        patientId: value.patientId ? candid_some(value.patientId) : candid_none(),
+        description: value.description,
+        currency: value.currency,
+        timestamp: value.timestamp,
+        amount: value.amount
+    };
+}
+function to_candid_record_n63(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     age?: bigint;
     futureGoals: Array<LifeGoal>;
     displayName: string;
@@ -1745,14 +2310,41 @@ function to_candid_record_n49(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         age: value.age ? candid_some(value.age) : candid_none(),
         futureGoals: value.futureGoals,
         displayName: value.displayName,
-        profession: to_candid_Profession_n50(_uploadFile, _downloadFile, value.profession),
+        profession: to_candid_Profession_n64(_uploadFile, _downloadFile, value.profession),
         anonymousMode: value.anonymousMode,
         gender: value.gender,
         consentGiven: value.consentGiven,
         timeZone: value.timeZone
     };
 }
-function to_candid_record_n53(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n67(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    clinicalRole: ClinicalRole;
+    principal: Principal;
+    specialty: string;
+    licenseNumber: string;
+    hospitalName: string;
+    department: string;
+    linkedPatients: Array<Principal>;
+}): {
+    clinicalRole: _ClinicalRole;
+    principal: Principal;
+    specialty: string;
+    licenseNumber: string;
+    hospitalName: string;
+    department: string;
+    linkedPatients: Array<Principal>;
+} {
+    return {
+        clinicalRole: to_candid_ClinicalRole_n68(_uploadFile, _downloadFile, value.clinicalRole),
+        principal: value.principal,
+        specialty: value.specialty,
+        licenseNumber: value.licenseNumber,
+        hospitalName: value.hospitalName,
+        department: value.department,
+        linkedPatients: value.linkedPatients
+    };
+}
+function to_candid_record_n71(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     id: string;
     startTime: bigint;
     endTime?: bigint;
@@ -1779,7 +2371,7 @@ function to_candid_record_n53(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         notes: value.notes
     };
 }
-function to_candid_record_n55(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n73(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     moduleId: string;
     isCompleted: boolean;
     artifacts?: Array<string>;
@@ -1800,7 +2392,7 @@ function to_candid_record_n55(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         lastSaved: value.lastSaved
     };
 }
-function to_candid_record_n57(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n75(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     summaryMetrics: SleepMetrics;
     runTimestamp: bigint;
     riskIndicators: RiskIndicator;
@@ -1850,14 +2442,14 @@ function to_candid_record_n57(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         audioAnalysisMetadata: value.audioAnalysisMetadata ? candid_some(value.audioAnalysisMetadata) : candid_none(),
         optimizationSuggestions: value.optimizationSuggestions,
         notes: value.notes ? candid_some(value.notes) : candid_none(),
-        normalizedDailyInputs: to_candid_vec_n58(_uploadFile, _downloadFile, value.normalizedDailyInputs),
+        normalizedDailyInputs: to_candid_vec_n76(_uploadFile, _downloadFile, value.normalizedDailyInputs),
         sensorDataUsed: value.sensorDataUsed ? candid_some(value.sensorDataUsed) : candid_none(),
         daysAnalyzed: value.daysAnalyzed,
-        advancedMetrics: value.advancedMetrics ? candid_some(to_candid_AdvancedMetrics_n61(_uploadFile, _downloadFile, value.advancedMetrics)) : candid_none(),
+        advancedMetrics: value.advancedMetrics ? candid_some(to_candid_AdvancedMetrics_n79(_uploadFile, _downloadFile, value.advancedMetrics)) : candid_none(),
         dataFormatVersion: value.dataFormatVersion
     };
 }
-function to_candid_record_n60(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n78(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     sleepConsistencyScore: number;
     screenTimeBeforeBed: number;
     sleepQualityRating: bigint;
@@ -1929,7 +2521,7 @@ function to_candid_record_n60(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         sleepDuration: value.sleepDuration
     };
 }
-function to_candid_record_n62(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n80(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     respiratoryAnalysis?: {
         breathingRate: number;
         co2RetentionEstimate: number;
@@ -1997,7 +2589,49 @@ function to_candid_record_n62(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         hrvAnalysis: value.hrvAnalysis ? candid_some(value.hrvAnalysis) : candid_none()
     };
 }
-function to_candid_variant_n51(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n82(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    id: string;
+    assessment: string;
+    patientId: string;
+    objective: string;
+    plan: string;
+    icdCodes: Array<string>;
+    confidenceScore: number;
+    specialty: string;
+    doctorPrincipal: Principal;
+    subjective: string;
+    timestamp: bigint;
+    voiceTranscript?: string;
+}): {
+    id: string;
+    assessment: string;
+    patientId: string;
+    objective: string;
+    plan: string;
+    icdCodes: Array<string>;
+    confidenceScore: number;
+    specialty: string;
+    doctorPrincipal: Principal;
+    subjective: string;
+    timestamp: bigint;
+    voiceTranscript: [] | [string];
+} {
+    return {
+        id: value.id,
+        assessment: value.assessment,
+        patientId: value.patientId,
+        objective: value.objective,
+        plan: value.plan,
+        icdCodes: value.icdCodes,
+        confidenceScore: value.confidenceScore,
+        specialty: value.specialty,
+        doctorPrincipal: value.doctorPrincipal,
+        subjective: value.subjective,
+        timestamp: value.timestamp,
+        voiceTranscript: value.voiceTranscript ? candid_some(value.voiceTranscript) : candid_none()
+    };
+}
+function to_candid_variant_n65(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     __kind__: "musician";
     musician: null;
 } | {
@@ -2070,6 +2704,29 @@ function to_candid_variant_n51(_uploadFile: (file: ExternalBlob) => Promise<Uint
         scientist: value.scientist
     } : value;
 }
+function to_candid_variant_n69(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ClinicalRole): {
+    patient: null;
+} | {
+    admin: null;
+} | {
+    doctor: null;
+} | {
+    billing: null;
+} | {
+    nurse: null;
+} {
+    return value == ClinicalRole.patient ? {
+        patient: null
+    } : value == ClinicalRole.admin ? {
+        admin: null
+    } : value == ClinicalRole.doctor ? {
+        doctor: null
+    } : value == ClinicalRole.billing ? {
+        billing: null
+    } : value == ClinicalRole.nurse ? {
+        nurse: null
+    } : value;
+}
 function to_candid_variant_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): {
     admin: null;
 } | {
@@ -2085,8 +2742,8 @@ function to_candid_variant_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         guest: null
     } : value;
 }
-function to_candid_vec_n58(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<NormalizedSleepInput>): Array<_NormalizedSleepInput> {
-    return value.map((x)=>to_candid_NormalizedSleepInput_n59(_uploadFile, _downloadFile, x));
+function to_candid_vec_n76(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<NormalizedSleepInput>): Array<_NormalizedSleepInput> {
+    return value.map((x)=>to_candid_NormalizedSleepInput_n77(_uploadFile, _downloadFile, x));
 }
 export interface CreateActorOptions {
     agent?: Agent;

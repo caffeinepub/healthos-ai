@@ -31,6 +31,21 @@ export const ShoppingItem = IDL.Record({
   'priceInCents' : IDL.Nat,
   'productDescription' : IDL.Text,
 });
+export const PatientRecord = IDL.Record({
+  'id' : IDL.Text,
+  'age' : IDL.Nat,
+  'bloodType' : IDL.Text,
+  'name' : IDL.Text,
+  'createdAt' : IDL.Int,
+  'diagnoses' : IDL.Vec(IDL.Text),
+  'lastVisit' : IDL.Int,
+  'patientPrincipal' : IDL.Principal,
+  'gender' : IDL.Text,
+  'notes' : IDL.Text,
+  'assignedDoctor' : IDL.Principal,
+  'allergies' : IDL.Vec(IDL.Text),
+  'riskScore' : IDL.Float64,
+});
 export const ModuleProgress = IDL.Record({
   'moduleId' : IDL.Text,
   'isCompleted' : IDL.Bool,
@@ -50,6 +65,14 @@ export const AssessmentResult = IDL.Record({
   'timestamp' : IDL.Int,
   'phq9Score' : IDL.Nat,
   'gad7Score' : IDL.Nat,
+});
+export const AuditLogEntry = IDL.Record({
+  'id' : IDL.Text,
+  'action' : IDL.Text,
+  'timestamp' : IDL.Int,
+  'details' : IDL.Text,
+  'actorPrincipal' : IDL.Principal,
+  'targetId' : IDL.Text,
 });
 export const LifeGoal = IDL.Record({
   'description' : IDL.Text,
@@ -77,6 +100,22 @@ export const ExtendedMentalHealthProfile = IDL.Record({
   'consentGiven' : IDL.Bool,
   'timeZone' : IDL.Text,
 });
+export const ClinicalRole = IDL.Variant({
+  'patient' : IDL.Null,
+  'admin' : IDL.Null,
+  'doctor' : IDL.Null,
+  'billing' : IDL.Null,
+  'nurse' : IDL.Null,
+});
+export const ClinicalProfile = IDL.Record({
+  'clinicalRole' : ClinicalRole,
+  'principal' : IDL.Principal,
+  'specialty' : IDL.Text,
+  'licenseNumber' : IDL.Text,
+  'hospitalName' : IDL.Text,
+  'department' : IDL.Text,
+  'linkedPatients' : IDL.Vec(IDL.Principal),
+});
 export const DailyLog = IDL.Record({
   'id' : IDL.Text,
   'emotionTags' : IDL.Vec(IDL.Text),
@@ -87,6 +126,14 @@ export const DailyLog = IDL.Record({
   'energyLevel' : IDL.Int,
   'timestamp' : IDL.Int,
   'sleepHours' : IDL.Float64,
+});
+export const PredictiveRiskFlag = IDL.Record({
+  'patientId' : IDL.Text,
+  'recommendations' : IDL.Vec(IDL.Text),
+  'riskFactors' : IDL.Vec(IDL.Text),
+  'flaggedAt' : IDL.Int,
+  'severity' : IDL.Text,
+  'riskScore' : IDL.Float64,
 });
 export const Intervention = IDL.Record({
   'id' : IDL.Text,
@@ -108,6 +155,48 @@ export const JournalEntry = IDL.Record({
   'emotionalIntensity' : IDL.Int,
   'beliefStrength' : IDL.Int,
   'socraticPrompts' : IDL.Vec(IDL.Text),
+});
+export const FollowUp = IDL.Record({
+  'id' : IDL.Text,
+  'status' : IDL.Text,
+  'scheduledDate' : IDL.Int,
+  'patientId' : IDL.Text,
+  'createdAt' : IDL.Int,
+  'notes' : IDL.Text,
+  'priority' : IDL.Text,
+  'scheduledBy' : IDL.Principal,
+  'reason' : IDL.Text,
+});
+export const Prescription = IDL.Record({
+  'id' : IDL.Text,
+  'status' : IDL.Text,
+  'patientId' : IDL.Text,
+  'icdCodes' : IDL.Vec(IDL.Text),
+  'instructions' : IDL.Text,
+  'medications' : IDL.Vec(
+    IDL.Record({
+      'duration' : IDL.Text,
+      'dosage' : IDL.Text,
+      'name' : IDL.Text,
+      'frequency' : IDL.Text,
+    })
+  ),
+  'doctorPrincipal' : IDL.Principal,
+  'timestamp' : IDL.Int,
+});
+export const SoapNote = IDL.Record({
+  'id' : IDL.Text,
+  'assessment' : IDL.Text,
+  'patientId' : IDL.Text,
+  'objective' : IDL.Text,
+  'plan' : IDL.Text,
+  'icdCodes' : IDL.Vec(IDL.Text),
+  'confidenceScore' : IDL.Float64,
+  'specialty' : IDL.Text,
+  'doctorPrincipal' : IDL.Principal,
+  'subjective' : IDL.Text,
+  'timestamp' : IDL.Int,
+  'voiceTranscript' : IDL.Opt(IDL.Text),
 });
 export const SafetyPlan = IDL.Record({
   'contacts' : IDL.Vec(IDL.Text),
@@ -246,6 +335,15 @@ export const WeeklyAnalytics = IDL.Record({
   'sleepMoodCorrelation' : IDL.Float64,
   'burnoutIndex' : IDL.Float64,
 });
+export const RevenueEntry = IDL.Record({
+  'id' : IDL.Text,
+  'source' : IDL.Text,
+  'patientId' : IDL.Opt(IDL.Text),
+  'description' : IDL.Text,
+  'currency' : IDL.Text,
+  'timestamp' : IDL.Int,
+  'amount' : IDL.Float64,
+});
 export const StripeConfiguration = IDL.Record({
   'allowedCountries' : IDL.Vec(IDL.Text),
   'secretKey' : IDL.Text,
@@ -302,6 +400,7 @@ export const idlService = IDL.Service({
       [IDL.Text],
       [],
     ),
+  'createPatientRecord' : IDL.Func([PatientRecord], [IDL.Text], []),
   'deleteSleepEstimatorRun' : IDL.Func([IDL.Nat], [], []),
   'getAllModuleProgress' : IDL.Func([], [IDL.Vec(ModuleProgress)], ['query']),
   'getAllUsersWithHighRiskFlags' : IDL.Func(
@@ -310,18 +409,48 @@ export const idlService = IDL.Service({
       ['query'],
     ),
   'getAssessment' : IDL.Func([], [IDL.Opt(AssessmentResult)], ['query']),
+  'getAuditLog' : IDL.Func([], [IDL.Vec(AuditLogEntry)], ['query']),
   'getCallerUserProfile' : IDL.Func(
       [],
       [IDL.Opt(ExtendedMentalHealthProfile)],
       ['query'],
     ),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'getClinicalProfile' : IDL.Func([], [IDL.Opt(ClinicalProfile)], ['query']),
   'getDailyLogs' : IDL.Func([], [IDL.Vec(DailyLog)], ['query']),
+  'getHighRiskPatients' : IDL.Func(
+      [],
+      [IDL.Vec(PredictiveRiskFlag)],
+      ['query'],
+    ),
   'getInterventions' : IDL.Func([], [IDL.Vec(Intervention)], ['query']),
   'getJournalEntries' : IDL.Func([], [IDL.Vec(JournalEntry)], ['query']),
   'getModuleProgress' : IDL.Func(
       [IDL.Text],
       [IDL.Opt(ModuleProgress)],
+      ['query'],
+    ),
+  'getPatientFollowUps' : IDL.Func([IDL.Text], [IDL.Vec(FollowUp)], ['query']),
+  'getPatientPrescriptions' : IDL.Func(
+      [IDL.Text],
+      [IDL.Vec(Prescription)],
+      ['query'],
+    ),
+  'getPatientRecord' : IDL.Func(
+      [IDL.Text],
+      [IDL.Opt(PatientRecord)],
+      ['query'],
+    ),
+  'getPatientRiskFlag' : IDL.Func(
+      [IDL.Text],
+      [IDL.Opt(PredictiveRiskFlag)],
+      ['query'],
+    ),
+  'getPatientSoapNotes' : IDL.Func([IDL.Text], [IDL.Vec(SoapNote)], ['query']),
+  'getPrescription' : IDL.Func([IDL.Text], [IDL.Opt(Prescription)], ['query']),
+  'getRevenueSummary' : IDL.Func(
+      [],
+      [IDL.Record({ 'total' : IDL.Float64, 'byDay' : IDL.Vec(IDL.Float64) })],
       ['query'],
     ),
   'getSafetyPlan' : IDL.Func([], [IDL.Opt(SafetyPlan)], ['query']),
@@ -331,6 +460,7 @@ export const idlService = IDL.Service({
       [IDL.Vec(SleepEstimatorRun)],
       ['query'],
     ),
+  'getSoapNote' : IDL.Func([IDL.Text], [IDL.Opt(SoapNote)], ['query']),
   'getStripeSessionStatus' : IDL.Func([IDL.Text], [StripeSessionStatus], []),
   'getUserAssessment' : IDL.Func(
       [IDL.Principal],
@@ -387,15 +517,26 @@ export const idlService = IDL.Service({
   'initializeAccessControl' : IDL.Func([], [], []),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'isStripeConfigured' : IDL.Func([], [IDL.Bool], ['query']),
+  'listDoctorPatients' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Vec(PatientRecord)],
+      ['query'],
+    ),
+  'recordRevenueEntry' : IDL.Func([RevenueEntry], [], []),
   'revokeConsent' : IDL.Func([], [], []),
   'saveAssessment' : IDL.Func([AssessmentResult], [], []),
   'saveCallerUserProfile' : IDL.Func([ExtendedMentalHealthProfile], [], []),
+  'saveClinicalProfile' : IDL.Func([ClinicalProfile], [], []),
   'saveDailyLog' : IDL.Func([DailyLog], [], []),
+  'saveFollowUp' : IDL.Func([FollowUp], [], []),
   'saveIntervention' : IDL.Func([Intervention], [], []),
   'saveJournalEntry' : IDL.Func([JournalEntry], [], []),
   'saveModuleProgress' : IDL.Func([ModuleProgress], [], []),
+  'savePredictiveRiskFlag' : IDL.Func([PredictiveRiskFlag], [], []),
+  'savePrescription' : IDL.Func([Prescription], [], []),
   'saveSafetyPlan' : IDL.Func([SafetyPlan], [], []),
   'saveSleepEstimatorRun' : IDL.Func([SleepEstimatorRun], [], []),
+  'saveSoapNote' : IDL.Func([SoapNote], [], []),
   'setStripeConfiguration' : IDL.Func([StripeConfiguration], [], []),
   'toggleAnonymousMode' : IDL.Func([IDL.Bool], [], []),
   'transform' : IDL.Func(
@@ -403,6 +544,8 @@ export const idlService = IDL.Service({
       [TransformationOutput],
       ['query'],
     ),
+  'updateFollowUpStatus' : IDL.Func([IDL.Text, IDL.Text], [], []),
+  'updatePatientRiskScore' : IDL.Func([IDL.Text, IDL.Float64], [], []),
 });
 
 export const idlInitArgs = [];
@@ -431,6 +574,21 @@ export const idlFactory = ({ IDL }) => {
     'priceInCents' : IDL.Nat,
     'productDescription' : IDL.Text,
   });
+  const PatientRecord = IDL.Record({
+    'id' : IDL.Text,
+    'age' : IDL.Nat,
+    'bloodType' : IDL.Text,
+    'name' : IDL.Text,
+    'createdAt' : IDL.Int,
+    'diagnoses' : IDL.Vec(IDL.Text),
+    'lastVisit' : IDL.Int,
+    'patientPrincipal' : IDL.Principal,
+    'gender' : IDL.Text,
+    'notes' : IDL.Text,
+    'assignedDoctor' : IDL.Principal,
+    'allergies' : IDL.Vec(IDL.Text),
+    'riskScore' : IDL.Float64,
+  });
   const ModuleProgress = IDL.Record({
     'moduleId' : IDL.Text,
     'isCompleted' : IDL.Bool,
@@ -450,6 +608,14 @@ export const idlFactory = ({ IDL }) => {
     'timestamp' : IDL.Int,
     'phq9Score' : IDL.Nat,
     'gad7Score' : IDL.Nat,
+  });
+  const AuditLogEntry = IDL.Record({
+    'id' : IDL.Text,
+    'action' : IDL.Text,
+    'timestamp' : IDL.Int,
+    'details' : IDL.Text,
+    'actorPrincipal' : IDL.Principal,
+    'targetId' : IDL.Text,
   });
   const LifeGoal = IDL.Record({
     'description' : IDL.Text,
@@ -477,6 +643,22 @@ export const idlFactory = ({ IDL }) => {
     'consentGiven' : IDL.Bool,
     'timeZone' : IDL.Text,
   });
+  const ClinicalRole = IDL.Variant({
+    'patient' : IDL.Null,
+    'admin' : IDL.Null,
+    'doctor' : IDL.Null,
+    'billing' : IDL.Null,
+    'nurse' : IDL.Null,
+  });
+  const ClinicalProfile = IDL.Record({
+    'clinicalRole' : ClinicalRole,
+    'principal' : IDL.Principal,
+    'specialty' : IDL.Text,
+    'licenseNumber' : IDL.Text,
+    'hospitalName' : IDL.Text,
+    'department' : IDL.Text,
+    'linkedPatients' : IDL.Vec(IDL.Principal),
+  });
   const DailyLog = IDL.Record({
     'id' : IDL.Text,
     'emotionTags' : IDL.Vec(IDL.Text),
@@ -487,6 +669,14 @@ export const idlFactory = ({ IDL }) => {
     'energyLevel' : IDL.Int,
     'timestamp' : IDL.Int,
     'sleepHours' : IDL.Float64,
+  });
+  const PredictiveRiskFlag = IDL.Record({
+    'patientId' : IDL.Text,
+    'recommendations' : IDL.Vec(IDL.Text),
+    'riskFactors' : IDL.Vec(IDL.Text),
+    'flaggedAt' : IDL.Int,
+    'severity' : IDL.Text,
+    'riskScore' : IDL.Float64,
   });
   const Intervention = IDL.Record({
     'id' : IDL.Text,
@@ -508,6 +698,48 @@ export const idlFactory = ({ IDL }) => {
     'emotionalIntensity' : IDL.Int,
     'beliefStrength' : IDL.Int,
     'socraticPrompts' : IDL.Vec(IDL.Text),
+  });
+  const FollowUp = IDL.Record({
+    'id' : IDL.Text,
+    'status' : IDL.Text,
+    'scheduledDate' : IDL.Int,
+    'patientId' : IDL.Text,
+    'createdAt' : IDL.Int,
+    'notes' : IDL.Text,
+    'priority' : IDL.Text,
+    'scheduledBy' : IDL.Principal,
+    'reason' : IDL.Text,
+  });
+  const Prescription = IDL.Record({
+    'id' : IDL.Text,
+    'status' : IDL.Text,
+    'patientId' : IDL.Text,
+    'icdCodes' : IDL.Vec(IDL.Text),
+    'instructions' : IDL.Text,
+    'medications' : IDL.Vec(
+      IDL.Record({
+        'duration' : IDL.Text,
+        'dosage' : IDL.Text,
+        'name' : IDL.Text,
+        'frequency' : IDL.Text,
+      })
+    ),
+    'doctorPrincipal' : IDL.Principal,
+    'timestamp' : IDL.Int,
+  });
+  const SoapNote = IDL.Record({
+    'id' : IDL.Text,
+    'assessment' : IDL.Text,
+    'patientId' : IDL.Text,
+    'objective' : IDL.Text,
+    'plan' : IDL.Text,
+    'icdCodes' : IDL.Vec(IDL.Text),
+    'confidenceScore' : IDL.Float64,
+    'specialty' : IDL.Text,
+    'doctorPrincipal' : IDL.Principal,
+    'subjective' : IDL.Text,
+    'timestamp' : IDL.Int,
+    'voiceTranscript' : IDL.Opt(IDL.Text),
   });
   const SafetyPlan = IDL.Record({
     'contacts' : IDL.Vec(IDL.Text),
@@ -646,6 +878,15 @@ export const idlFactory = ({ IDL }) => {
     'sleepMoodCorrelation' : IDL.Float64,
     'burnoutIndex' : IDL.Float64,
   });
+  const RevenueEntry = IDL.Record({
+    'id' : IDL.Text,
+    'source' : IDL.Text,
+    'patientId' : IDL.Opt(IDL.Text),
+    'description' : IDL.Text,
+    'currency' : IDL.Text,
+    'timestamp' : IDL.Int,
+    'amount' : IDL.Float64,
+  });
   const StripeConfiguration = IDL.Record({
     'allowedCountries' : IDL.Vec(IDL.Text),
     'secretKey' : IDL.Text,
@@ -699,6 +940,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Text],
         [],
       ),
+    'createPatientRecord' : IDL.Func([PatientRecord], [IDL.Text], []),
     'deleteSleepEstimatorRun' : IDL.Func([IDL.Nat], [], []),
     'getAllModuleProgress' : IDL.Func([], [IDL.Vec(ModuleProgress)], ['query']),
     'getAllUsersWithHighRiskFlags' : IDL.Func(
@@ -707,18 +949,60 @@ export const idlFactory = ({ IDL }) => {
         ['query'],
       ),
     'getAssessment' : IDL.Func([], [IDL.Opt(AssessmentResult)], ['query']),
+    'getAuditLog' : IDL.Func([], [IDL.Vec(AuditLogEntry)], ['query']),
     'getCallerUserProfile' : IDL.Func(
         [],
         [IDL.Opt(ExtendedMentalHealthProfile)],
         ['query'],
       ),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'getClinicalProfile' : IDL.Func([], [IDL.Opt(ClinicalProfile)], ['query']),
     'getDailyLogs' : IDL.Func([], [IDL.Vec(DailyLog)], ['query']),
+    'getHighRiskPatients' : IDL.Func(
+        [],
+        [IDL.Vec(PredictiveRiskFlag)],
+        ['query'],
+      ),
     'getInterventions' : IDL.Func([], [IDL.Vec(Intervention)], ['query']),
     'getJournalEntries' : IDL.Func([], [IDL.Vec(JournalEntry)], ['query']),
     'getModuleProgress' : IDL.Func(
         [IDL.Text],
         [IDL.Opt(ModuleProgress)],
+        ['query'],
+      ),
+    'getPatientFollowUps' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(FollowUp)],
+        ['query'],
+      ),
+    'getPatientPrescriptions' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(Prescription)],
+        ['query'],
+      ),
+    'getPatientRecord' : IDL.Func(
+        [IDL.Text],
+        [IDL.Opt(PatientRecord)],
+        ['query'],
+      ),
+    'getPatientRiskFlag' : IDL.Func(
+        [IDL.Text],
+        [IDL.Opt(PredictiveRiskFlag)],
+        ['query'],
+      ),
+    'getPatientSoapNotes' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(SoapNote)],
+        ['query'],
+      ),
+    'getPrescription' : IDL.Func(
+        [IDL.Text],
+        [IDL.Opt(Prescription)],
+        ['query'],
+      ),
+    'getRevenueSummary' : IDL.Func(
+        [],
+        [IDL.Record({ 'total' : IDL.Float64, 'byDay' : IDL.Vec(IDL.Float64) })],
         ['query'],
       ),
     'getSafetyPlan' : IDL.Func([], [IDL.Opt(SafetyPlan)], ['query']),
@@ -728,6 +1012,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(SleepEstimatorRun)],
         ['query'],
       ),
+    'getSoapNote' : IDL.Func([IDL.Text], [IDL.Opt(SoapNote)], ['query']),
     'getStripeSessionStatus' : IDL.Func([IDL.Text], [StripeSessionStatus], []),
     'getUserAssessment' : IDL.Func(
         [IDL.Principal],
@@ -784,15 +1069,26 @@ export const idlFactory = ({ IDL }) => {
     'initializeAccessControl' : IDL.Func([], [], []),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'isStripeConfigured' : IDL.Func([], [IDL.Bool], ['query']),
+    'listDoctorPatients' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Vec(PatientRecord)],
+        ['query'],
+      ),
+    'recordRevenueEntry' : IDL.Func([RevenueEntry], [], []),
     'revokeConsent' : IDL.Func([], [], []),
     'saveAssessment' : IDL.Func([AssessmentResult], [], []),
     'saveCallerUserProfile' : IDL.Func([ExtendedMentalHealthProfile], [], []),
+    'saveClinicalProfile' : IDL.Func([ClinicalProfile], [], []),
     'saveDailyLog' : IDL.Func([DailyLog], [], []),
+    'saveFollowUp' : IDL.Func([FollowUp], [], []),
     'saveIntervention' : IDL.Func([Intervention], [], []),
     'saveJournalEntry' : IDL.Func([JournalEntry], [], []),
     'saveModuleProgress' : IDL.Func([ModuleProgress], [], []),
+    'savePredictiveRiskFlag' : IDL.Func([PredictiveRiskFlag], [], []),
+    'savePrescription' : IDL.Func([Prescription], [], []),
     'saveSafetyPlan' : IDL.Func([SafetyPlan], [], []),
     'saveSleepEstimatorRun' : IDL.Func([SleepEstimatorRun], [], []),
+    'saveSoapNote' : IDL.Func([SoapNote], [], []),
     'setStripeConfiguration' : IDL.Func([StripeConfiguration], [], []),
     'toggleAnonymousMode' : IDL.Func([IDL.Bool], [], []),
     'transform' : IDL.Func(
@@ -800,6 +1096,8 @@ export const idlFactory = ({ IDL }) => {
         [TransformationOutput],
         ['query'],
       ),
+    'updateFollowUpStatus' : IDL.Func([IDL.Text, IDL.Text], [], []),
+    'updatePatientRiskScore' : IDL.Func([IDL.Text, IDL.Float64], [], []),
   });
 };
 

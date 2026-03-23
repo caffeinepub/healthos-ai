@@ -23,7 +23,6 @@ import {
   Shield,
   Sparkles,
   Users,
-  X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
@@ -216,26 +215,16 @@ export default function Dashboard({
           data-ocid="header.menu.sheet"
         >
           <SheetHeader className="drawer-header px-6 pt-8 pb-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="drawer-logo-badge">
-                  <Activity className="h-5 w-5 text-white" />
-                </div>
-                <div>
-                  <SheetTitle className="text-white text-lg font-bold tracking-tight">
-                    HealthOS AI
-                  </SheetTitle>
-                  <p className="text-white/50 text-xs">Your health companion</p>
-                </div>
+            <div className="flex items-center gap-3">
+              <div className="drawer-logo-badge">
+                <Activity className="h-5 w-5 text-white" />
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white/60 hover:text-white hover:bg-white/10 rounded-xl"
-                onClick={() => setDrawerOpen(false)}
-              >
-                <X className="h-5 w-5" />
-              </Button>
+              <div>
+                <SheetTitle className="text-white text-lg font-bold tracking-tight">
+                  HealthOS AI
+                </SheetTitle>
+                <p className="text-white/50 text-xs">Your health companion</p>
+              </div>
             </div>
           </SheetHeader>
 

@@ -62,6 +62,28 @@ export interface AssessmentResult {
   'phq9Score' : bigint,
   'gad7Score' : bigint,
 }
+export interface AuditLogEntry {
+  'id' : string,
+  'action' : string,
+  'timestamp' : bigint,
+  'details' : string,
+  'actorPrincipal' : Principal,
+  'targetId' : string,
+}
+export interface ClinicalProfile {
+  'clinicalRole' : ClinicalRole,
+  'principal' : Principal,
+  'specialty' : string,
+  'licenseNumber' : string,
+  'hospitalName' : string,
+  'department' : string,
+  'linkedPatients' : Array<Principal>,
+}
+export type ClinicalRole = { 'patient' : null } |
+  { 'admin' : null } |
+  { 'doctor' : null } |
+  { 'billing' : null } |
+  { 'nurse' : null };
 export interface DailyLog {
   'id' : string,
   'emotionTags' : Array<string>,
@@ -82,6 +104,17 @@ export interface ExtendedMentalHealthProfile {
   'gender' : bigint,
   'consentGiven' : boolean,
   'timeZone' : string,
+}
+export interface FollowUp {
+  'id' : string,
+  'status' : string,
+  'scheduledDate' : bigint,
+  'patientId' : string,
+  'createdAt' : bigint,
+  'notes' : string,
+  'priority' : string,
+  'scheduledBy' : Principal,
+  'reason' : string,
 }
 export interface Intervention {
   'id' : string,
@@ -136,6 +169,46 @@ export interface NormalizedSleepInput {
   'sleepAwakeningCount' : bigint,
   'sleepDuration' : number,
 }
+export interface PatientRecord {
+  'id' : string,
+  'age' : bigint,
+  'bloodType' : string,
+  'name' : string,
+  'createdAt' : bigint,
+  'diagnoses' : Array<string>,
+  'lastVisit' : bigint,
+  'patientPrincipal' : Principal,
+  'gender' : string,
+  'notes' : string,
+  'assignedDoctor' : Principal,
+  'allergies' : Array<string>,
+  'riskScore' : number,
+}
+export interface PredictiveRiskFlag {
+  'patientId' : string,
+  'recommendations' : Array<string>,
+  'riskFactors' : Array<string>,
+  'flaggedAt' : bigint,
+  'severity' : string,
+  'riskScore' : number,
+}
+export interface Prescription {
+  'id' : string,
+  'status' : string,
+  'patientId' : string,
+  'icdCodes' : Array<string>,
+  'instructions' : string,
+  'medications' : Array<
+    {
+      'duration' : string,
+      'dosage' : string,
+      'name' : string,
+      'frequency' : string,
+    }
+  >,
+  'doctorPrincipal' : Principal,
+  'timestamp' : bigint,
+}
 export type Profession = { 'musician' : null } |
   { 'doctor' : null } |
   { 'other' : string } |
@@ -146,6 +219,15 @@ export type Profession = { 'musician' : null } |
   { 'softwareEngineer' : null } |
   { 'artist' : null } |
   { 'scientist' : null };
+export interface RevenueEntry {
+  'id' : string,
+  'source' : string,
+  'patientId' : [] | [string],
+  'description' : string,
+  'currency' : string,
+  'timestamp' : bigint,
+  'amount' : number,
+}
 export interface RiskIndicator {
   'sleepDisorderRisk' : number,
   'interventionRecommendations' : Array<string>,
@@ -210,6 +292,20 @@ export interface SleepMetrics {
   'sleepTrend' : string,
   'remSleepPercentage' : number,
   'sleepEfficiency' : number,
+}
+export interface SoapNote {
+  'id' : string,
+  'assessment' : string,
+  'patientId' : string,
+  'objective' : string,
+  'plan' : string,
+  'icdCodes' : Array<string>,
+  'confidenceScore' : number,
+  'specialty' : string,
+  'doctorPrincipal' : Principal,
+  'subjective' : string,
+  'timestamp' : bigint,
+  'voiceTranscript' : [] | [string],
 }
 export interface StripeConfiguration {
   'allowedCountries' : Array<string>,
@@ -278,22 +374,37 @@ export interface _SERVICE {
     [Array<ShoppingItem>, string, string],
     string
   >,
+  'createPatientRecord' : ActorMethod<[PatientRecord], string>,
   'deleteSleepEstimatorRun' : ActorMethod<[bigint], undefined>,
   'getAllModuleProgress' : ActorMethod<[], Array<ModuleProgress>>,
   'getAllUsersWithHighRiskFlags' : ActorMethod<[], Array<Principal>>,
   'getAssessment' : ActorMethod<[], [] | [AssessmentResult]>,
+  'getAuditLog' : ActorMethod<[], Array<AuditLogEntry>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [ExtendedMentalHealthProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getClinicalProfile' : ActorMethod<[], [] | [ClinicalProfile]>,
   'getDailyLogs' : ActorMethod<[], Array<DailyLog>>,
+  'getHighRiskPatients' : ActorMethod<[], Array<PredictiveRiskFlag>>,
   'getInterventions' : ActorMethod<[], Array<Intervention>>,
   'getJournalEntries' : ActorMethod<[], Array<JournalEntry>>,
   'getModuleProgress' : ActorMethod<[string], [] | [ModuleProgress]>,
+  'getPatientFollowUps' : ActorMethod<[string], Array<FollowUp>>,
+  'getPatientPrescriptions' : ActorMethod<[string], Array<Prescription>>,
+  'getPatientRecord' : ActorMethod<[string], [] | [PatientRecord]>,
+  'getPatientRiskFlag' : ActorMethod<[string], [] | [PredictiveRiskFlag]>,
+  'getPatientSoapNotes' : ActorMethod<[string], Array<SoapNote>>,
+  'getPrescription' : ActorMethod<[string], [] | [Prescription]>,
+  'getRevenueSummary' : ActorMethod<
+    [],
+    { 'total' : number, 'byDay' : Array<number> }
+  >,
   'getSafetyPlan' : ActorMethod<[], [] | [SafetyPlan]>,
   'getSleepEstimatorRunCount' : ActorMethod<[], bigint>,
   'getSleepEstimatorRuns' : ActorMethod<
     [[] | [bigint]],
     Array<SleepEstimatorRun>
   >,
+  'getSoapNote' : ActorMethod<[string], [] | [SoapNote]>,
   'getStripeSessionStatus' : ActorMethod<[string], StripeSessionStatus>,
   'getUserAssessment' : ActorMethod<[Principal], [] | [AssessmentResult]>,
   'getUserDailyLogs' : ActorMethod<[Principal], Array<DailyLog>>,
@@ -316,21 +427,30 @@ export interface _SERVICE {
   'initializeAccessControl' : ActorMethod<[], undefined>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'isStripeConfigured' : ActorMethod<[], boolean>,
+  'listDoctorPatients' : ActorMethod<[Principal], Array<PatientRecord>>,
+  'recordRevenueEntry' : ActorMethod<[RevenueEntry], undefined>,
   'revokeConsent' : ActorMethod<[], undefined>,
   'saveAssessment' : ActorMethod<[AssessmentResult], undefined>,
   'saveCallerUserProfile' : ActorMethod<
     [ExtendedMentalHealthProfile],
     undefined
   >,
+  'saveClinicalProfile' : ActorMethod<[ClinicalProfile], undefined>,
   'saveDailyLog' : ActorMethod<[DailyLog], undefined>,
+  'saveFollowUp' : ActorMethod<[FollowUp], undefined>,
   'saveIntervention' : ActorMethod<[Intervention], undefined>,
   'saveJournalEntry' : ActorMethod<[JournalEntry], undefined>,
   'saveModuleProgress' : ActorMethod<[ModuleProgress], undefined>,
+  'savePredictiveRiskFlag' : ActorMethod<[PredictiveRiskFlag], undefined>,
+  'savePrescription' : ActorMethod<[Prescription], undefined>,
   'saveSafetyPlan' : ActorMethod<[SafetyPlan], undefined>,
   'saveSleepEstimatorRun' : ActorMethod<[SleepEstimatorRun], undefined>,
+  'saveSoapNote' : ActorMethod<[SoapNote], undefined>,
   'setStripeConfiguration' : ActorMethod<[StripeConfiguration], undefined>,
   'toggleAnonymousMode' : ActorMethod<[boolean], undefined>,
   'transform' : ActorMethod<[TransformationInput], TransformationOutput>,
+  'updateFollowUpStatus' : ActorMethod<[string, string], undefined>,
+  'updatePatientRiskScore' : ActorMethod<[string, number], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];
